@@ -183,7 +183,7 @@ function renderLimitsBlock(child) {
   const cats = child.categoryLimits || [];
 
   let html = `
-    <section class="moby-block">
+    <section class="moby-block" style="width:100% !important; box-sizing:border-box !important;">
       <div class="moby-block-header">
         <div class="moby-block-title">
           <span>📊</span>
@@ -511,15 +511,19 @@ function renderLimitsModalHtml(child) {
         </div>
 
         <!-- Общий суточный лимит -->
-        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:16px; border-radius:14px; margin-bottom:18px;">
-          <div style="font-size: 13px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">Общий суточный лимит трат</div>
-          <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;">
+        <!-- Общий суточный лимит -->
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:18px; border-radius:18px; margin-bottom:18px;">
+          <div style="font-size: 13.5px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">Общий суточный лимит трат</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
             Максимальная сумма, которую ребенок может потратить за один день
           </div>
-          <form action="/child-action/set-limit" method="POST" style="display:flex; gap: 10px;">
+          <form action="/child-action/set-limit" method="POST" style="display:flex; gap: 10px; align-items:center;">
             <input type="hidden" name="childId" value="${child.id}">
-            <input type="number" step="1" name="dailyLimit" value="${child.dailyLimit}" class="moby-input" min="1" required style="padding:10px 14px; font-size:14px;">
-            <button type="submit" class="btn-moby btn-moby-blue" style="padding:10px 16px; white-space:nowrap;">Сохранить</button>
+            <div style="position:relative; flex:1;">
+              <input type="number" step="1" name="dailyLimit" value="${child.dailyLimit}" class="moby-input" min="1" required style="padding: 12px 64px 12px 16px; font-size: 15px; font-weight: 700; border-radius: 14px;">
+              <span style="position:absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 12px; font-weight: 700; color: var(--text-muted); pointer-events: none;">BYN/день</span>
+            </div>
+            <button type="submit" class="btn-moby btn-moby-blue" style="padding: 12px 20px; font-size: 13px; font-weight: 700; border-radius: 14px; white-space:nowrap;">Сохранить</button>
           </form>
         </div>
 
@@ -527,29 +531,32 @@ function renderLimitsModalHtml(child) {
         <div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
             <div style="font-size: 14px; font-weight: 800; color: var(--text-primary);">Категории трат</div>
-            <button type="button" class="btn-moby btn-moby-outline" style="font-size:11px; padding:5px 10px;" onclick="showCategoryLimitForm('${child.id}')">
+            <button type="button" class="btn-moby btn-moby-outline" style="font-size:11px; padding:6px 12px; border-radius:12px;" onclick="showCategoryLimitForm('${child.id}')">
               + Установить лимит
             </button>
           </div>
 
-          <div id="catLimitForm_${child.id}" style="display:none; background:var(--bg-surface-subtle); padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-subtle);">
+          <div id="catLimitForm_${child.id}" style="display:none; background:#FFFFFF; padding:16px; border-radius:16px; margin-bottom:14px; border:1px solid rgba(151,207,255,0.6); box-shadow:0 4px 12px rgba(35,52,200,0.06);">
             <form action="/child-action/set-category-limit" method="POST">
               <input type="hidden" name="childId" value="${child.id}">
-              <div style="font-size:12px; color:var(--text-secondary); margin-bottom:4px; font-weight:600;">Категория:</div>
-              <select name="category" class="moby-select" style="padding:8px; font-size:13px; margin-bottom:10px;" required>
+              <div style="font-size:12px; color:var(--text-secondary); margin-bottom:6px; font-weight:700;">Категория:</div>
+              <select name="category" class="moby-select" style="padding:10px 14px; font-size:13.5px; margin-bottom:12px; border-radius:12px; background:#F8FAFC;" required>
                 ${cats.map(c => `<option value="${c.category}">${c.category}</option>`).join('')}
               </select>
-              <div style="font-size:12px; color:var(--text-secondary); margin-bottom:4px; font-weight:600;">Лимит трат (BYN):</div>
-              <div style="display:flex; gap:8px;">
-                <input type="number" step="1" name="limit" placeholder="Например: 10.00" class="moby-input" style="padding:8px 12px; font-size:13px;" required min="1">
-                <button type="submit" class="btn-moby btn-moby-orange" style="font-size:12px; padding:8px 14px;">ОК</button>
+              <div style="font-size:12px; color:var(--text-secondary); margin-bottom:6px; font-weight:700;">Лимит трат (BYN):</div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <div style="position:relative; flex:1;">
+                  <input type="number" step="1" name="limit" placeholder="10.00" class="moby-input" style="padding:10px 50px 10px 14px; font-size:14px; font-weight:600; border-radius:12px;" required min="1">
+                  <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:12px; font-weight:700; color:var(--text-muted); pointer-events:none;">BYN</span>
+                </div>
+                <button type="submit" class="btn-moby btn-moby-orange" style="font-size:13px; font-weight:700; padding:10px 18px; border-radius:12px; white-space:nowrap;">Установить</button>
               </div>
             </form>
           </div>
 
           <div style="display:flex; flex-direction:column; gap: 8px;">
             ${cats.map(cat => `
-              <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface-subtle); padding:10px 14px; border-radius:12px; border:1px solid var(--border-subtle);">
+              <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface-subtle); padding:12px 14px; border-radius:14px; border:1px solid var(--border-subtle);">
                 <div>
                   <div style="font-size: 13.5px; font-weight: 700; color: ${cat.isBlocked ? 'var(--mt-red)' : 'var(--text-primary)'};">
                     ${cat.isBlocked ? '🚫 ' : ''}${escapeHtml(cat.category)}
@@ -562,7 +569,7 @@ function renderLimitsModalHtml(child) {
                 <form action="/child-action/toggle-category-block" method="POST" style="margin:0;">
                   <input type="hidden" name="childId" value="${child.id}">
                   <input type="hidden" name="category" value="${escapeHtml(cat.category)}">
-                  <button type="submit" class="btn-moby ${cat.isBlocked ? 'btn-moby-orange' : 'btn-moby-outline'}" style="font-size:11px; padding:6px 12px;">
+                  <button type="submit" class="btn-moby ${cat.isBlocked ? 'btn-moby-orange' : 'btn-moby-outline'}" style="font-size:11.5px; font-weight:700; padding:7px 14px; border-radius:10px;">
                     ${cat.isBlocked ? 'Разрешить' : 'Запретить'}
                   </button>
                 </form>
@@ -572,7 +579,7 @@ function renderLimitsModalHtml(child) {
         </div>
 
         <!-- Награда за квиз -->
-        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:14px; border-radius:14px; margin-top:18px;">
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:16px; border-radius:18px; margin-top:18px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <div style="font-size: 13.5px; font-weight: 800; color: var(--text-primary); display:flex; align-items:center; gap: 6px;">
               <span>🧠</span>
@@ -582,18 +589,17 @@ function renderLimitsModalHtml(child) {
               ${Number(child.quizRewardAmount !== undefined ? child.quizRewardAmount : 2.00).toFixed(2)} BYN
             </span>
           </div>
-          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">
             Сумма, которая выплачивается на карту ребенка, когда он правильно ответит на все вопросы из квиза
           </div>
-          <form action="/child-action/set-quiz-reward" method="POST" style="display:flex; gap: 8px;">
+          <form action="/child-action/set-quiz-reward" method="POST" style="display:flex; gap: 10px; align-items:center;">
             <input type="hidden" name="childId" value="${child.id}">
-            <input type="number" step="0.5" name="rewardAmount" value="${Number(child.quizRewardAmount !== undefined ? child.quizRewardAmount : 2.00).toFixed(2)}" class="moby-input" min="0" required style="padding:8px 12px; font-size:14px;">
-            <button type="submit" class="btn-moby btn-moby-orange" style="padding:8px 14px; white-space:nowrap;">Сохранить 💾</button>
+            <div style="position:relative; flex:1;">
+              <input type="number" step="0.5" name="rewardAmount" value="${Number(child.quizRewardAmount !== undefined ? child.quizRewardAmount : 2.00).toFixed(2)}" class="moby-input" min="0" required style="padding:10px 50px 10px 14px; font-size:14px; font-weight:700; border-radius:14px;">
+              <span style="position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:12px; font-weight:700; color:var(--text-muted); pointer-events:none;">BYN</span>
+            </div>
+            <button type="submit" class="btn-moby btn-moby-orange" style="padding:10px 18px; font-size:13px; font-weight:700; border-radius:14px; white-space:nowrap;">Сохранить 💾</button>
           </form>
-        </div>
-
-        <div style="margin-top: 20px; text-align:right;">
-          <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('limitsModal_${child.id}')">Закрыть</button>
         </div>
       </div>
     </div>
@@ -658,16 +664,24 @@ function openChildDetailsModal(childId) {
   const txList = (state.childTransactions || []).filter(t => t.child_id === child.id);
 
   content.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 16px;">
+    <div style="padding-right: 44px; margin-bottom: 14px;">
       <div style="display:flex; align-items:center; gap: 12px;">
         <span style="font-size: 32px;">${child.avatar || '🦁'}</span>
         <div>
-          <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">${escapeHtml(child.name)} (${child.age} лет)</div>
-          <div style="font-size: 12px; color: var(--text-muted);">${escapeHtml(child.cardNumber)}</div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--text-primary); line-height: 1.2;">
+            ${escapeHtml(child.name)} (${child.age} лет)
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+            ${escapeHtml(child.cardNumber)} • <span style="font-weight:700; color:${isFrozen ? 'var(--mt-red)' : 'var(--mt-green)'};">${isFrozen ? '🔒 Заблокирована' : '🟢 Активна'}</span>
+          </div>
         </div>
       </div>
-      <button type="button" class="card-pill-btn ${isFrozen ? 'pill-orange' : 'pill-blue'}" onclick="MobyStorage.toggleCardLock('${child.id}'); openChildDetailsModal('${child.id}');">
-        <span>${isFrozen ? '☀️ Разблокировать' : '❄️ Заблокировать'}</span>
+    </div>
+
+    <!-- Кнопка блокировки / разблокировки карты -->
+    <div style="margin-bottom: 16px;">
+      <button type="button" class="btn-moby ${isFrozen ? 'btn-moby-orange' : 'btn-moby-outline'}" style="width:100%; padding:10px 16px; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="MobyStorage.toggleCardLock('${child.id}'); openChildDetailsModal('${child.id}');">
+        <span>${isFrozen ? '☀️ Разблокировать карту ребенка' : '🔒 Заблокировать карту ребенка'}</span>
       </button>
     </div>
 

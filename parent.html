@@ -104,8 +104,8 @@
         </div>
       </section>
 
-      <!-- 5. ЗАДАНИЯ ОТ РОДИТЕЛЕЙ (Span 7) -->
-      <section class="moby-block bento-span-7">
+      <!-- 5. ЗАДАНИЯ ОТ РОДИТЕЛЕЙ (Span 12) -->
+      <section class="moby-block bento-span-12">
         <div class="moby-block-header">
           <div class="moby-block-title">
             <span>🎯</span>
@@ -123,45 +123,7 @@
         </button>
       </section>
 
-      <!-- 6. СЕКЦИЯ: РОДИТЕЛЬ-СПОНСОР (СТ. 34 ИНСТРУКЦИИ НАЦБАНКА РБ) (Span 5) -->
-      <section class="moby-block bento-span-5">
-        <div class="moby-block-header">
-          <div class="moby-block-title">
-            <span>👨‍👩‍👧</span>
-            <span>Семейный доступ и спонсоры</span>
-          </div>
-        </div>
-
-        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); border-radius:14px; padding:14px; margin-bottom:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <div style="font-size:13px; color:var(--text-primary); font-weight:700;">👑 Основной владелец счета</div>
-            <div style="font-size:12px; color:var(--mt-orange); font-weight:800;">Мама (Анна)</div>
-          </div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.45;">
-            Управляет суточными лимитами, блокировкой допкарты и соглашениями по Закону № 99-З.
-          </div>
-        </div>
-
-        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); border-radius:14px; padding:14px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <div style="font-size:13px; color:var(--text-primary); font-weight:700;">🤝 Доверенный спонсор</div>
-            <div style="font-size:12px; color:var(--mt-green); font-weight:800;">Папа (Алексей)</div>
-          </div>
-          <div style="font-size:12px; color:var(--text-secondary); line-height:1.45; margin-bottom:10px;">
-            Может целевым образом пополнять счет ребенка через ЕРИП и назначать задания без доступа к выписке матери.
-          </div>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:8px 6px;" onclick="MobyStorage.topUpChild(currentSelectedChildId, 20); showToast('Баланс ребенка пополнен папой на 20.00 BYN! 💳');">
-              Пополнить от папы (+20 BYN)
-            </button>
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:8px 6px;" onclick="openModal('addTaskModal')">
-              + Задание от папы
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. БАННЕР ВЗРОСЛЕНИЯ 18 ЛЕТ (Span 12) -->
+      <!-- 6. БАННЕР ВЗРОСЛЕНИЯ 18 ЛЕТ (Span 12) -->
       <section class="moby-block bento-span-12" style="background: linear-gradient(135deg, var(--mt-purple-light) 0%, #FFFFFF 100%); border: 1px solid var(--mt-purple-border);">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; align-items:center; gap: 12px;">
@@ -328,9 +290,6 @@
     <div class="moby-modal-dialog" style="max-width: 480px;">
       <button class="moby-modal-close" onclick="closeModal('childDetailsModal')">✕</button>
       <div id="childDetailsModalContent"></div>
-      <div style="text-align:right; margin-top:14px;">
-        <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('childDetailsModal')">Закрыть</button>
-      </div>
     </div>
   </div>
 

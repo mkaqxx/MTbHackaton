@@ -40,15 +40,17 @@
           </div>
         </div>
 
-        <div class="mtb-mini-logo">
-          <a href="./index.html" class="header-action-btn" title="Сменить роль или выйти в портал" style="background:var(--mt-blue-light); border:1px solid var(--mt-blue-border); border-radius:10px; color:var(--mt-blue); padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px; text-decoration:none;">
-            <span>🔄</span> <span>Роль</span>
+        <div class="header-actions-group">
+          <a href="./index.html" class="header-action-btn btn-role-pill" title="Сменить роль или выйти в портал">
+            <span>🔄</span> <span class="action-btn-text">Роль</span>
           </a>
-          <button type="button" id="btn-child-magic-qr" class="header-action-btn" title="Сканировать Magic QR родителя" onclick="openMagicQrScannerModal()" style="background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:10px; color:var(--text-primary); padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px;">
-            <span>📷</span> <span>Magic QR</span>
+          <button type="button" id="btn-child-magic-qr" class="header-action-btn btn-qr-pill" title="Сканировать Magic QR родителя" onclick="openMagicQrScannerModal()">
+            <span>📷</span> <span><span class="hide-mobile-word">Magic </span>QR</span>
           </button>
-          <div class="mtb-logo-symbol">M</div>
-          <span class="mtb-logo-text">Moby Kids</span>
+          <div class="mtb-mini-logo-pill">
+            <div class="mtb-logo-symbol">M</div>
+            <span class="mtb-logo-text"><span class="hide-mobile-word">Moby </span>Kids</span>
+          </div>
         </div>
       </div>
     </header>
