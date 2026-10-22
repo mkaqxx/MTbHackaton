@@ -11,100 +11,13 @@
   <script type="module" src="./model-viewer.min.js"></script>
   <script src="./moby_storage.js"></script>
   <script src="./parent_app.js"></script>
-  <style>
-    /* Fixed bottom bar and layout polish */
-    body {
-      background: #070B16;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .phone-viewport-container {
-      width: 100%;
-      max-width: 480px;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      background: #0B101E;
-      overflow: hidden;
-    }
-    .moby-content-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 16px 80px;
-      -webkit-overflow-scrolling: touch;
-    }
-    .iphone-tab-bar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 64px;
-      background: rgba(11, 16, 30, 0.95);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      z-index: 50;
-    }
-    .tab-bar-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      color: #8E9BB5;
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .tab-bar-item.active {
-      color: #FF5912;
-    }
-    .tab-bar-item .icon {
-      font-size: 20px;
-    }
-    .header-quick-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 16px;
-      background: rgba(11, 16, 30, 0.7);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .btn-switch-role {
-      background: rgba(35, 52, 200, 0.2);
-      border: 1px solid rgba(35, 52, 200, 0.5);
-      color: #93C5FD;
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 10px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.15s ease;
-    }
-    .btn-switch-role:hover {
-      background: rgba(35, 52, 200, 0.35);
-      color: white;
-    }
-  </style>
 </head>
 <body>
 
-  <!-- ОБОЛОЧКА СМАРТФОНА IPHONE 15 PRO MAX -->
-  <div class="phone-viewport-container">
+  <!-- БЕНТО-КОНТЕЙНЕР ПРИЛОЖЕНИЯ РОДИТЕЛЯ -->
+  <div class="bento-app-container">
 
-    <!-- Dynamic Island -->
-    <div class="dynamic-island"></div>
-
-    <!-- ВЕРХНИЙ ГРАДИЕНТНЫЙ БАННЕР MOBY FAMILY -->
+    <!-- ВЕРХНИЙ БЕНТО-БАР MOBY FAMILY -->
     <header class="moby-top-header">
       <div class="moby-user-badge">
         <div class="moby-avatar">👨‍👩‍👧</div>
@@ -112,38 +25,33 @@
           <div class="moby-user-name">Родительский контроль</div>
           <div class="moby-user-status">
             <span class="status-dot"></span>
-            <span>МТБанк активен</span>
+            <span>МТБанк активен • Семья</span>
           </div>
         </div>
       </div>
 
-      <div class="moby-brand-tag" onclick="openModal('mascotModal')" style="cursor:pointer;" title="Нажмите, чтобы увидеть 3D Фокси!">
-        <div class="moby-logo-m">M</div>
-        <span class="moby-brand-text">MOBY FAMILY</span>
-      </div>
-    </header>
-
-    <!-- ПАНЕЛЬ БЫСТРЫХ ДЕЙСТВИЙ РОДИТЕЛЯ -->
-    <div class="header-quick-actions">
-      <div style="display:flex; gap: 8px;">
-        <button type="button" class="btn-moby btn-moby-orange" onclick="openModal('addChildModal')" style="font-size: 11px; padding: 6px 12px;">
-          <span>+</span> Ребенок
+      <div class="header-actions-group">
+        <button type="button" class="btn-moby btn-moby-orange" onclick="openModal('addChildModal')">
+          <span>+</span> Добавить ребенка
         </button>
+        <div class="moby-brand-tag" onclick="openModal('mascotModal')" title="Нажмите, чтобы увидеть 3D Фокси!">
+          <div class="moby-logo-m">M</div>
+          <span class="moby-brand-text">3D Фокси</span>
+        </div>
         <a href="./index.html" class="btn-switch-role" title="Сменить роль или выйти в портал">
           <span>🔄</span> <span>Сменить роль</span>
         </a>
+        <button type="button" class="btn-moby btn-moby-outline" onclick="if(confirm('Сбросить демо-данные к исходному состоянию?')) { MobyStorage.resetDemo(); window.location.reload(); }" title="Сбросить локальные данные в исходное состояние">
+          <span>🔄</span> <span>Сброс демо</span>
+        </button>
       </div>
+    </header>
 
-      <button type="button" class="btn-moby btn-moby-outline" style="font-size: 11px; padding: 6px 10px;" onclick="if(confirm('Сбросить демо-данные к исходному состоянию?')) { MobyStorage.resetDemo(); window.location.reload(); }">
-        🔄 Сброс демо
-      </button>
-    </div>
-
-    <!-- СКРОЛЛИРУЕМЫЙ КОНТЕНТ СТРАНИЦЫ РОДИТЕЛЯ -->
+    <!-- МОДУЛЬНЫЙ БЕНТО-ГРИД КОНТЕНТА РОДИТЕЛЯ (12 колонок на десктопе) -->
     <div class="moby-content-scroll">
 
-      <!-- 1. КАРУСЕЛЬ КАРТОЧЕК ДЕТЕЙ -->
-      <section>
+      <!-- 1. КАРУСЕЛЬ КАРТОЧЕК ДЕТЕЙ (Span 7) -->
+      <section class="bento-span-7">
         <div class="carousel-track-wrapper">
           <div class="carousel-cards-track" id="carouselTrack">
             <!-- Динамически заполняется parent_app.js -->
@@ -154,13 +62,28 @@
         </div>
       </section>
 
-      <!-- 2. БЛОК ЛИМИТОВ НА ДЕНЬ -->
-      <div id="parentLimitsBlockContainer">
-        <!-- Заполняется динамически -->
+      <!-- 2. БЛОК СУТОЧНЫХ ЛИМИТОВ (Span 5) -->
+      <div id="parentLimitsBlockContainer" class="bento-span-5">
+        <!-- Динамически заполняется parent_app.js -->
       </div>
 
-      <!-- 3. ИСТОРИЯ ОПЕРАЦИЙ РОДИТЕЛЬСКОГО СЧЕТА -->
-      <section class="moby-block">
+      <!-- 3. ЗАПРОСЫ ОТ РЕБЕНКА (Span 6) -->
+      <section class="moby-block bento-span-6" id="childRequestsSection">
+        <div class="moby-block-header">
+          <div class="moby-block-title">
+            <span>📩</span>
+            <span>Запросы от ребенка</span>
+          </div>
+          <span id="requestsCountBadge" class="moby-badge-tag" style="background:var(--mt-orange-light); color:var(--mt-orange); border-color:var(--mt-orange-border); display:none;">0</span>
+        </div>
+
+        <div id="childRequestsListContainer">
+          <!-- Динамически заполняется parent_app.js -->
+        </div>
+      </section>
+
+      <!-- 4. ИСТОРИЯ ОПЕРАЦИЙ РОДИТЕЛЬСКОГО СЧЕТА (Span 6) -->
+      <section class="moby-block bento-span-6">
         <div class="moby-block-header">
           <div class="moby-block-title">
             <span>🏛️</span>
@@ -170,27 +93,12 @@
         </div>
 
         <div id="parentTransactionsList">
-          <!-- Заполняется динамически -->
+          <!-- Динамически заполняется parent_app.js -->
         </div>
       </section>
 
-      <!-- 4. ЗАПРОСЫ ОТ РЕБЕНКА -->
-      <section class="moby-block" id="childRequestsSection">
-        <div class="moby-block-header">
-          <div class="moby-block-title">
-            <span>📩</span>
-            <span>Запросы от ребенка</span>
-          </div>
-          <span id="requestsCountBadge" class="moby-badge-tag" style="background:#FF5912; color:white; display:none;">0</span>
-        </div>
-
-        <div id="childRequestsListContainer">
-          <!-- Заполняется динамически -->
-        </div>
-      </section>
-
-      <!-- 5. ЗАДАНИЯ ОТ РОДИТЕЛЕЙ -->
-      <section class="moby-block">
+      <!-- 5. ЗАДАНИЯ ОТ РОДИТЕЛЕЙ (Span 7) -->
+      <section class="moby-block bento-span-7">
         <div class="moby-block-header">
           <div class="moby-block-title">
             <span>🎯</span>
@@ -200,16 +108,16 @@
         </div>
 
         <div id="childTasksListContainer">
-          <!-- Заполняется динамически -->
+          <!-- Динамически заполняется parent_app.js -->
         </div>
 
-        <button type="button" class="btn-moby btn-moby-orange" onclick="openModal('addTaskModal')" style="width: 100%; margin-top: 8px;">
+        <button type="button" class="btn-moby btn-moby-orange" onclick="openModal('addTaskModal')" style="width: 100%; margin-top: 10px;">
           <span>+</span> Добавить задание ребенку
         </button>
       </section>
 
-      <!-- 6. СЕКЦИЯ: РОДИТЕЛЬ-СПОНСОР (СТ. 34 ИНСТРУКЦИИ НАЦБАНКА РБ) -->
-      <section class="moby-block">
+      <!-- 6. СЕКЦИЯ: РОДИТЕЛЬ-СПОНСОР (СТ. 34 ИНСТРУКЦИИ НАЦБАНКА РБ) (Span 5) -->
+      <section class="moby-block bento-span-5">
         <div class="moby-block-header">
           <div class="moby-block-title">
             <span>👨‍👩‍👧</span>
@@ -217,46 +125,46 @@
           </div>
         </div>
 
-        <div style="background:#111520; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:12px; margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <div style="font-size:12px; color:white; font-weight:700;">👑 Основной владелец счета</div>
-            <div style="font-size:11px; color:#FF5912; font-weight:700;">Мама (Анна)</div>
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); border-radius:14px; padding:14px; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size:13px; color:var(--text-primary); font-weight:700;">👑 Основной владелец счета</div>
+            <div style="font-size:12px; color:var(--mt-orange); font-weight:800;">Мама (Анна)</div>
           </div>
-          <div style="font-size:11px; color:#94A3B8; line-height:1.4;">
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.45;">
             Управляет суточными лимитами, блокировкой допкарты и соглашениями по Закону № 99-З.
           </div>
         </div>
 
-        <div style="background:#111520; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:12px; margin-bottom:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <div style="font-size:12px; color:white; font-weight:700;">🤝 Доверенный спонсор</div>
-            <div style="font-size:11px; color:#10B981; font-weight:700;">Папа (Алексей)</div>
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); border-radius:14px; padding:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size:13px; color:var(--text-primary); font-weight:700;">🤝 Доверенный спонсор</div>
+            <div style="font-size:12px; color:var(--mt-green); font-weight:800;">Папа (Алексей)</div>
           </div>
-          <div style="font-size:11px; color:#94A3B8; line-height:1.4; margin-bottom:8px;">
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.45; margin-bottom:10px;">
             Может целевым образом пополнять счет ребенка через ЕРИП и назначать задания без доступа к выписке матери.
           </div>
-          <div style="display:flex; gap:6px;">
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:10px; padding:6px;" onclick="MobyStorage.topUpChild(currentSelectedChildId, 20); showToast('Баланс ребенка пополнен папой на 20.00 BYN! 💳');">
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:8px 6px;" onclick="MobyStorage.topUpChild(currentSelectedChildId, 20); showToast('Баланс ребенка пополнен папой на 20.00 BYN! 💳');">
               Пополнить от папы (+20 BYN)
             </button>
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:10px; padding:6px;" onclick="openModal('addTaskModal')">
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:8px 6px;" onclick="openModal('addTaskModal')">
               + Задание от папы
             </button>
           </div>
         </div>
       </section>
 
-      <!-- 7. БАННЕР ВЗРОСЛЕНИЯ 18 ЛЕТ -->
-      <section class="moby-block" style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(35, 52, 200, 0.1) 100%); border: 1px solid rgba(147, 51, 234, 0.35);">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap: 8px;">
-            <span style="font-size: 22px;">🎓</span>
+      <!-- 7. БАННЕР ВЗРОСЛЕНИЯ 18 ЛЕТ (Span 12) -->
+      <section class="moby-block bento-span-12" style="background: linear-gradient(135deg, var(--mt-purple-light) 0%, #FFFFFF 100%); border: 1px solid var(--mt-purple-border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap: 12px;">
+            <span style="font-size: 28px;">🎓</span>
             <div>
-              <div style="font-size: 13px; font-weight: 800; color: white;">Взросление и 18-летие</div>
-              <div style="font-size: 11px; color: #CBD5E1;">Бесшовный переход во взрослый Moby</div>
+              <div style="font-size: 15px; font-weight: 800; color: var(--text-primary);">Взросление и 18-летие</div>
+              <div style="font-size: 13px; color: var(--text-secondary);">Бесшовный автоматический переход во взрослый Moby (ст. 21 ГК РБ)</div>
             </div>
           </div>
-          <button type="button" class="btn-moby btn-moby-outline" style="font-size:10px; padding:4px 8px; border-color:#9333EA; color:#E9D5FF;" onclick="openModal('transition18Modal')">
+          <button type="button" class="btn-moby btn-moby-outline" style="border-color:var(--mt-purple-border); color:var(--mt-purple); font-weight:800;" onclick="openModal('transition18Modal')">
             Подробнее ↗
           </button>
         </div>
@@ -264,7 +172,7 @@
 
     </div>
 
-    <!-- НИЖНИЙ ТАБ-БАР (ФИКСИРОВАН ВНИЗУ) -->
+    <!-- НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (BENTO FLOATING DOCK) -->
     <nav class="iphone-tab-bar">
       <div class="tab-bar-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
         <span class="icon">🏠</span>
@@ -287,47 +195,47 @@
   </div>
 
 
-  <!-- ================= МОДАЛЬНЫЕ ОКНА ================= -->
+  <!-- ================= МОДАЛЬНЫЕ ОКНА (LIGHT BENTO) ================= -->
 
   <!-- МОДАЛКА 1: ДОБАВИТЬ РЕБЕНКА -->
   <div id="addChildModal" class="moby-modal-backdrop">
     <div class="moby-modal-dialog">
       <button class="moby-modal-close" onclick="closeModal('addChildModal')">✕</button>
 
-      <div style="display:flex; align-items:center; gap: 8px; margin-bottom: 16px;">
+      <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 18px;">
         <div class="moby-logo-m">M</div>
-        <div style="font-size: 16px; font-weight: 800;">Добавить ребенка</div>
+        <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Добавить ребенка в семью</div>
       </div>
 
       <div id="initialAddChildBtnBox" style="text-align: center; padding: 20px 0;">
-        <div style="font-size: 40px; margin-bottom: 12px;">👶💳</div>
-        <p style="font-size: 13px; color: var(--moby-text-muted); margin-bottom: 20px; line-height: 1.5;">
-          Выпуск виртуальной карты МТБанк Kids и привязка к родительскому счету для контроля расходов.
+        <div style="font-size: 44px; margin-bottom: 12px;">👶💳</div>
+        <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 22px; line-height: 1.55;">
+          Выпуск виртуальной карты МТБанк Kids и привязка к родительскому счету для удобного контроля расходов.
         </p>
-        <button type="button" class="btn-moby btn-moby-orange" style="padding: 12px 24px; font-size: 14px;" onclick="revealAddChildFields()">
+        <button type="button" class="btn-moby btn-moby-orange" style="padding: 12px 28px; font-size: 14px;" onclick="revealAddChildFields()">
           Добавить ребенка
         </button>
       </div>
 
       <form id="addChildFieldsForm" action="/add-child" method="POST" style="display: none;">
         <div class="form-group" style="margin-bottom: 14px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Имя ребенка *</label>
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Имя ребенка *</label>
           <input type="text" name="name" class="moby-input" placeholder="Например: Артём или Миша" required>
         </div>
 
         <div class="form-group" style="margin-bottom: 14px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Возраст *</label>
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Возраст *</label>
           <input type="number" name="age" min="5" max="17" value="10" class="moby-input" required>
         </div>
 
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Выбрать родительскую карту *</label>
+        <div class="form-group" style="margin-bottom: 22px;">
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Выбрать родительскую карту *</label>
           <select name="parentCardId" id="addChildParentCardSelect" class="moby-select" required>
             <!-- Заполняется parent_app.js -->
           </select>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap: 8px;">
+        <div style="display:flex; justify-content:flex-end; gap: 10px;">
           <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('addChildModal')">Отмена</button>
           <button type="submit" class="btn-moby btn-moby-orange">Создать карту ребенка</button>
         </div>
@@ -340,28 +248,28 @@
     <div class="moby-modal-dialog">
       <button class="moby-modal-close" onclick="closeModal('addTaskModal')">✕</button>
 
-      <div style="font-size: 16px; font-weight: 800; margin-bottom: 16px; display:flex; align-items:center; gap: 8px;">
+      <div style="font-size: 18px; font-weight: 800; margin-bottom: 18px; display:flex; align-items:center; gap: 8px; color: var(--text-primary);">
         <span>🎯</span>
         <span>Добавить задание ребенку</span>
       </div>
 
       <form action="/child-action/add-task" method="POST">
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Кому назначить задание *</label>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Кому назначить задание *</label>
           <select name="childId" id="addTaskChildSelect" class="moby-select" required></select>
         </div>
 
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Описание задания *</label>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Описание задания *</label>
           <input type="text" name="title" class="moby-input" placeholder="Например: Прочитать 30 страниц книги" required>
         </div>
 
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Сумма вознаграждения (BYN) *</label>
+        <div class="form-group" style="margin-bottom: 22px;">
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Сумма вознаграждения (BYN) *</label>
           <input type="number" step="0.5" name="rewardAmount" class="moby-input" value="5.00" min="0.5" required>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap: 8px;">
+        <div style="display:flex; justify-content:flex-end; gap: 10px;">
           <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('addTaskModal')">Отмена</button>
           <button type="submit" class="btn-moby btn-moby-orange">Отправить задание</button>
         </div>
@@ -374,7 +282,7 @@
     <div class="moby-modal-dialog">
       <button class="moby-modal-close" onclick="closeModal('editTaskModal')">✕</button>
 
-      <div style="font-size: 16px; font-weight: 800; margin-bottom: 16px; display:flex; align-items:center; gap: 8px;">
+      <div style="font-size: 18px; font-weight: 800; margin-bottom: 18px; display:flex; align-items:center; gap: 8px; color: var(--text-primary);">
         <span>✏️</span>
         <span>Редактировать задание</span>
       </div>
@@ -382,22 +290,22 @@
       <form action="/child-action/edit-task" method="POST" id="editTaskForm">
         <input type="hidden" name="taskId" id="editTaskIdInput">
 
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Кому назначено задание *</label>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Кому назначено задание *</label>
           <select name="childId" id="editTaskChildSelect" class="moby-select" required></select>
         </div>
 
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Описание задания *</label>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Описание задания *</label>
           <input type="text" name="title" id="editTaskTitleInput" class="moby-input" required>
         </div>
 
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Сумма вознаграждения (BYN) *</label>
+        <div class="form-group" style="margin-bottom: 22px;">
+          <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Сумма вознаграждения (BYN) *</label>
           <input type="number" step="0.5" name="rewardAmount" id="editTaskRewardInput" class="moby-input" min="0.5" required>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap: 8px;">
+        <div style="display:flex; justify-content:flex-end; gap: 10px;">
           <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('editTaskModal')">Отмена</button>
           <button type="submit" class="btn-moby btn-moby-orange">Сохранить 💾</button>
         </div>
@@ -410,10 +318,10 @@
 
   <!-- МОДАЛКА: ДЕТАЛЬНАЯ СТАТИСТИКА РЕБЕНКА -->
   <div id="childDetailsModal" class="moby-modal-backdrop">
-    <div class="moby-modal-dialog" style="max-width: 440px;">
+    <div class="moby-modal-dialog" style="max-width: 480px;">
       <button class="moby-modal-close" onclick="closeModal('childDetailsModal')">✕</button>
       <div id="childDetailsModalContent"></div>
-      <div style="text-align:right; margin-top:10px;">
+      <div style="text-align:right; margin-top:14px;">
         <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('childDetailsModal')">Закрыть</button>
       </div>
     </div>
@@ -424,30 +332,30 @@
     <div class="moby-modal-dialog" style="max-width: 480px; text-align: center;">
       <button class="moby-modal-close" onclick="closeModal('magicQrModal')">✕</button>
       
-      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,99,235,0.22); border:1px solid #3B82F6; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700; color:#93C5FD; margin-bottom:10px;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:var(--mt-blue-light); border:1px solid var(--mt-blue-border); padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; color:var(--mt-blue); margin-bottom:12px;">
         <span>✨</span> 100% Легально по ст. 27 ГК РБ • Интеграция KPOK
       </div>
 
-      <div style="font-size: 20px; font-weight: 800; color: white; margin-bottom: 4px;">
+      <div style="font-size: 20px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;">
         📱 Magic Family QR & Национальный стандарт KPOK
       </div>
-      <div style="font-size: 12.5px; color: var(--moby-text-muted); margin-bottom: 16px;">
+      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5;">
         Безопасная привязка детского приложения к счету родителя через систему KPOK без подписания СДБО
       </div>
 
       <!-- Выбор ребенка: Михаил или Алина -->
-      <div style="display:flex; gap:8px; justify-content:center; margin-bottom:16px;">
-        <button type="button" id="qrChildBtn_1" class="btn-moby" style="background:#2563EB; color:white; border-radius:10px; font-weight:700; padding:8px 14px; cursor:pointer;" onclick="selectQrChild('child_1', 'Михаил (10 лет)', 'kids', '742-891')">
+      <div style="display:flex; gap:10px; justify-content:center; margin-bottom:18px;">
+        <button type="button" id="qrChildBtn_1" class="btn-moby btn-moby-blue" style="border-radius:12px; font-weight:700; padding:8px 16px; cursor:pointer;" onclick="selectQrChild('child_1', 'Михаил (10 лет)', 'kids', '742-891')">
           👦 Михаил (Kids 7–13)
         </button>
-        <button type="button" id="qrChildBtn_2" class="btn-moby" style="background:#1E293B; color:#94A3B8; border:1px solid #334155; border-radius:10px; font-weight:700; padding:8px 14px; cursor:pointer;" onclick="selectQrChild('teen_1', 'Алина (16 лет)', 'teens', '915-384')">
+        <button type="button" id="qrChildBtn_2" class="btn-moby btn-moby-outline" style="border-radius:12px; font-weight:700; padding:8px 16px; cursor:pointer;" onclick="selectQrChild('teen_1', 'Алина (16 лет)', 'teens', '915-384')">
           👧 Алина (Junior 14–17)
         </button>
       </div>
 
       <!-- Анимированный QR код KPOK -->
-      <div style="background:#0D1117; border:2px solid #2563EB; border-radius:18px; padding:20px; display:inline-block; margin-bottom:16px; position:relative; box-shadow:0 12px 30px rgba(37,99,235,0.25);">
-        <svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:10px; background:white; padding:10px;">
+      <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); border-radius:20px; padding:20px; display:inline-block; margin-bottom:18px; position:relative; box-shadow:var(--shadow-bento);">
+        <svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px; background:white; padding:10px; border:1px solid var(--border-subtle);">
           <rect x="0" y="0" width="46" height="46" fill="#101B4B" rx="4"/>
           <rect x="8" y="8" width="30" height="30" fill="white" rx="2"/>
           <rect x="14" y="14" width="18" height="18" fill="#FF5912" rx="2"/>
@@ -464,16 +372,16 @@
           <text x="85" y="92" text-anchor="middle" font-size="20">🦊</text>
         </svg>
 
-        <div style="margin-top:10px; font-size:12px; font-weight:700; color:#E2E8F0;">
-          Код сопряжения KPOK: <span id="qrPinDisplay" style="color:#60A5FA; letter-spacing:2px; font-size:15px; font-weight:800;">742-891</span>
+        <div style="margin-top:12px; font-size:13px; font-weight:700; color:var(--text-secondary);">
+          Код сопряжения KPOK: <span id="qrPinDisplay" style="color:var(--mt-blue); letter-spacing:2px; font-size:16px; font-weight:800;">742-891</span>
         </div>
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:8px;">
+      <div style="display:flex; flex-direction:column; gap:10px;">
         <button type="button" class="btn-moby btn-moby-orange" style="width:100%; font-size:14px; font-weight:800; padding:12px;" onclick="simulateQrPairing()">
           🚀 Симулировать сканирование ребенком (Шаг 2 ➔ 3)
         </button>
-        <button type="button" class="btn-moby" style="background:#1E293B; color:#94A3B8; width:100%; border:1px solid #334155;" onclick="closeModal('magicQrModal')">
+        <button type="button" class="btn-moby btn-moby-outline" style="width:100%;" onclick="closeModal('magicQrModal')">
           Закрыть
         </button>
       </div>
@@ -485,26 +393,26 @@
     <div class="moby-modal-dialog" style="max-width: 480px; text-align: center;">
       <button class="moby-modal-close" onclick="closeModal('transition18Modal')">✕</button>
       
-      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(147,51,234,0.25); border:1px solid #9333EA; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700; color:#E9D5FF; margin-bottom:10px;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:var(--mt-purple-light); border:1px solid var(--mt-purple-border); padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; color:var(--mt-purple); margin-bottom:12px;">
         <span>🎓</span> Наступление 18-летия
       </div>
 
-      <div style="font-size: 20px; font-weight: 800; color: white; margin-bottom: 4px;">
+      <div style="font-size: 20px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;">
         ✨ Бесшовный переход во взрослый Moby
       </div>
-      <div style="font-size: 12.5px; color: var(--moby-text-muted); margin-bottom: 16px;">
+      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5;">
         Юридическая автономия и превращение суб-счета в полноценный счет клиента банка (ст. 21 ГК РБ)
       </div>
 
-      <div style="text-align:left; background:#161B26; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px; margin-bottom:16px;">
-        <div style="font-size:12px; color:#E2E8F0; line-height:1.5;">
+      <div style="text-align:left; background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); border-radius:16px; padding:16px; margin-bottom:18px;">
+        <div style="font-size:12.5px; color:var(--text-secondary); line-height:1.6;">
           • <strong>Автоматический договор СДБО</strong>: В 18 лет подросток через МСИ в 1 клик подписывает персональный IBAN.<br>
           • <strong>Сохранение накоплений и рейтинга</strong>: Все средства из Копилки и кредитный рейтинг Moby Score переносятся во взрослый банкинг.<br>
           • <strong>Приветственный студенческий бонус</strong>: Карта «Шчодрая» с кэшбэком и льготный студенческий овердрафт.
         </div>
       </div>
 
-      <button type="button" class="btn-moby btn-moby-orange" style="width:100%;" onclick="closeModal('transition18Modal')">
+      <button type="button" class="btn-moby btn-moby-orange" style="width:100%; padding:12px;" onclick="closeModal('transition18Modal')">
         Понятно!
       </button>
     </div>
@@ -512,13 +420,13 @@
 
   <!-- МОДАЛКА 3D МАСКОТА ФОКСИ -->
   <div id="mascotModal" class="moby-modal-backdrop">
-    <div class="moby-modal-dialog" style="max-width: 440px; text-align: center;">
+    <div class="moby-modal-dialog" style="max-width: 480px; text-align: center;">
       <button class="moby-modal-close" onclick="closeModal('mascotModal')">✕</button>
       
-      <div style="font-size: 18px; font-weight: 800; color: white; margin-bottom: 4px;">🦊 Фокси — Напарник Moby Family</div>
-      <div style="font-size: 12px; color: var(--moby-text-muted); margin-bottom: 12px;">3D-Маскот и финансовый наставник МТБанка</div>
+      <div style="font-size: 20px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">🦊 Фокси — Напарник Moby Family</div>
+      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">3D-Маскот и финансовый наставник МТБанка</div>
 
-      <div style="width: 100%; height: 260px; background: radial-gradient(circle, rgba(35,52,200,0.15) 0%, rgba(17,21,32,0.8) 100%); border-radius: 16px; margin-bottom: 14px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+      <div style="width: 100%; height: 270px; background: radial-gradient(circle, var(--mt-blue-light) 0%, var(--bg-surface-subtle) 100%); border-radius: 18px; margin-bottom: 16px; position: relative; overflow: hidden; border: 1px solid var(--border-subtle);">
         <model-viewer
           src="./fox.glb"
           alt="3D Фокси"
@@ -533,16 +441,16 @@
         </model-viewer>
       </div>
 
-      <div style="background:#111520; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px; text-align:left; margin-bottom:14px;">
-        <div style="font-size:12px; font-weight:700; color:#FDBA74; margin-bottom:4px;">💡 Как маскот обучает детей финансовой грамотности:</div>
-        <div style="font-size:11px; color:#94A3B8; line-height:1.4;">
+      <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); border-radius:14px; padding:14px; text-align:left; margin-bottom:16px;">
+        <div style="font-size:12.5px; font-weight:700; color:var(--mt-orange); margin-bottom:6px;">💡 Как маскот обучает детей финансовой грамотности:</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
           • Реагирует на накопления в копилке и поздравляет ребенка при достижении цели.<br>
           • Проводит интерактивные тесты и выдает награды в игре «Ловец бонусов».<br>
           • Подсказывает правила кибербезопасности и бережного обращения с деньгами.
         </div>
       </div>
 
-      <button type="button" class="btn-moby btn-moby-orange" style="width:100%;" onclick="closeModal('mascotModal')">
+      <button type="button" class="btn-moby btn-moby-orange" style="width:100%; padding:12px;" onclick="closeModal('mascotModal')">
         Отлично!
       </button>
     </div>

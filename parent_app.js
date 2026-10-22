@@ -89,7 +89,7 @@ function renderCarousel(children) {
             <div style="display:flex; align-items:center; gap: 8px;">
               <span style="font-size: 20px;">${child.avatar || '🦁'}</span>
               <div>
-                <div style="font-size: 15px; font-weight: 800; color: white;">${escapeHtml(child.name)} (${child.age} лет)</div>
+                <div style="font-size: 15px; font-weight: 800; color: #FFFFFF;">${escapeHtml(child.name)} (${child.age} лет)</div>
                 <div style="font-size: 10px; color: var(--moby-text-muted);">
                   ${escapeHtml(child.cardNumber)} • <span style="color:${isFrozen ? 'var(--moby-red)' : '#10B981'}; font-weight:700;">${isFrozen ? '❄️ Заблокирована' : '● Активна'}</span>
                 </div>
@@ -114,18 +114,18 @@ function renderCarousel(children) {
                 <span>⚙️</span>
                 <span>Лимиты</span>
               </button>
-              <button type="button" class="card-pill-btn" style="background:#20283C; color:white;" onclick="event.stopPropagation(); openModal('magicQrModal');">
+              <button type="button" class="card-pill-btn" style="background:#FFFFFF; color:#2334C8; border:1px solid #97CFFF;" onclick="event.stopPropagation(); openModal('magicQrModal');">
                 <span>📱</span>
                 <span>Magic QR</span>
               </button>
-              <button type="button" class="card-pill-btn" style="background:#3B1C5A; border:1px solid #9333EA; color:#E9D5FF;" onclick="event.stopPropagation(); openPiggyMatchModal('${child.id}');">
+              <button type="button" class="card-pill-btn" style="background:#E42C26; border:1px solid #FF5912; color:#FFFFFF;" onclick="event.stopPropagation(); openPiggyMatchModal('${child.id}');">
                 <span>🐷</span>
                 <span>Копилка +${child.piggyMatchPercent || 50}%</span>
               </button>
             </div>
 
             <div class="card-footer-limit">
-              <div style="display:flex; align-items:center; gap: 4px; color:white; font-weight:600;" onclick="event.stopPropagation(); openChildDetailsModal('${child.id}')">
+              <div style="display:flex; align-items:center; gap: 4px; color:#FFFFFF; font-weight:700;" onclick="event.stopPropagation(); openChildDetailsModal('${child.id}')">
                 <span>📊 Подробная статистика</span>
                 <span style="color:var(--moby-orange);">→</span>
               </div>
@@ -245,7 +245,7 @@ function renderTransactionsBlock(transactions) {
 
   if (!transactions || transactions.length === 0) {
     container.innerHTML = `
-      <div style="font-size: 12px; color: var(--moby-text-muted, #8E9BB5); text-align: center; padding: 12px;">
+      <div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 18px;">
         Пока нет родительских операций
       </div>
     `;
@@ -254,14 +254,14 @@ function renderTransactionsBlock(transactions) {
 
   container.innerHTML = transactions.slice(0, 5).map(tx => `
     <div class="parent-tx-row">
-      <div style="display:flex; align-items:center; gap: 10px;">
+      <div style="display:flex; align-items:center; gap: 12px;">
         <div class="tx-icon-pill">💳</div>
         <div>
-          <div style="font-size: 13px; font-weight: 600; color: white;">${escapeHtml(tx.title)}</div>
-          <div style="font-size: 11px; color: var(--moby-text-dim, #64748B);">${tx.date} в ${tx.time}</div>
+          <div style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">${escapeHtml(tx.title)}</div>
+          <div style="font-size: 11.5px; color: var(--text-muted);">${tx.date} в ${tx.time}</div>
         </div>
       </div>
-      <div style="font-size: 13px; font-weight: 800; color: #60A5FA;">
+      <div style="font-size: 14px; font-weight: 800; color: var(--mt-blue);">
         -${Number(tx.amount).toFixed(2)} BYN
       </div>
     </div>
@@ -281,8 +281,8 @@ function renderRequestsBlock(requests) {
 
   if (!requests || requests.length === 0) {
     container.innerHTML = `
-      <div style="background: #111520; border-radius: 14px; padding: 14px; text-align: center; border: 1px dashed rgba(255,255,255,0.08);">
-        <div style="font-size: 12px; color: var(--moby-text-muted, #8E9BB5);">
+      <div style="background: var(--bg-surface-subtle); border-radius: 14px; padding: 18px; text-align: center; border: 1px dashed var(--border-subtle);">
+        <div style="font-size: 13px; color: var(--text-muted);">
           Новых запросов на деньги от детей нет
         </div>
       </div>
@@ -294,20 +294,20 @@ function renderRequestsBlock(requests) {
     const isAntiFraud = req.requestType === 'ANTIFRAUD';
     const isTask = req.requestType === 'TASK_REWARD';
 
-    let borderStyle = 'border: 1px solid rgba(255,255,255,0.08);';
+    let borderStyle = 'border: 1px solid var(--border-subtle); background: var(--bg-surface-subtle);';
     let icon = req.childAvatar || '🦁';
     let typeTitle = `💸 Запрос денег: ${escapeHtml(req.childName)}`;
     let approveText = '✓ Одобрить';
     let approveClass = 'btn-moby-orange';
 
     if (isAntiFraud) {
-      borderStyle = 'border: 1px solid var(--moby-red, #E42C26); background: rgba(228, 44, 38, 0.12);';
+      borderStyle = 'border: 1px solid var(--mt-red-border); background: var(--mt-red-light);';
       icon = '🛡️';
       typeTitle = `🚨 Антифрод: ${escapeHtml(req.childName)}`;
       approveText = '✓ Разрешить';
       approveClass = 'btn-moby-blue';
     } else if (isTask) {
-      borderStyle = 'border: 1px solid var(--mt-orange, #FF5912); background: rgba(255, 89, 18, 0.1);';
+      borderStyle = 'border: 1px solid var(--mt-orange-border); background: var(--mt-orange-light);';
       icon = '⭐';
       typeTitle = `🎯 Проверка задания: ${escapeHtml(req.childName)}`;
       approveText = '✓ Одобрить и выплатить';
@@ -317,21 +317,21 @@ function renderRequestsBlock(requests) {
       <div class="request-banner-moby" style="${borderStyle}; margin-bottom: 8px;">
         <div class="request-banner-top">
           <div class="request-child-tag">
-            <span style="font-size: 20px;">${icon}</span>
+            <span style="font-size: 22px;">${icon}</span>
             <div>
-              <div style="font-size: 13px; font-weight: 700; color: ${isAntiFraud ? 'var(--moby-red, #E42C26)' : 'white'};">
+              <div style="font-size: 13.5px; font-weight: 700; color: ${isAntiFraud ? 'var(--mt-red)' : 'var(--text-primary)'};">
                 ${typeTitle}
               </div>
-              <div style="font-size: 11px; color: var(--moby-text-muted, #8E9BB5);">«${escapeHtml(req.title)}»</div>
+              <div style="font-size: 12px; color: var(--text-secondary);">«${escapeHtml(req.title)}»</div>
             </div>
           </div>
           <div class="request-amount-pill">+${Number(req.amount).toFixed(2)} BYN</div>
         </div>
         <div class="request-btns-row" style="display:flex; gap: 8px; margin-top: 10px;">
-          <button type="button" class="btn-moby ${approveClass}" style="flex:1; font-size:11px; padding:6px 0;" onclick="MobyStorage.approveRequest('${req.id}')">
+          <button type="button" class="btn-moby ${approveClass}" style="flex:1; font-size:12px; padding:8px 0;" onclick="MobyStorage.approveRequest('${req.id}')">
             ${approveText}
           </button>
-          <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:6px 0;" onclick="MobyStorage.rejectRequest('${req.id}')">
+          <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:12px; padding:8px 0;" onclick="MobyStorage.rejectRequest('${req.id}')">
             ✕ Отклонить
           </button>
         </div>
@@ -352,7 +352,7 @@ function renderTasksBlock(tasks, children) {
 
   if (!tasks || tasks.length === 0) {
     container.innerHTML = `
-      <div style="font-size: 12px; color: var(--moby-text-muted, #8E9BB5); text-align: center; padding: 14px; background: #111520; border-radius: 14px; border: 1px dashed rgba(255,255,255,0.08);">
+      <div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 18px; background: var(--bg-surface-subtle); border-radius: 14px; border: 1px dashed var(--border-subtle);">
         Нет назначенных заданий. Нажмите «+ Добавить задание ребенку».
       </div>
     `;
@@ -363,13 +363,19 @@ function renderTasksBlock(tasks, children) {
     const isCompleted = task.status === 'COMPLETED';
     const isWaiting = task.status === 'WAITING';
     let statusBadge = 'В процессе ⏳';
-    let badgeColor = '#60A5FA';
+    let badgeColor = 'var(--mt-blue)';
+    let badgeBg = 'var(--mt-blue-light)';
+    let badgeBorder = 'var(--mt-blue-border)';
     if (isCompleted) {
       statusBadge = 'Выполнено ✅';
-      badgeColor = '#10B981';
+      badgeColor = 'var(--mt-green)';
+      badgeBg = 'var(--mt-green-light)';
+      badgeBorder = 'var(--mt-green-border)';
     } else if (isWaiting) {
       statusBadge = 'Ждет проверки 🔍';
-      badgeColor = '#FF5912';
+      badgeColor = 'var(--mt-orange)';
+      badgeBg = 'var(--mt-orange-light)';
+      badgeBorder = 'var(--mt-orange-border)';
     }
 
     const safeTitle = escapeHtml(task.title).replace(/'/g, "\\'");
@@ -379,12 +385,12 @@ function renderTasksBlock(tasks, children) {
         <div class="task-card-top-row">
           <div>
             <div class="task-title-text">${escapeHtml(task.title)}</div>
-            <div style="font-size: 11px; color: var(--moby-text-dim, #64748B); margin-top: 2px;">
-              Для: <strong style="color:white;">${escapeHtml(task.childName)}</strong>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+              Для: <strong style="color:var(--text-primary);">${escapeHtml(task.childName)}</strong>
             </div>
             <div class="task-reward-badge" style="margin-top: 4px;">+${Number(task.rewardAmount).toFixed(2)} BYN</div>
           </div>
-          <div class="task-status-btn" style="color: ${badgeColor}; border-color: ${badgeColor}; font-size:11px; padding:3px 8px;">
+          <div class="task-status-btn" style="color: ${badgeColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; font-size:11px; padding:4px 10px; border-radius:10px;">
             ${statusBadge}
           </div>
         </div>
@@ -443,43 +449,43 @@ function renderTopUpModalHtml(child) {
       <div class="moby-modal-dialog">
         <button class="moby-modal-close" onclick="closeModal('topUpModal_${child.id}')">✕</button>
 
-        <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 16px;">
-          <span style="font-size: 26px;">💰</span>
+        <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 18px;">
+          <span style="font-size: 28px;">💰</span>
           <div>
-            <div style="font-size: 17px; font-weight: 800; color: white;">Пополнить баланс</div>
-            <div style="font-size: 12px; color: var(--moby-text-muted);">
-              Счет ребенка: <strong style="color:white;">${escapeHtml(child.name)}</strong>
+            <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Пополнить баланс</div>
+            <div style="font-size: 13px; color: var(--text-muted);">
+              Счет ребенка: <strong style="color:var(--text-primary);">${escapeHtml(child.name)}</strong>
             </div>
           </div>
         </div>
 
-        <div style="background:#111520; border:1px solid rgba(255,255,255,0.08); padding:16px; border-radius:14px; margin-bottom:18px;">
-          <div style="font-size: 11px; text-transform:uppercase; color: var(--moby-text-dim); margin-bottom: 4px;">Текущий остаток на карте</div>
-          <div style="font-size: 26px; font-weight: 900; color: var(--mt-orange, #FF5912);">
-            ${Number(child.balance).toFixed(2)} <span style="font-size: 16px; color: white;">BYN</span>
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:16px; border-radius:14px; margin-bottom:18px;">
+          <div style="font-size: 11px; text-transform:uppercase; color: var(--text-muted); margin-bottom: 4px; font-weight:700; letter-spacing:0.04em;">Текущий остаток на карте</div>
+          <div style="font-size: 28px; font-weight: 900; color: var(--mt-orange);">
+            ${Number(child.balance).toFixed(2)} <span style="font-size: 16px; color: var(--text-primary);">BYN</span>
           </div>
         </div>
 
         <!-- Быстрые суммы -->
-        <div style="margin-bottom: 14px;">
-          <div style="font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 8px;">Выберите сумму пополнения:</div>
-          <div style="display:flex; gap: 6px; margin-bottom: 12px;">
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0;" onclick="setTopUpValue('${child.id}', 3)">+3 BYN</button>
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0;" onclick="setTopUpValue('${child.id}', 5)">+5 BYN</button>
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0;" onclick="setTopUpValue('${child.id}', 10)">+10 BYN</button>
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0;" onclick="setTopUpValue('${child.id}', 20)">+20 BYN</button>
+        <div style="margin-bottom: 16px;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px;">Быстрый выбор суммы:</div>
+          <div style="display:flex; gap: 8px; margin-bottom: 12px;">
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0; font-weight:700;" onclick="setTopUpValue('${child.id}', 3)">+3 BYN</button>
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0; font-weight:700;" onclick="setTopUpValue('${child.id}', 5)">+5 BYN</button>
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0; font-weight:700;" onclick="setTopUpValue('${child.id}', 10)">+10 BYN</button>
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; padding:8px 0; font-weight:700;" onclick="setTopUpValue('${child.id}', 20)">+20 BYN</button>
           </div>
         </div>
 
         <form action="/child-action/top-up" method="POST">
           <input type="hidden" name="childId" value="${child.id}">
-          <div class="form-group" style="margin-bottom: 18px;">
-            <label style="display:block; font-size: 12px; font-weight: 700; color: var(--moby-text-muted); margin-bottom: 4px;">Или введите точную сумму (BYN):</label>
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display:block; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Или введите точную сумму (BYN):</label>
             <input type="number" step="0.5" id="topUpInput_${child.id}" name="amount" class="moby-input" placeholder="0.00" required min="0.5" value="10.00">
           </div>
-          <div style="display:flex; justify-content:flex-end; gap: 8px;">
+          <div style="display:flex; justify-content:flex-end; gap: 10px;">
             <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('topUpModal_${child.id}')">Отмена</button>
-            <button type="submit" class="btn-moby btn-moby-orange" style="padding: 10px 20px;">Пополнить карту</button>
+            <button type="submit" class="btn-moby btn-moby-orange" style="padding: 10px 22px;">Пополнить карту</button>
           </div>
         </form>
       </div>
@@ -494,69 +500,69 @@ function renderLimitsModalHtml(child) {
       <div class="moby-modal-dialog">
         <button class="moby-modal-close" onclick="closeModal('limitsModal_${child.id}')">✕</button>
 
-        <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 16px;">
-          <span style="font-size: 24px;">⚙️</span>
+        <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 18px;">
+          <span style="font-size: 26px;">⚙️</span>
           <div>
-            <div style="font-size: 17px; font-weight: 800; color: white;">Лимиты расходов</div>
-            <div style="font-size: 12px; color: var(--moby-text-muted);">
-              Настройка ограничений для <strong style="color:white;">${escapeHtml(child.name)}</strong>
+            <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Лимиты расходов</div>
+            <div style="font-size: 13px; color: var(--text-muted);">
+              Настройка ограничений для <strong style="color:var(--text-primary);">${escapeHtml(child.name)}</strong>
             </div>
           </div>
         </div>
 
         <!-- Общий суточный лимит -->
-        <div style="background:#111520; border:1px solid rgba(255,255,255,0.08); padding:14px; border-radius:14px; margin-bottom:16px;">
-          <div style="font-size: 12px; font-weight: 800; color: white; margin-bottom: 4px;">Общий суточный лимит трат</div>
-          <div style="font-size: 11px; color: var(--moby-text-dim); margin-bottom: 10px;">
-            Максимальная сумма, которую ребенок может потратить в день
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:16px; border-radius:14px; margin-bottom:18px;">
+          <div style="font-size: 13px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">Общий суточный лимит трат</div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;">
+            Максимальная сумма, которую ребенок может потратить за один день
           </div>
-          <form action="/child-action/set-limit" method="POST" style="display:flex; gap: 8px;">
+          <form action="/child-action/set-limit" method="POST" style="display:flex; gap: 10px;">
             <input type="hidden" name="childId" value="${child.id}">
-            <input type="number" step="1" name="dailyLimit" value="${child.dailyLimit}" class="moby-input" min="1" required style="padding:8px 12px; font-size:14px;">
-            <button type="submit" class="btn-moby btn-moby-blue" style="padding:8px 14px; white-space:nowrap;">Сохранить</button>
+            <input type="number" step="1" name="dailyLimit" value="${child.dailyLimit}" class="moby-input" min="1" required style="padding:10px 14px; font-size:14px;">
+            <button type="submit" class="btn-moby btn-moby-blue" style="padding:10px 16px; white-space:nowrap;">Сохранить</button>
           </form>
         </div>
 
         <!-- Категории трат -->
         <div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-            <div style="font-size: 13px; font-weight: 800; color: white;">Категории трат</div>
-            <button type="button" class="btn-moby btn-moby-outline" style="font-size:11px; padding:4px 8px;" onclick="showCategoryLimitForm('${child.id}')">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+            <div style="font-size: 14px; font-weight: 800; color: var(--text-primary);">Категории трат</div>
+            <button type="button" class="btn-moby btn-moby-outline" style="font-size:11px; padding:5px 10px;" onclick="showCategoryLimitForm('${child.id}')">
               + Установить лимит
             </button>
           </div>
 
-          <div id="catLimitForm_${child.id}" style="display:none; background:#0E131F; padding:12px; border-radius:10px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.1);">
+          <div id="catLimitForm_${child.id}" style="display:none; background:var(--bg-surface-subtle); padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-subtle);">
             <form action="/child-action/set-category-limit" method="POST">
               <input type="hidden" name="childId" value="${child.id}">
-              <div style="font-size:11px; color:var(--moby-text-muted); margin-bottom:4px;">Категория:</div>
-              <select name="category" class="moby-select" style="padding:8px; font-size:12px; margin-bottom:8px;" required>
+              <div style="font-size:12px; color:var(--text-secondary); margin-bottom:4px; font-weight:600;">Категория:</div>
+              <select name="category" class="moby-select" style="padding:8px; font-size:13px; margin-bottom:10px;" required>
                 ${cats.map(c => `<option value="${c.category}">${c.category}</option>`).join('')}
               </select>
-              <div style="font-size:11px; color:var(--moby-text-muted); margin-bottom:4px;">Лимит трат (BYN):</div>
+              <div style="font-size:12px; color:var(--text-secondary); margin-bottom:4px; font-weight:600;">Лимит трат (BYN):</div>
               <div style="display:flex; gap:8px;">
-                <input type="number" step="1" name="limit" placeholder="Например: 10.00" class="moby-input" style="padding:8px 10px; font-size:13px;" required min="1">
-                <button type="submit" class="btn-moby btn-moby-orange" style="font-size:12px; padding:8px 12px;">ОК</button>
+                <input type="number" step="1" name="limit" placeholder="Например: 10.00" class="moby-input" style="padding:8px 12px; font-size:13px;" required min="1">
+                <button type="submit" class="btn-moby btn-moby-orange" style="font-size:12px; padding:8px 14px;">ОК</button>
               </div>
             </form>
           </div>
 
           <div style="display:flex; flex-direction:column; gap: 8px;">
             ${cats.map(cat => `
-              <div style="display:flex; align-items:center; justify-content:space-between; background:#111520; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
+              <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-surface-subtle); padding:10px 14px; border-radius:12px; border:1px solid var(--border-subtle);">
                 <div>
-                  <div style="font-size: 13px; font-weight: 700; color: ${cat.isBlocked ? 'var(--moby-red, #E42C26)' : 'white'};">
+                  <div style="font-size: 13.5px; font-weight: 700; color: ${cat.isBlocked ? 'var(--mt-red)' : 'var(--text-primary)'};">
                     ${cat.isBlocked ? '🚫 ' : ''}${escapeHtml(cat.category)}
                   </div>
-                  <div style="font-size: 11px; color: var(--moby-text-dim);">
-                    Лимит: ${cat.limitAmount > 0 ? `<strong style="color:var(--mt-orange, #FF5912);">${Number(cat.limitAmount).toFixed(2)} BYN</strong>` : 'без ограничений'}
-                    ${cat.isBlocked ? ' • <span style="color:var(--moby-red, #E42C26); font-weight:700;">Траты запрещены</span>' : ''}
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top:2px;">
+                    Лимит: ${cat.limitAmount > 0 ? `<strong style="color:var(--mt-orange);">${Number(cat.limitAmount).toFixed(2)} BYN</strong>` : 'без ограничений'}
+                    ${cat.isBlocked ? ' • <span style="color:var(--mt-red); font-weight:700;">Траты запрещены</span>' : ''}
                   </div>
                 </div>
                 <form action="/child-action/toggle-category-block" method="POST" style="margin:0;">
                   <input type="hidden" name="childId" value="${child.id}">
                   <input type="hidden" name="category" value="${escapeHtml(cat.category)}">
-                  <button type="submit" class="btn-moby ${cat.isBlocked ? 'btn-moby-orange' : 'btn-moby-outline'}" style="font-size:11px; padding:5px 10px;">
+                  <button type="submit" class="btn-moby ${cat.isBlocked ? 'btn-moby-orange' : 'btn-moby-outline'}" style="font-size:11px; padding:6px 12px;">
                     ${cat.isBlocked ? 'Разрешить' : 'Запретить'}
                   </button>
                 </form>
@@ -566,17 +572,17 @@ function renderLimitsModalHtml(child) {
         </div>
 
         <!-- Награда за квиз -->
-        <div style="background:#111520; border:1px solid rgba(255,255,255,0.08); padding:14px; border-radius:14px; margin-top:16px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <div style="font-size: 13px; font-weight: 800; color: white; display:flex; align-items:center; gap: 6px;">
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:14px; border-radius:14px; margin-top:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="font-size: 13.5px; font-weight: 800; color: var(--text-primary); display:flex; align-items:center; gap: 6px;">
               <span>🧠</span>
               <span>Награда за пройденный квиз</span>
             </div>
-            <span style="font-size: 11px; font-weight: 800; color: var(--mt-orange, #FF5912); background: rgba(255,89,18,0.15); padding: 2px 8px; border-radius: 8px;">
+            <span style="font-size: 12px; font-weight: 800; color: var(--mt-orange); background: var(--mt-orange-light); border:1px solid var(--mt-orange-border); padding: 3px 8px; border-radius: 8px;">
               ${Number(child.quizRewardAmount !== undefined ? child.quizRewardAmount : 2.00).toFixed(2)} BYN
             </span>
           </div>
-          <div style="font-size: 11px; color: var(--moby-text-dim); margin-bottom: 10px;">
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
             Сумма, которая выплачивается на карту ребенка, когда он правильно ответит на все вопросы из квиза
           </div>
           <form action="/child-action/set-quiz-reward" method="POST" style="display:flex; gap: 8px;">
@@ -601,35 +607,35 @@ function renderPiggyMatchModalHtml(child) {
       <div class="moby-modal-dialog">
         <button class="moby-modal-close" onclick="closeModal('piggyMatchModal_${child.id}')">✕</button>
 
-        <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 16px;">
-          <span style="font-size: 26px;">🐷</span>
+        <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 18px;">
+          <span style="font-size: 28px;">🐷</span>
           <div>
-            <div style="font-size: 17px; font-weight: 800; color: white;">Софинансирование Копилки</div>
-            <div style="font-size: 12px; color: var(--moby-text-muted);">
-              Счет ребенка: <strong style="color:white;">${escapeHtml(child.name)}</strong>
+            <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Софинансирование Копилки</div>
+            <div style="font-size: 13px; color: var(--text-muted);">
+              Счет ребенка: <strong style="color:var(--text-primary);">${escapeHtml(child.name)}</strong>
             </div>
           </div>
         </div>
 
-        <div style="background:#111520; border:1px solid rgba(255,255,255,0.08); padding:16px; border-radius:14px; margin-bottom:18px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:12px; color:var(--moby-text-muted);">Бонус родителя к пополнению:</span>
-            <span id="piggyMatchValDisplay_${child.id}" style="font-size:18px; font-weight:900; color:var(--mt-orange, #FF5912);">+${currentPct}%</span>
+        <div style="background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); padding:16px; border-radius:14px; margin-bottom:18px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:13px; color:var(--text-secondary); font-weight:600;">Бонус родителя к пополнению:</span>
+            <span id="piggyMatchValDisplay_${child.id}" style="font-size:20px; font-weight:900; color:var(--mt-orange);">+${currentPct}%</span>
           </div>
-          <input type="range" id="piggyMatchSlider_${child.id}" min="0" max="100" step="5" value="${currentPct}" style="width:100%; accent-color:var(--mt-orange, #FF5912);" oninput="updateMatchPreview('${child.id}')">
+          <input type="range" id="piggyMatchSlider_${child.id}" min="0" max="100" step="5" value="${currentPct}" style="width:100%; accent-color:var(--mt-orange);" oninput="updateMatchPreview('${child.id}')">
 
-          <div style="display:flex; gap:6px; margin-top:10px;">
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:4px 0;" onclick="setMatchPercent('${child.id}', 25)">+25%</button>
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:4px 0;" onclick="setMatchPercent('${child.id}', 50)">+50%</button>
-            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:11px; padding:4px 0;" onclick="setMatchPercent('${child.id}', 100)">+100%</button>
+          <div style="display:flex; gap:8px; margin-top:12px;">
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:12px; padding:6px 0;" onclick="setMatchPercent('${child.id}', 25)">+25%</button>
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:12px; padding:6px 0;" onclick="setMatchPercent('${child.id}', 50)">+50%</button>
+            <button type="button" class="btn-moby btn-moby-outline" style="flex:1; font-size:12px; padding:6px 0;" onclick="setMatchPercent('${child.id}', 100)">+100%</button>
           </div>
         </div>
 
-        <div id="piggyMatchCalcPreview_${child.id}" style="background:#0D1426; border:1px dashed rgba(59,130,246,0.3); border-radius:12px; padding:12px; font-size:12px; color:#CBD5E1; margin-bottom:18px; line-height:1.5;">
-          💡 Если ребенок отложит <strong>10.00 BYN</strong>: вы добавите <strong style="color:var(--mt-orange, #FF5912);">+${(10 * (currentPct / 100)).toFixed(2)} BYN</strong>, а в копилку поступит <strong style="color:#10B981;">${(10 * (1 + currentPct / 100)).toFixed(2)} BYN</strong>!
+        <div id="piggyMatchCalcPreview_${child.id}" style="background:var(--mt-blue-light); border:1px dashed var(--mt-blue-border); border-radius:12px; padding:14px; font-size:13px; color:var(--text-primary); margin-bottom:20px; line-height:1.55;">
+          💡 Если ребенок отложит <strong>10.00 BYN</strong>: вы добавите <strong style="color:var(--mt-orange);">+${(10 * (currentPct / 100)).toFixed(2)} BYN</strong>, а в копилку поступит <strong style="color:var(--mt-green);">${(10 * (1 + currentPct / 100)).toFixed(2)} BYN</strong>!
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
           <button type="button" class="btn-moby btn-moby-outline" onclick="closeModal('piggyMatchModal_${child.id}')">Отмена</button>
           <button type="button" class="btn-moby btn-moby-orange" onclick="savePiggyMatch('${child.id}')">Сохранить бонус 🐷</button>
         </div>
@@ -652,12 +658,12 @@ function openChildDetailsModal(childId) {
   const txList = (state.childTransactions || []).filter(t => t.child_id === child.id);
 
   content.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 14px;">
-      <div style="display:flex; align-items:center; gap: 10px;">
-        <span style="font-size: 28px;">${child.avatar || '🦁'}</span>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 16px;">
+      <div style="display:flex; align-items:center; gap: 12px;">
+        <span style="font-size: 32px;">${child.avatar || '🦁'}</span>
         <div>
-          <div style="font-size: 18px; font-weight: 800; color: white;">${escapeHtml(child.name)} (${child.age} лет)</div>
-          <div style="font-size: 11px; color: var(--moby-text-muted);">${escapeHtml(child.cardNumber)}</div>
+          <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">${escapeHtml(child.name)} (${child.age} лет)</div>
+          <div style="font-size: 12px; color: var(--text-muted);">${escapeHtml(child.cardNumber)}</div>
         </div>
       </div>
       <button type="button" class="card-pill-btn ${isFrozen ? 'pill-orange' : 'pill-blue'}" onclick="MobyStorage.toggleCardLock('${child.id}'); openChildDetailsModal('${child.id}');">
@@ -666,35 +672,35 @@ function openChildDetailsModal(childId) {
     </div>
 
     <!-- Баланс и Копилка -->
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-      <div style="background:#111520; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
-        <div style="font-size:11px; color:var(--moby-text-dim);">Баланс счета</div>
-        <div style="font-size:20px; font-weight:900; color:white; margin-top:4px;">${Number(child.balance).toFixed(2)} BYN</div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;">
+      <div style="background:var(--bg-surface-subtle); padding:14px; border-radius:14px; border:1px solid var(--border-subtle);">
+        <div style="font-size:11px; text-transform:uppercase; font-weight:700; color:var(--text-muted);">Баланс счета</div>
+        <div style="font-size:22px; font-weight:900; color:var(--text-primary); margin-top:4px;">${Number(child.balance).toFixed(2)} BYN</div>
       </div>
-      <div style="background:#111520; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
-        <div style="font-size:11px; color:var(--moby-text-dim);">Копилка (${escapeHtml(child.piggyName || 'Мечта')})</div>
-        <div style="font-size:20px; font-weight:900; color:#10B981; margin-top:4px;">${Number(child.piggySaved).toFixed(2)} / ${Number(child.piggyGoal).toFixed(2)} BYN</div>
+      <div style="background:var(--bg-surface-subtle); padding:14px; border-radius:14px; border:1px solid var(--border-subtle);">
+        <div style="font-size:11px; text-transform:uppercase; font-weight:700; color:var(--text-muted);">Копилка (${escapeHtml(child.piggyName || 'Мечта')})</div>
+        <div style="font-size:22px; font-weight:900; color:var(--mt-green); margin-top:4px;">${Number(child.piggySaved).toFixed(2)} / ${Number(child.piggyGoal).toFixed(2)} BYN</div>
       </div>
     </div>
 
     <!-- История операций ребенка -->
-    <div style="margin-bottom: 14px;">
-      <div style="font-size: 13px; font-weight: 800; color: white; margin-bottom: 8px;">Последние операции по карте:</div>
-      <div style="max-height: 220px; overflow-y: auto; display:flex; flex-direction:column; gap:6px;">
+    <div style="margin-bottom: 16px;">
+      <div style="font-size: 14px; font-weight: 800; color: var(--text-primary); margin-bottom: 10px;">Последние операции по карте:</div>
+      <div style="max-height: 220px; overflow-y: auto; display:flex; flex-direction:column; gap:8px;">
         ${txList.length > 0 ? txList.map(tx => `
-          <div style="display:flex; justify-content:space-between; align-items:center; background:#111520; padding:8px 12px; border-radius:10px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span>${tx.category_icon || '💳'}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface-subtle); padding:10px 14px; border-radius:12px; border:1px solid var(--border-subtle);">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:18px;">${tx.category_icon || '💳'}</span>
               <div>
-                <div style="font-size:12px; font-weight:700; color:white;">${escapeHtml(tx.title)}</div>
-                <div style="font-size:10px; color:var(--moby-text-dim);">${tx.date} • ${tx.category}</div>
+                <div style="font-size:13px; font-weight:700; color:var(--text-primary);">${escapeHtml(tx.title)}</div>
+                <div style="font-size:11px; color:var(--text-muted);">${tx.date} • ${tx.category}</div>
               </div>
             </div>
-            <div style="font-size:12px; font-weight:800; color:${tx.amount > 0 ? '#10B981' : '#F87171'};">
+            <div style="font-size:13px; font-weight:800; color:${tx.amount > 0 ? 'var(--mt-green)' : 'var(--mt-red)'};">
               ${tx.amount > 0 ? '+' : ''}${Number(tx.amount).toFixed(2)} BYN
             </div>
           </div>
-        `).join('') : '<div style="font-size:11px; color:var(--moby-text-muted); text-align:center; padding:10px;">Пока нет операций</div>'}
+        `).join('') : '<div style="font-size:12px; color:var(--text-muted); text-align:center; padding:14px;">Пока нет операций</div>'}
       </div>
     </div>
   `;

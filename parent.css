@@ -1,363 +1,342 @@
+/* parent.css - MTBank Moby Family Parent Dashboard (Light Bento Design System) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 :root {
-  --moby-bg: #0D111D;
-  --moby-surface: #161B26;
-  --moby-surface-hover: #1D2332;
-  --moby-card-border: rgba(255, 255, 255, 0.08);
-  --moby-card-border-active: rgba(255, 89, 18, 0.4);
-  --moby-blue: #2334C8;
-  --moby-blue-bright: #3B5BFF;
-  --moby-blue-glow: rgba(35, 52, 200, 0.35);
-  --moby-orange: #FF5912;
-  --moby-orange-glow: rgba(255, 89, 18, 0.35);
-  --moby-red: #E42C26;
-  --moby-green: #10B981;
-  --moby-amber: #F59E0B;
-  --moby-text: #FFFFFF;
-  --moby-text-muted: #8F9CAE;
-  --moby-text-dim: #5C697D;
+  /* Brandbook Colors & Bento Surfaces */
+  --bg-page: #F0F6FC;
+  --bg-surface: #E7F4FF; /* MT Cloud Blue - карточки синие/голубые */
+  --bg-surface-subtle: #DDF0FF;
+  --border-subtle: #97CFFF; /* MT Sky Blue */
+  --border-hover: #2334C8;
+  --text-primary: #141416;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+
+  /* MTBank Official Brandbook Colors */
+  --mt-blue: #2334C8;
+  --mt-blue-hover: #1927AA;
+  --mt-blue-light: #E7F4FF;
+  --mt-blue-border: #97CFFF;
+  --mt-orange: #FF5912;
+  --mt-orange-hover: #E84D0C;
+  --mt-orange-light: #FFF4EE;
+  --mt-orange-border: #FED7AA;
+  --mt-red: #E42C26;
+  --mt-red-hover: #C5221D;
+  --mt-red-light: #FEF2F2;
+  --mt-red-border: #FECACA;
+  --mt-cloud-blue: #E7F4FF;
+  --mt-sky-blue: #97CFFF;
+  --mt-soft-blue: #82AED3;
+  --mt-white: #FFFFFF;
+  --mt-black: #141416;
+  --mt-green: #10B981;
+  --mt-green-light: #ECFDF5;
+  --mt-green-border: #A7F3D0;
+  --mt-amber: #F59E0B;
+
+  /* Bento Elevation & Radii */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-bento: 0 1px 3px rgba(0, 0, 0, 0.03), 0 8px 24px -4px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 16px 32px -4px rgba(0, 0, 0, 0.08);
   --radius-xs: 8px;
   --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  --radius-md: 16px;
+  --radius-card: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Legacy variable aliases for full app compatibility */
+  --moby-bg: var(--bg-page);
+  --moby-surface: var(--bg-surface);
+  --moby-surface-hover: var(--bg-surface-subtle);
+  --moby-card-border: var(--border-subtle);
+  --moby-card-border-active: var(--mt-orange-border);
+  --moby-blue: var(--mt-blue);
+  --moby-blue-bright: #3B82F6;
+  --moby-orange: var(--mt-orange);
+  --moby-red: var(--mt-red);
+  --moby-green: var(--mt-green);
+  --moby-amber: var(--mt-amber);
+  --moby-text: var(--text-primary);
+  --moby-text-muted: var(--text-secondary);
+  --moby-text-dim: var(--text-muted);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #07090F;
-  color: var(--moby-text);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  line-height: 1.45;
+  justify-content: flex-start;
+  padding: 24px 20px 80px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  padding: 16px 0 24px 0;
-  background: radial-gradient(circle at 50% 20%, #151C30 0%, #07090F 70%);
+  position: relative;
 }
 
-/* ОБОЛОЧКА СМАРТФОНА */
-.phone-viewport-container {
+/* Subtle Bento Background Grid Pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(35, 52, 200, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(255, 89, 18, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* RESPONSIVE BENTO APPLICATION CONTAINER */
+.phone-viewport-container,
+.bento-app-container {
   width: 100%;
-  max-width: 420px;
-  height: 860px;
-  max-height: calc(100vh - 70px);
-  background: var(--moby-bg);
-  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  border-radius: 48px;
-  border: 12px solid #1C2333;
-  outline: 2px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(0, 0, 0, 0.8);
-  overflow: hidden;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  overflow: visible;
 }
 
-@media (max-width: 600px) {
-  html, body {
-    width: 100%;
-    height: 100%;
-    height: 100dvh;
-    overflow: hidden;
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    background: var(--moby-bg);
-  }
-
-  .phone-viewport-container {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 100% !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
-    border: none !important;
-    border-radius: 0 !important;
-    outline: none !important;
-    box-shadow: none !important;
-    margin: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
-    position: relative !important;
-  }
-
-  .dynamic-island {
-    display: none !important;
-  }
-
-  .moby-top-header {
-    flex-shrink: 0 !important;
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 30 !important;
-    padding-top: max(14px, env(safe-area-inset-top)) !important;
-  }
-
-  .header-quick-actions {
-    flex-shrink: 0 !important;
-  }
-
-  .moby-content-scroll {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
-    padding-bottom: calc(40px + env(safe-area-inset-bottom)) !important;
-  }
-}
-
-/* Dynamic Island Mockup (только для десктопа) */
+/* Hide legacy dynamic island on desktop/bento */
 .dynamic-island {
-  display: none;
-}
-@media (min-width: 600px) {
-  .dynamic-island {
-    display: block;
-    width: 120px;
-    height: 30px;
-    background: #000000;
-    border-radius: 20px;
-    margin: 10px auto 4px;
-    z-index: 100;
-  }
+  display: none !important;
 }
 
-/* ВЕРХНИЙ БАННЕР MOBY FAMILY */
+/* ==========================================================================
+   BENTO HEADER: BRAND & CONTROLS
+   ========================================================================== */
 .moby-top-header {
-  background: linear-gradient(135deg, #1B2BB2 0%, #293EEB 50%, #FF5912 85%, #E42C26 100%);
-  padding: 14px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 16px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-bento);
+  flex-wrap: wrap;
+  gap: 14px;
 }
 
 .moby-user-badge {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .moby-avatar {
-  width: 38px;
-  height: 38px;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  background: var(--mt-blue-light);
+  border: 1px solid var(--mt-blue-border);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  font-size: 22px;
 }
 
 .moby-user-name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
-  color: #FFFFFF;
-  line-height: 1.2;
+  color: var(--text-primary);
+  line-height: 1.25;
 }
 
 .moby-user-status {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  color: var(--text-muted);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  margin-top: 2px;
 }
 
 .status-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: #10B981;
+  background: var(--mt-green);
+  box-shadow: 0 0 0 2px var(--mt-green-light);
+}
+
+.header-quick-actions,
+.header-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .moby-brand-tag {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 5px 10px;
+  gap: 7px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.moby-brand-tag:hover {
+  background: var(--border-subtle);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
 }
 
 .moby-logo-m {
-  background: var(--moby-orange);
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, var(--mt-orange) 0%, #EA580C 100%);
   color: white;
   font-weight: 900;
   font-size: 11px;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 5px;
 }
 
 .moby-brand-text {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.5px;
+  color: var(--text-primary);
   text-transform: uppercase;
 }
 
-/* Header Action Row */
-.header-quick-actions {
+.btn-switch-role {
+  background: var(--mt-blue-light);
+  border: 1px solid var(--mt-blue-border);
+  color: var(--mt-blue);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.btn-switch-role:hover {
+  background: var(--mt-blue);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   BENTO GRID LAYOUT FOR SECTIONS
+   ========================================================================== */
+.moby-content-scroll {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  align-items: start;
+  width: 100%;
+}
+
+/* Grid Column Assignments for 12-column Bento Layout */
+.bento-span-12 { grid-column: span 12; }
+.bento-span-7  { grid-column: span 7; }
+.bento-span-6  { grid-column: span 6; }
+.bento-span-5  { grid-column: span 5; }
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .moby-content-scroll {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .bento-span-12,
+  .bento-span-7,
+  .bento-span-6,
+  .bento-span-5 {
+    grid-column: span 1 !important;
+  }
+}
+
+/* ==========================================================================
+   BENTO CARDS & SURFACES
+   ========================================================================== */
+.moby-block {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 22px;
+  box-shadow: var(--shadow-bento);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.moby-block:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-hover);
+}
+
+.moby-block-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px 4px;
-}
-
-/* ОСНОВНОЙ КОНТЕНТ */
-.moby-content-scroll {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 10px 16px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* КАРТОЧКА СЧЕТА РЕБЕНКА В СТИЛЕ СКРИНШОТА */
-.child-card-banner {
-  background: linear-gradient(135deg, #1C274C 0%, #171E36 50%, #202B52 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.child-card-banner:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 36px rgba(35, 52, 200, 0.3);
-}
-
-/* Фирменный оранжево-красный срез луча в углу карты */
-.card-brand-corner-ray {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, transparent 40%, rgba(255, 89, 18, 0.35) 60%, rgba(228, 44, 38, 0.5) 100%);
-  pointer-events: none;
-}
-
-/* Золотистый чип карты */
-.card-gold-chip {
-  width: 32px;
-  height: 24px;
-  background: linear-gradient(135deg, #ECC94B 0%, #D69E2E 50%, #B7791F 100%);
-  border-radius: 5px;
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.3);
-  border: 1px solid #975A16;
-}
-
-.card-balance-caption {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--moby-text-muted);
-  margin-bottom: 4px;
-}
-
-.card-balance-val {
-  font-size: 38px;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  color: #FFFFFF;
-  line-height: 1.1;
   margin-bottom: 16px;
 }
 
-.card-balance-val .byn-accent {
-  color: var(--moby-red);
-  font-size: 20px;
+.moby-block-title {
+  font-size: 16px;
   font-weight: 800;
-  margin-left: 4px;
-}
-
-/* Кнопки-пилюли внутри карты (сетка 2x2) */
-.card-pills-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 10px;
-  margin-bottom: 14px;
-}
-
-.card-pill-btn {
-  padding: 9px 10px;
-  border-radius: 20px;
-  font-size: 11.5px;
-  font-weight: 700;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
+  gap: 8px;
+  letter-spacing: -0.01em;
 }
 
-.card-pill-btn:hover {
-  opacity: 0.9;
-}
-
-.pill-orange {
-  background: linear-gradient(90deg, #FF5912 0%, #FF783E 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(255, 89, 18, 0.3);
-}
-
-.pill-blue {
-  background: linear-gradient(90deg, #1C2BB8 0%, #2840D8 100%);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.card-footer-limit {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+.moby-badge-tag {
   font-size: 11px;
-  color: var(--moby-text-muted);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
 }
 
-/* КАРУСЕЛЬ ДЕТЕЙ */
+/* ==========================================================================
+   CHILD CARD (CAROUSEL FINTECH CARD)
+   ========================================================================== */
 .carousel-track-wrapper {
   overflow: hidden;
   position: relative;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
 }
 
 .carousel-cards-track {
   display: flex;
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
 }
 
@@ -366,66 +345,156 @@ body {
   max-width: 100%;
 }
 
+.child-card-banner {
+  background: linear-gradient(135deg, #2334C8 0%, #152296 100%);
+  border: 1px solid rgba(151, 207, 255, 0.4);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 24px -2px rgba(35, 52, 200, 0.3);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  color: #FFFFFF;
+}
+
+.child-card-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -2px rgba(35, 52, 200, 0.4);
+}
+
+.card-brand-corner-ray {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  height: 140px;
+  background: linear-gradient(135deg, transparent 40%, rgba(255, 89, 18, 0.5) 60%, rgba(228, 44, 38, 0.65) 100%);
+  pointer-events: none;
+}
+
+.card-gold-chip {
+  width: 34px;
+  height: 25px;
+  background: linear-gradient(135deg, #ECC94B 0%, #D69E2E 50%, #B7791F 100%);
+  border-radius: 6px;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #975A16;
+}
+
+.card-balance-caption {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 4px;
+}
+
+.card-balance-val {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.card-balance-val .byn-accent {
+  color: var(--mt-orange);
+  font-size: 18px;
+  font-weight: 800;
+  margin-left: 4px;
+}
+
+/* Card Action Pills Grid */
+.card-pills-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 640px) {
+  .card-pills-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.card-pill-btn {
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+
+.pill-orange {
+  background: var(--mt-orange);
+  color: white;
+  border: 1px solid var(--mt-red);
+}
+.pill-orange:hover {
+  background: var(--mt-orange-hover);
+  transform: translateY(-1px);
+}
+
+.pill-blue {
+  background: #18259E;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.pill-blue:hover {
+  background: #131E82;
+  transform: translateY(-1px);
+}
+
+.card-footer-limit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
 .carousel-dots-bar {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .moby-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--moby-text-dim);
-  transition: all 0.2s;
+  background: var(--border-hover);
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .moby-dot.active {
-  width: 18px;
-  border-radius: 4px;
-  background: var(--moby-orange);
+  width: 22px;
+  border-radius: 6px;
+  background: var(--mt-orange);
 }
 
-/* ТЕМНЫЕ БЛОКИ (СЕКЦИИ) В СТИЛЕ СКРИНШОТА */
-.moby-block {
-  background: var(--moby-surface);
-  border: 1px solid var(--moby-card-border);
-  border-radius: var(--radius-lg);
-  padding: 18px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-}
-
-.moby-block-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
-.moby-block-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.moby-badge-tag {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--moby-text-muted);
-}
-
-/* ЛИМИТЫ (СТРОКИ С ПРОГРЕСС-БАРАМИ КАК НА СКРИНЕ) */
+/* ==========================================================================
+   LIMITS BARS (BENTO METRIC TILES)
+   ========================================================================== */
 .limit-bar-row {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .limit-bar-labels {
@@ -433,42 +502,78 @@ body {
   justify-content: space-between;
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 4px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
 }
 
 .limit-bar-track {
-  height: 5px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
+  height: 8px;
+  background: var(--bg-surface-subtle);
+  border-radius: 6px;
   overflow: hidden;
+  border: 1px solid var(--border-subtle);
 }
 
 .limit-bar-fill {
   height: 100%;
-  border-radius: 4px;
+  border-radius: 5px;
+  transition: width 0.3s ease;
 }
 
-.fill-orange { background: var(--moby-orange); }
-.fill-blue { background: var(--moby-blue-bright); }
-.fill-sky { background: #60A5FA; }
+.fill-orange { background: var(--mt-orange); }
+.fill-blue   { background: var(--mt-blue); }
+.fill-sky    { background: #38BDF8; }
 
-/* ЗАДАНИЯ ОТ РОДИТЕЛЕЙ (КАРТОЧКИ В ТОЧНОСТИ КАК НА СКРИНЕ) */
-.task-card-moby {
-  background: #111520;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+/* ==========================================================================
+   TASKS & REQUESTS (MODULAR BENTO SUB-TILES)
+   ========================================================================== */
+.task-card-moby,
+.request-banner-moby {
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 10px;
+  transition: border-color 0.16s ease;
 }
 
-.task-card-top-row {
+.task-card-moby:hover,
+.request-banner-moby:hover {
+  border-color: var(--border-hover);
+}
+
+.task-card-top-row,
+.request-banner-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.task-title-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.task-reward-badge {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--mt-green);
+}
+
+.task-status-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .task-actions-row {
@@ -476,105 +581,59 @@ body {
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border-subtle);
   padding-top: 8px;
 }
 
 .btn-task-action-mini {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--moby-text-muted);
-  border-radius: var(--radius-sm);
-  padding: 4px 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  padding: 5px 10px;
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
 .btn-task-action-mini:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--border-subtle);
+  color: var(--text-primary);
 }
 
 .btn-task-action-mini.delete {
-  color: var(--moby-red);
-  border-color: rgba(228, 44, 38, 0.35);
+  color: var(--mt-red);
 }
-
 .btn-task-action-mini.delete:hover {
-  background: rgba(228, 44, 38, 0.15);
-  border-color: var(--moby-red);
-}
-
-.task-title-text {
-  font-size: 13px;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-bottom: 3px;
-}
-
-.task-reward-badge {
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--moby-green);
-}
-
-.task-status-btn {
-  background: rgba(245, 158, 11, 0.15);
-  color: var(--moby-amber);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-/* БЛОК ЗАПРОСОВ ОТ ДЕТЕЙ (КАК НА СКРИНЕ: "ПОПРОСИТЬ У РОДИТЕЛЕЙ") */
-.request-banner-moby {
-  background: #121724;
-  border: 1.5px solid rgba(255, 89, 18, 0.3);
-  border-radius: var(--radius-md);
-  padding: 14px;
-  margin-bottom: 10px;
-}
-
-.request-banner-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  background: var(--mt-red-light);
+  border-color: var(--mt-red-border);
 }
 
 .request-child-tag {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .request-amount-pill {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
-  color: var(--moby-orange);
+  color: var(--mt-orange);
 }
 
-.request-btns-row {
-  display: flex;
-  gap: 8px;
-}
-
-/* РОДИТЕЛЬСКИЕ ОПЕРАЦИИ (ТРАНЗАКЦИИ) */
+/* ==========================================================================
+   TRANSACTIONS LIST (CLEAN BENTO ROWS)
+   ========================================================================== */
 .parent-tx-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .parent-tx-row:last-child {
@@ -582,141 +641,172 @@ body {
 }
 
 .tx-icon-pill {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07);
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--mt-blue-light);
+  color: var(--mt-blue);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 18px;
 }
 
-/* КНОПКИ */
+/* ==========================================================================
+   BUTTONS (BENTO FINTECH PALETTE)
+   ========================================================================== */
 .btn-moby {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 16px;
+  padding: 10px 18px;
   font-size: 13px;
   font-weight: 700;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
   border: none;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all 0.18s ease;
 }
 
 .btn-moby-orange {
-  background: linear-gradient(90deg, #FF5912 0%, #FF783E 100%);
+  background: var(--mt-orange);
   color: white;
-  box-shadow: 0 4px 14px rgba(255, 89, 18, 0.35);
+  box-shadow: 0 2px 8px rgba(255, 89, 18, 0.25);
 }
-
 .btn-moby-orange:hover {
-  filter: brightness(1.1);
+  background: var(--mt-orange-hover);
   transform: translateY(-1px);
 }
 
 .btn-moby-blue {
-  background: linear-gradient(90deg, #2334C8 0%, #3047EB 100%);
+  background: var(--mt-blue);
   color: white;
-  box-shadow: 0 4px 14px rgba(35, 52, 200, 0.35);
+  box-shadow: 0 2px 8px rgba(35, 52, 200, 0.25);
+}
+.btn-moby-blue:hover {
+  background: var(--mt-blue-hover);
+  transform: translateY(-1px);
 }
 
 .btn-moby-outline {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--moby-text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
 }
-
 .btn-moby-outline:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: white;
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
 }
 
 .btn-moby-success {
-  background: #10B981;
+  background: var(--mt-green);
   color: white;
 }
+.btn-moby-success:hover {
+  background: #059669;
+}
 
-/* МОДАЛЬНЫЕ ОКНА (DARK MOBY STYLE) */
+/* ==========================================================================
+   MODALS (LIGHT BENTO DIALOGS)
+   ========================================================================== */
 .moby-modal-backdrop {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 16px;
+  padding: 20px;
 }
 
 .moby-modal-dialog {
-  background: #161B26;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  max-width: 420px;
+  max-width: 480px;
   width: 100%;
-  padding: 24px 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  padding: 28px 24px;
+  box-shadow: 0 24px 64px -8px rgba(15, 23, 42, 0.2);
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  color: var(--text-primary);
+  animation: bentoModalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bentoModalPop {
+  0%   { opacity: 0; transform: scale(0.96) translateY(8px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .moby-modal-close {
   position: absolute;
-  top: 18px;
-  right: 18px;
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
-  color: var(--moby-text-muted);
-  width: 30px;
-  height: 30px;
+  top: 20px;
+  right: 20px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+.moby-modal-close:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
 }
 
-/* ФОРМЫ (DARK) */
+/* Form inputs in Light Bento */
 .moby-input, .moby-select {
   width: 100%;
-  background: #0E131F;
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--bg-surface-subtle);
+  border: 1.5px solid var(--border-subtle);
+  color: var(--text-primary);
   padding: 12px 14px;
   border-radius: var(--radius-sm);
   font-size: 14px;
   font-family: inherit;
-  transition: all 0.2s;
+  transition: all 0.18s ease;
 }
 
 .moby-input:focus, .moby-select:focus {
   outline: none;
-  border-color: var(--moby-orange);
-  box-shadow: 0 0 0 3px rgba(255, 89, 18, 0.2);
+  background: #FFFFFF;
+  border-color: var(--mt-blue);
+  box-shadow: 0 0 0 3px rgba(35, 52, 200, 0.12);
 }
 
-/* НИЖНИЙ ТАБ-БАР (IPHONE BOTTOM NAVIGATION) */
+/* ==========================================================================
+   BOTTOM NAVIGATION BAR (CLEAN DOCK)
+   ========================================================================== */
 .iphone-tab-bar {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: rgba(18, 23, 34, 0.95);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px 0 16px;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  margin-top: auto;
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 40px;
+  padding: 10px 24px;
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 480px;
+  width: calc(100% - 40px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   z-index: 90;
 }
 
@@ -725,331 +815,55 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  color: var(--moby-text-dim);
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 10px;
-  font-weight: 600;
-  transition: color 0.2s;
+  font-size: 11px;
+  font-weight: 700;
+  transition: color 0.18s ease;
+  cursor: pointer;
 }
 
+.tab-bar-item:hover,
 .tab-bar-item.active {
-  color: var(--moby-blue-bright);
+  color: var(--mt-blue);
 }
 
 .tab-bar-item span.icon {
   font-size: 18px;
 }
 
-/* TOAST */
+/* ==========================================================================
+   TOAST
+   ========================================================================== */
 .moby-toast {
   position: fixed;
-  bottom: 80px;
+  bottom: 84px;
   left: 50%;
   transform: translateX(-50%);
-  background: #1E2536;
-  border: 1px solid var(--moby-orange);
-  color: white;
-  padding: 10px 18px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  display: none;
-  z-index: 9999;
-}
-
-/* MOBY ECOSYSTEM TOP BAR */
-.moby-ecosystem-bar {
-  width: 100%;
-  max-width: 960px;
-  background: rgba(13, 17, 29, 0.95);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 10px 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 100;
-}
-.moby-eco-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.moby-eco-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.moby-logo-m-mini {
-  width: 24px;
-  height: 24px;
-  background: var(--moby-orange);
-  color: white;
-  font-weight: 900;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-.moby-eco-text {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  color: white;
-}
-.moby-eco-links {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.moby-eco-tab {
-  background: #1A2234;
-  color: var(--moby-text-muted);
-  padding: 6px 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.2s;
-}
-.moby-eco-tab:hover, .moby-eco-tab.active {
-  background: var(--moby-blue);
-  color: white;
-  border-color: var(--moby-blue-bright);
-}
-.moby-eco-action-btn {
-  background: #252F47;
+  background: var(--text-primary);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 11px;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-size: 13px;
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.moby-eco-action-btn:hover {
-  background: #313D5C;
-}
-.moby-eco-action-btn.btn-highlight {
-  background: linear-gradient(135deg, #FF5912 0%, #E42C26 100%);
-  border: none;
-  box-shadow: 0 4px 12px rgba(255, 89, 18, 0.35);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 9999;
+  animation: bentoToastPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- SOS EMERGENCY STYLES --- */
-.btn-moby-red {
-  background: #DC2626 !important;
-  color: #FFFFFF !important;
-  border: 1px solid #EF4444 !important;
-  font-weight: 800 !important;
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4) !important;
+@keyframes bentoToastPop {
+  0%   { opacity: 0; transform: translate(-50%, 10px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
 }
 
-.btn-moby-red:hover {
-  background: #B91C1C !important;
+/* Inner slots inside Cloud Blue cards for optimal contrast per Brandbook */
+.moby-block .task-item,
+.moby-block .moby-tx-row,
+.moby-block .request-card,
+.moby-block .sponsor-sub-card,
+.moby-block .limit-row-box {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(151, 207, 255, 0.7) !important;
 }
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.02); opacity: 0.9; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* --- MAGIC QR ANIMATIONS --- */
-@keyframes laserSweep {
-  0% { top: 0%; opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-
-.qr-laser-beam {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #3B82F6, #60A5FA, transparent);
-  box-shadow: 0 0 12px #3B82F6;
-  animation: laserSweep 2.2s ease-in-out infinite;
-  pointer-events: none;
-}
-
-
-/* --- SOS EMERGENCY MODAL & MAP RADAR STYLES --- */
-.sos-alarm-beacon {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid #EF4444;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-}
-
-.sos-beacon-ping {
-  position: absolute;
-  inset: -4px;
-  border-radius: 14px;
-  border: 2px solid #EF4444;
-  animation: sosBeaconPing 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
-  pointer-events: none;
-}
-
-@keyframes sosBeaconPing {
-  0% { transform: scale(0.95); opacity: 0.9; }
-  100% { transform: scale(1.35); opacity: 0; }
-}
-
-.sos-map-preview-box {
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0B0E17;
-  position: relative;
-}
-
-.sos-map-inner-canvas {
-  height: 140px;
-  position: relative;
-  background: #0D121F;
-  background-image: 
-    radial-gradient(circle at 45% 48%, rgba(239, 68, 68, 0.15) 0%, transparent 60%),
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 20px 20px, 20px 20px;
-  overflow: hidden;
-}
-
-.sos-map-river {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 28%;
-  width: 18px;
-  background: #1E3A8A;
-  opacity: 0.6;
-  transform: skewX(-15deg);
-  border-left: 1px solid #3B82F6;
-  border-right: 1px solid #3B82F6;
-}
-
-.sos-map-street-h {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 8px;
-  background: #1E293B;
-  border-top: 1px dashed rgba(255,255,255,0.2);
-  border-bottom: 1px dashed rgba(255,255,255,0.2);
-}
-
-.sos-map-street-v {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 8px;
-  background: #1E293B;
-  border-left: 1px dashed rgba(255,255,255,0.2);
-  border-right: 1px dashed rgba(255,255,255,0.2);
-}
-
-.sos-map-street-label {
-  position: absolute;
-  font-size: 9px;
-  font-weight: 700;
-  color: #64748B;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: rgba(13, 18, 31, 0.85);
-  padding: 1px 4px;
-  border-radius: 4px;
-}
-
-.sos-map-landmark {
-  position: absolute;
-  font-size: 9px;
-  font-weight: 600;
-  color: #94A3B8;
-  background: rgba(15, 23, 42, 0.9);
-  padding: 2px 6px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.sos-pin-pulse-container {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 10;
-}
-
-.sos-pin-radar-ring, .sos-pin-radar-ring-delay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 44px;
-  height: 44px;
-  margin-top: -22px;
-  margin-left: -22px;
-  border-radius: 50%;
-  border: 2px solid #EF4444;
-  animation: sosRadarWave 2s ease-out infinite;
-  pointer-events: none;
-}
-
-.sos-pin-radar-ring-delay {
-  animation-delay: 1s;
-}
-
-@keyframes sosRadarWave {
-  0% { transform: scale(0.2); opacity: 1; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-
-.sos-pin-dot {
-  font-size: 20px;
-  filter: drop-shadow(0 0 8px #EF4444);
-  animation: sosPinBounce 1s ease-in-out infinite alternate;
-}
-
-@keyframes sosPinBounce {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-4px); }
-}
-
-.sos-pin-label {
-  font-size: 10px;
-  font-weight: 800;
-  color: #FFFFFF;
-  background: #EF4444;
-  padding: 2px 6px;
-  border-radius: 8px;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  margin-top: 2px;
-}
-
-.sos-map-address-bar {
-  background: #111827;
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-

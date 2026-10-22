@@ -4,40 +4,63 @@
    ========================================================================== */
 
 :root {
-  /* ОФИЦИАЛЬНАЯ ПАЛИТРА МТБАНКА */
-  --mt-blue: #2334C8;           /* MT Blue (60%): Основной цвет */
-  --mt-blue-hover: #1B2AA8;
-  --mt-blue-dark: #121D7A;
-  --mt-red: #E42C26;            /* MT Red (20%): Акцент риска, тревоги, опасности */
+  /* Brandbook Colors & Bento Surfaces */
+  --bg-page: #F0F6FC;
+  --bg-surface: #E7F4FF; /* MT Cloud Blue - карточки синие/голубые */
+  --bg-surface-subtle: #DDF0FF;
+  --border-subtle: #97CFFF; /* MT Sky Blue */
+  --border-hover: #2334C8;
+  --text-primary: #141416;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+
+  /* MTBank Brand Palette */
+  --mt-blue: #2334C8;
+  --mt-blue-hover: #1927AA;
+  --mt-blue-gradient: linear-gradient(135deg, #2334C8 0%, #152296 100%);
+  --mt-blue-light: #EEF2FF;
+  --mt-blue-border: #C7D2FE;
+  --mt-red: #E42C26;
   --mt-red-hover: #C5221D;
-  --mt-orange: #FF5912;         /* MT Orange (20%): Стрик, копилка, бонусы */
-  --mt-orange-hover: #E64B0B;
+  --mt-red-light: #FEF2F2;
+  --mt-red-border: #FECACA;
+  --mt-orange: #FF5912;
+  --mt-orange-hover: #E84D0C;
+  --mt-orange-light: #FFF4EE;
+  --mt-orange-border: #FED7AA;
+  --mt-green: #10B981;
+  --mt-green-light: #ECFDF5;
+  --mt-green-border: #A7F3D0;
+  --mt-purple: #8B5CF6;
+  --mt-purple-light: #FAF5FF;
+  --mt-purple-border: #E9D5FF;
 
-  /* ФОНОВЫЕ И ВСПОМОГАТЕЛЬНЫЕ ТОНА */
-  --mt-cloud-blue: #E7F4FF;     /* MT Cloud Blue: Фоновый оттенок */
-  --mt-sky-blue: #97CFFF;       /* MT Sky Blue: Вспомогательный фон */
-  --mt-soft-blue: #82AED3;      /* MT Soft Blue: Альтернативный фон плашек */
-
-  /* НЕЙТРАЛЬНЫЕ ТОНА */
+  /* Backward Compatibility Aliases */
+  --mt-cloud-blue: #EEF2FF;
+  --mt-sky-blue: #93C5FD;
+  --mt-soft-blue: #BFDBFE;
   --mt-white: #FFFFFF;
-  --mt-black: #141416;          /* Основной контрастный текст */
-  --mt-gray-bg: #F4F6F9;
+  --mt-black: #0F172A;
+  --mt-gray-bg: #F8FAFC;
   --mt-gray-border: #E2E8F0;
-  --mt-gray-text: #5A6578;
-  --mt-gray-muted: #8E9AAB;
+  --mt-gray-text: #475569;
+  --mt-gray-muted: #64748B;
 
-  /* ТЕНИ И СКРУГЛЕНИЯ */
-  --radius-xs: 6px;
+  /* Bento Elevation & Radii */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-bento: 0 1px 3px rgba(0, 0, 0, 0.03), 0 8px 24px -4px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 16px 32px -4px rgba(0, 0, 0, 0.08);
+  --mt-shadow-subtle: var(--shadow-sm);
+  --mt-shadow-card: var(--shadow-bento);
+  --mt-shadow-hero: 0 12px 32px -4px rgba(15, 23, 42, 0.25);
+  --mt-shadow-modal: 0 24px 64px -8px rgba(15, 23, 42, 0.2);
+  --radius-xs: 8px;
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
-  --radius-xl: 24px;
+  --radius-xl: 22px;
+  --radius-card: 22px;
   --radius-pill: 9999px;
-
-  --mt-shadow-subtle: 0 2px 8px rgba(35, 52, 200, 0.05);
-  --mt-shadow-card: 0 6px 20px rgba(35, 52, 200, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --mt-shadow-hero: 0 12px 32px rgba(35, 52, 200, 0.22), 0 2px 6px rgba(0, 0, 0, 0.06);
-  --mt-shadow-modal: 0 20px 48px rgba(20, 20, 22, 0.28);
 }
 
 /* СБРОС И БАЗОВЫЕ СТИЛИ */
@@ -50,81 +73,74 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #DCEAF8;
-  color: var(--mt-black);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 16px;
-  user-select: none;
+  justify-content: flex-start;
+  padding: 24px 20px 84px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(35, 52, 200, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(255, 89, 18, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .font-accent {
-  font-family: 'TikTok Sans', 'Inter', -apple-system, sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
+  letter-spacing: -0.02em;
 }
 
-/* МОБИЛЬНАЯ ОБОЛОЧКА (MOCKUP FRAME) */
+/* RESPONSIVE BENTO APPLICATION CONTAINER */
 .mobile-app-container {
   width: 100%;
-  max-width: 440px;
-  height: 860px;
-  max-height: calc(100vh - 40px);
-  background: var(--mt-cloud-blue);
-  border-radius: 40px;
-  box-shadow: 0 24px 60px rgba(18, 29, 122, 0.25), 0 0 0 10px #1E2330, 0 0 0 12px rgba(255, 255, 255, 0.3);
+  max-width: 1040px;
+  margin: 0 auto;
   position: relative;
-  overflow: hidden;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  overflow: visible;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-/* ВЫРЕЗ СПИКЕРА СМАРТФОНА */
+/* Hide notch on desktop / tablet */
 .phone-notch {
-  width: 100%;
-  height: 28px;
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  pointer-events: none;
+  display: none !important;
 }
 
-.speaker-pill {
-  width: 90px;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 3px;
-}
-
-/* 1. ШАПКА ПРИЛОЖЕНИЯ (HEADER) */
+/* 1. LIGHT BENTO HEADER */
 .app-header {
-  background: linear-gradient(135deg, #182394 0%, #2334C8 100%);
-  color: var(--mt-white);
-  padding: 34px 18px 14px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 16px 22px;
+  box-shadow: var(--shadow-bento);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(35, 52, 200, 0.15);
   flex-shrink: 0;
+  color: var(--text-primary);
 }
 
-/* Фирменные лучи МТБанка в шапке (MT Orange + MT Red) */
 .brand-rays-svg {
-  position: absolute;
-  top: 0;
-  right: -10px;
-  width: 180px;
-  height: 100%;
-  pointer-events: none;
-  opacity: 0.85;
+  display: none;
 }
-
-.ray-upper { fill: var(--mt-orange); }
-.ray-lower { fill: var(--mt-red); }
 
 .header-row {
   display: flex;
@@ -162,16 +178,16 @@ body {
 .user-name-badge {
   font-size: 15px;
   font-weight: 800;
-  color: #FFFFFF;
-  letter-spacing: -0.2px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .card-status-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
@@ -179,32 +195,30 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #10B981; /* зеленый активный */
-  box-shadow: 0 0 6px #10B981;
+  background: var(--mt-green);
+  box-shadow: 0 0 0 2px var(--mt-green-light);
 }
 
 .card-status-dot.blocked {
   background: var(--mt-red);
-  box-shadow: 0 0 6px var(--mt-red);
+  box-shadow: 0 0 0 2px var(--mt-red-light);
 }
 
 /* Moby Score Badge */
 .header-moby-score-pill {
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   padding: 6px 12px;
   display: flex;
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
 }
 
 .header-moby-score-pill:hover {
-  background: rgba(255, 255, 255, 0.24);
+  background: var(--border-subtle);
   transform: translateY(-1px);
 }
 
@@ -216,35 +230,27 @@ body {
 .score-val {
   font-size: 13px;
   font-weight: 800;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .score-lvl {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--mt-orange);
-  background: rgba(255, 89, 18, 0.2);
-  padding: 1px 5px;
+  background: var(--mt-orange-light);
+  border: 1px solid var(--mt-orange-border);
+  padding: 2px 6px;
   border-radius: 6px;
 }
 
 /* 2. ОСНОВНАЯ ОБЛАСТЬ КОНТЕНТА (SCROLL VIEW) */
 .app-content-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 16px 85px 16px;
+  width: 100%;
+  padding-bottom: 90px;
   position: relative;
   display: flex;
   flex-direction: column;
-}
-
-/* СКРЫТИЕ ПОЛОСЫ ПРОКРУТКИ */
-.app-content-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-.app-content-scroll::-webkit-scrollbar-thumb {
-  background: rgba(151, 207, 255, 0.5);
-  border-radius: 4px;
+  gap: 20px;
 }
 
 /* ВКЛАДКИ SPA (TAB PANES) */
@@ -257,7 +263,7 @@ body {
 .tab-pane.active {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 20px;
 }
 
 @keyframes fadeIn {
@@ -269,16 +275,21 @@ body {
    ЭКРАН «ГЛАВНАЯ» (HOME TAB)
    ========================================================================== */
 
-/* А. КАРТОЧКА СЧЕТА (HERO VIRTUAL CARD) */
+/* А. КАРТОЧКА СЧЕТА (HERO VIRTUAL CARD - Фирменный синий MT Blue) */
 .hero-account-card {
-  background: linear-gradient(135deg, #15228D 0%, #2334C8 55%, #0E164E 100%);
+  background: linear-gradient(135deg, #2334C8 0%, #152296 100%);
   border-radius: var(--radius-xl);
   padding: 20px 20px 18px 20px;
-  color: var(--mt-white);
-  box-shadow: var(--mt-shadow-hero);
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px -2px rgba(35, 52, 200, 0.3);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(151, 207, 255, 0.35);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-account-card:hover {
+  box-shadow: 0 12px 30px -2px rgba(35, 52, 200, 0.4);
 }
 
 /* Фоновые лучи на самой карте */
@@ -289,7 +300,7 @@ body {
   width: 170px;
   height: 140px;
   pointer-events: none;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .card-top-row {
@@ -311,18 +322,19 @@ body {
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.5px;
+  color: #FFFFFF;
 }
 
 .card-tag-teen {
   background: var(--mt-orange);
   color: #FFFFFF;
+  border: 1px solid var(--mt-red);
   font-size: 9px;
   font-weight: 800;
   padding: 2px 7px;
   border-radius: var(--radius-pill);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 6px rgba(255, 89, 18, 0.4);
 }
 
 .card-chip-nfc {
@@ -339,7 +351,7 @@ body {
 .card-contactless-svg {
   width: 16px;
   height: 16px;
-  fill: rgba(255, 255, 255, 0.85);
+  fill: #FFFFFF;
 }
 
 .card-balance-block {
@@ -352,9 +364,9 @@ body {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 4px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .balance-amount-row {
@@ -365,14 +377,14 @@ body {
 
 .balance-big-val {
   font-size: 34px;
-  font-weight: 800;
+  font-weight: 900;
   color: #FFFFFF;
   letter-spacing: -0.5px;
 }
 
 .balance-currency {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--mt-orange);
 }
 
@@ -381,12 +393,13 @@ body {
   align-items: center;
   justify-content: space-between;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
   font-family: monospace;
   letter-spacing: 1px;
   margin-bottom: 16px;
   position: relative;
   z-index: 2;
+  font-weight: 600;
 }
 
 /* Быстрые кнопки на карточке (P2P + Копилка) */
@@ -399,12 +412,10 @@ body {
 }
 
 .btn-card-action {
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  color: #FFFFFF;
+  color: var(--text-primary);
   padding: 10px 12px;
   font-size: 13px;
   font-weight: 700;
@@ -414,6 +425,35 @@ body {
   gap: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.btn-card-action.p2p {
+  background: #97CFFF;
+  border-color: #2334C8;
+  color: #2334C8;
+  font-weight: 800;
+}
+.btn-card-action.p2p svg {
+  fill: #2334C8;
+}
+.btn-card-action.p2p:hover {
+  background: #B6DEFF;
+  transform: translateY(-1px);
+}
+
+.btn-card-action:not(.p2p) {
+  background: #FF5912;
+  border-color: #E42C26;
+  color: #FFFFFF;
+  font-weight: 800;
+}
+.btn-card-action:not(.p2p) svg {
+  fill: #FFFFFF;
+}
+.btn-card-action:not(.p2p):hover {
+  background: #E84D0C;
+  transform: translateY(-1px);
 }
 
 .btn-card-action:hover {
@@ -979,19 +1019,24 @@ body {
    5. ФИКСИРОВАННАЯ НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (BOTTOM BAR)
    ========================================================================== */
 .bottom-nav-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 72px;
-  background: #FFFFFF;
-  border-top: 1px solid rgba(151, 207, 255, 0.45);
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 480px;
+  width: calc(100% - 40px);
+  height: 64px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 40px;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 16px 8px 16px;
-  z-index: 50;
-  box-shadow: 0 -4px 18px rgba(35, 52, 200, 0.08);
+  padding: 0 16px;
+  z-index: 90;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .nav-item-btn {
@@ -2335,7 +2380,7 @@ body {
     position: fixed;
     margin: 0;
     padding: 0;
-    background: #0F172A;
+    background: var(--bg-page);
   }
 
   .mobile-app-container {
@@ -2386,8 +2431,120 @@ body {
     height: calc(64px + env(safe-area-inset-bottom)) !important;
     padding: 0 16px env(safe-area-inset-bottom) 16px !important;
     background: #FFFFFF !important;
-    border-top: 1px solid rgba(151, 207, 255, 0.45) !important;
-    box-shadow: 0 -4px 18px rgba(35, 52, 200, 0.08) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    transform: none !important;
   }
 }
 
+/* ==========================================================================
+   BENTO GRID RESPONSIVE LAYOUT (DESKTOP / TABLET)
+   ========================================================================== */
+.bento-span-12 { grid-column: span 12; }
+.bento-span-7  { grid-column: span 7; }
+.bento-span-6  { grid-column: span 6; }
+.bento-span-5  { grid-column: span 5; }
+
+@media (min-width: 860px) {
+  #pane-home.active {
+    display: grid !important;
+    grid-template-columns: repeat(12, 1fr) !important;
+    gap: 20px !important;
+    align-items: start !important;
+  }
+
+  #pane-home > * {
+    margin-bottom: 0 !important;
+  }
+
+  .bento-span-12 { grid-column: span 12 !important; }
+  .bento-span-7  { grid-column: span 7 !important; }
+  .bento-span-6  { grid-column: span 6 !important; }
+  .bento-span-5  { grid-column: span 5 !important; }
+
+  .sticky-request-parent-bar.bento-span-6 {
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Floating mascot on desktop */
+  .moby-draggable-mascot {
+    position: fixed !important;
+    bottom: 96px !important;
+    right: 28px !important;
+    top: auto !important;
+    left: auto !important;
+    width: 105px !important;
+    height: 140px !important;
+    z-index: 999 !important;
+  }
+
+  .mascot-speech-bubble {
+    right: 100px !important;
+    left: auto !important;
+    top: 10px !important;
+    width: 210px !important;
+    max-width: 210px !important;
+  }
+
+  .mascot-summon-pill {
+    position: fixed !important;
+    bottom: 96px !important;
+    right: 28px !important;
+    top: auto !important;
+    left: auto !important;
+    z-index: 998 !important;
+  }
+}
+
+@media (max-width: 859px) {
+  .bento-span-12,
+  .bento-span-7,
+  .bento-span-6,
+  .bento-span-5 {
+    grid-column: span 12 !important;
+  }
+}
+
+/* Modals Bento Upgrade */
+.modal-overlay {
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.modal-box {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: 0 24px 64px -8px rgba(15, 23, 42, 0.2) !important;
+  color: var(--text-primary) !important;
+}
+
+.card-section,
+.demo-purchases-card {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-bento) !important;
+}
+
+.card-section:hover,
+.demo-purchases-card:hover {
+  border-color: var(--border-hover) !important;
+  box-shadow: var(--shadow-hover) !important;
+}
+
+
+/* Inner slots inside Cloud Blue cards for contrast */
+.card-section .dual-limits-box,
+.card-section .teen-tasks-list .task-item,
+.card-section .teen-tx-list .tx-item,
+.demo-purchases-card .btn-demo-op {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(151, 207, 255, 0.7) !important;
+}

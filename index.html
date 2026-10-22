@@ -10,72 +10,79 @@
   <script src="./moby_storage.js"></script>
   <style>
     :root {
-      --bg-deep: #070B16;
-      --bg-card: #0F1629;
-      --bg-card-hover: #16203A;
+      /* Brandbook Background & Base */
+      --bg-page: #F0F6FC;
+      --bg-surface: #E7F4FF; /* MT Cloud Blue - карточки синие/голубые */
+      --bg-surface-subtle: #DDF0FF;
+      --border-subtle: #97CFFF; /* MT Sky Blue */
+      --border-hover: #2334C8;
+      --text-primary: #141416;
+      --text-secondary: #334155;
+      --text-muted: #64748B;
+
+      /* MTBank Brand Palette (60% Blue, 20% Orange, 20% Red) */
       --mt-blue: #2334C8;
-      --mt-blue-glow: rgba(35, 52, 200, 0.45);
+      --mt-blue-light: #E7F4FF;
+      --mt-blue-border: #97CFFF;
       --mt-orange: #FF5912;
-      --mt-orange-glow: rgba(255, 89, 18, 0.35);
+      --mt-orange-light: #FFF4EE;
+      --mt-orange-border: #FED7AA;
       --mt-red: #E42C26;
-      --text-main: #FFFFFF;
-      --text-muted: #8E9BB5;
-      --text-dim: #64748B;
-      --border-glass: rgba(255, 255, 255, 0.08);
-      --border-active: rgba(35, 52, 200, 0.7);
+      --mt-red-light: #FEF2F2;
+      --mt-red-border: #FECACA;
+      --mt-cloud-blue: #E7F4FF;
+      --mt-sky-blue: #97CFFF;
+      --mt-soft-blue: #82AED3;
+      --mt-white: #FFFFFF;
+      --mt-black: #141416;
+
+      --shadow-sm: 0 2px 4px rgba(35, 52, 200, 0.04);
+      --shadow-bento: 0 4px 18px rgba(35, 52, 200, 0.07);
+      --shadow-hover: 0 8px 24px -2px rgba(35, 52, 200, 0.15);
+      --radius-card: 22px;
+      --radius-btn: 14px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: var(--bg-deep);
-      color: var(--text-main);
+      background-color: var(--bg-page);
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px 16px;
-      position: relative;
-      overflow-x: hidden;
+      padding: 32px 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Background Ambient Lights */
-    .ambient-glow-1 {
-      position: absolute;
-      top: -150px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(35, 52, 200, 0.35) 0%, rgba(7, 11, 22, 0) 70%);
-      z-index: 0;
+    /* Subtle background grid pattern (Bento style) */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(35, 52, 200, 0.05) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255, 89, 18, 0.04) 0%, transparent 50%);
       pointer-events: none;
-    }
-    .ambient-glow-2 {
-      position: absolute;
-      bottom: -100px;
-      right: -100px;
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(255, 89, 18, 0.2) 0%, rgba(7, 11, 22, 0) 70%);
       z-index: 0;
-      pointer-events: none;
     }
 
     .portal-container {
       width: 100%;
-      max-width: 520px;
+      max-width: 1040px;
       z-index: 1;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 28px;
     }
 
     /* Brand Header */
@@ -84,303 +91,392 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 4px;
+      gap: 12px;
     }
 
     .brand-logo-badge {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(35, 52, 200, 0.15);
-      border: 1px solid rgba(35, 52, 200, 0.4);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       padding: 8px 18px;
       border-radius: 40px;
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
     }
 
     .logo-m {
-      width: 26px;
-      height: 26px;
-      background: linear-gradient(135deg, var(--mt-orange) 0%, var(--mt-red) 100%);
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--mt-orange) 0%, #EA580C 100%);
       color: white;
       font-weight: 900;
-      font-size: 16px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(255, 89, 18, 0.4);
+      border-radius: 6px;
     }
 
     .brand-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 800;
-      letter-spacing: 1.5px;
-      color: white;
+      letter-spacing: 1px;
+      color: var(--text-primary);
       text-transform: uppercase;
     }
 
+    .brand-status-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--mt-green);
+      font-weight: 700;
+    }
+    .brand-status-dot::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--mt-green);
+      border-radius: 50%;
+    }
+
     .portal-heading {
-      font-size: 26px;
+      font-size: 32px;
       font-weight: 900;
-      line-height: 1.25;
-      background: linear-gradient(180deg, #FFFFFF 30%, #CBD5E1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-top: 4px;
+      color: var(--text-primary);
+      letter-spacing: -0.03em;
+      margin-top: 2px;
     }
 
     .portal-subheading {
-      font-size: 13.5px;
+      font-size: 15px;
       color: var(--text-muted);
+      max-width: 540px;
       line-height: 1.5;
-      max-width: 420px;
     }
 
     /* Active Session Banner */
     .active-session-banner {
-      background: linear-gradient(90deg, rgba(35, 52, 200, 0.25) 0%, rgba(255, 89, 18, 0.15) 100%);
-      border: 1px solid rgba(35, 52, 200, 0.45);
-      border-radius: 14px;
-      padding: 12px 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 14px 20px;
       display: none;
       align-items: center;
       justify-content: space-between;
-      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-sm);
+      animation: fadeIn 0.3s ease;
     }
+
     .active-session-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
+
     .active-session-avatar {
-      font-size: 22px;
+      font-size: 26px;
+      width: 44px;
+      height: 44px;
+      background: var(--mt-blue-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
     .active-session-text {
       font-size: 12px;
       color: var(--text-muted);
+      font-weight: 500;
     }
+
     .active-session-name {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 700;
-      color: white;
+      color: var(--text-primary);
     }
+
     .btn-session-continue {
-      background: var(--mt-orange);
+      background: var(--mt-blue);
       color: white;
       border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 12px;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
-      transition: transform 0.15s ease;
+      gap: 6px;
+      transition: all 0.15s ease;
     }
     .btn-session-continue:hover {
+      background: #1D2B99;
       transform: translateY(-1px);
     }
 
-    /* Role Cards */
-    .roles-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    /* Bento Grid for Roles */
+    .bento-roles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
 
-    .role-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: 20px;
-      padding: 18px 20px;
+    @media (max-width: 860px) {
+      .bento-roles-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .portal-heading {
+        font-size: 26px;
+      }
+    }
+
+    /* Bento Card */
+    .bento-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: 24px;
       cursor: pointer;
       position: relative;
-      overflow: hidden;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      box-shadow: var(--shadow-bento);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
     }
 
-    .role-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    .bento-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-hover);
     }
 
-    .role-card:active {
+    .bento-card:active {
       transform: scale(0.985);
     }
 
-    .role-card-accent {
+    /* Top Accent Line (Subtle Bento Brand Marker) */
+    .bento-card-topbar {
+      height: 4px;
+      width: 100%;
       position: absolute;
       top: 0;
       left: 0;
-      bottom: 0;
-      width: 4px;
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
     }
-    .role-parent .role-card-accent { background: linear-gradient(180deg, var(--mt-blue), #3B82F6); }
-    .role-kids .role-card-accent { background: linear-gradient(180deg, var(--mt-orange), #F59E0B); }
-    .role-teens .role-card-accent { background: linear-gradient(180deg, #9333EA, #3B82F6); }
+    .bento-card.role-parent .bento-card-topbar {
+      background: linear-gradient(90deg, var(--mt-blue), #3B82F6);
+    }
+    .bento-card.role-kids .bento-card-topbar {
+      background: linear-gradient(90deg, var(--mt-orange), #F59E0B);
+    }
+    .bento-card.role-teens .bento-card-topbar {
+      background: linear-gradient(90deg, #6366F1, #8B5CF6);
+    }
 
-    .role-card-content {
+    .bento-card-header {
       display: flex;
-      align-items: center;
-      gap: 16px;
-      flex: 1;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 18px;
     }
 
-    .role-icon-wrap {
+    .bento-avatar-wrap {
       width: 52px;
       height: 52px;
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
-      flex-shrink: 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 28px;
+      border: 1px solid var(--border-subtle);
+    }
+    .role-parent .bento-avatar-wrap {
+      background: var(--mt-blue-light);
+      border-color: var(--mt-blue-border);
+    }
+    .role-kids .bento-avatar-wrap {
+      background: var(--mt-orange-light);
+      border-color: var(--mt-orange-border);
+    }
+    .role-teens .bento-avatar-wrap {
+      background: var(--mt-purple-light);
+      border-color: #DDD6FE;
     }
 
-    .role-parent .role-icon-wrap {
-      background: radial-gradient(circle, rgba(35, 52, 200, 0.3) 0%, rgba(15, 22, 41, 0.9) 100%);
-      box-shadow: 0 4px 16px var(--mt-blue-glow);
+    .bento-role-pill {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 20px;
     }
-    .role-kids .role-icon-wrap {
-      background: radial-gradient(circle, rgba(255, 89, 18, 0.3) 0%, rgba(15, 22, 41, 0.9) 100%);
-      box-shadow: 0 4px 16px var(--mt-orange-glow);
+    .role-parent .bento-role-pill {
+      background: var(--mt-blue-light);
+      color: var(--mt-blue);
     }
-    .role-teens .role-icon-wrap {
-      background: radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, rgba(15, 22, 41, 0.9) 100%);
-      box-shadow: 0 4px 16px rgba(147, 51, 234, 0.35);
+    .role-kids .bento-role-pill {
+      background: var(--mt-orange-light);
+      color: #C2410C;
+    }
+    .role-teens .bento-role-pill {
+      background: var(--mt-purple-light);
+      color: #6D28D9;
     }
 
-    .role-texts {
+    .bento-card-body {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 10px;
+      margin-bottom: 22px;
     }
 
-    .role-badge-row {
+    .bento-card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .bento-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      min-height: 60px;
+    }
+
+    /* Feature tags inside bento block */
+    .bento-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .bento-tag {
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-surface-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+      padding: 3px 8px;
+      border-radius: 8px;
+    }
+
+    .bento-card-footer {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
     }
 
-    .role-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: white;
+    .bento-action-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bento-card:hover .bento-action-label {
+      color: var(--mt-blue);
     }
 
-    .role-pill-badge {
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .role-parent .role-pill-badge { background: rgba(35, 52, 200, 0.25); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.4); }
-    .role-kids .role-pill-badge { background: rgba(255, 89, 18, 0.2); color: #FDBA74; border: 1px solid rgba(255, 89, 18, 0.4); }
-    .role-teens .role-pill-badge { background: rgba(147, 51, 234, 0.2); color: #E9D5FF; border: 1px solid rgba(147, 51, 234, 0.4); }
-
-    .role-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .role-enter-arrow {
-      width: 36px;
-      height: 36px;
+    .bento-arrow {
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       color: var(--text-muted);
-      transition: all 0.2s ease;
-      flex-shrink: 0;
+      transition: all 0.15s ease;
     }
-
-    .role-card:hover .role-enter-arrow {
-      background: var(--mt-orange);
+    .bento-card:hover .bento-arrow {
+      background: var(--mt-blue);
       color: white;
-      border-color: var(--mt-orange);
-      transform: translateX(3px);
+      border-color: var(--mt-blue);
+      transform: translateX(2px);
     }
 
-    /* Footer Meta */
+    /* Portal Footer */
     .portal-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 4px 6px;
-      font-size: 11px;
-      color: var(--text-dim);
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-top: 8px;
     }
+
     .btn-reset-demo {
-      background: transparent;
-      border: 1px dashed rgba(255, 255, 255, 0.15);
-      color: var(--text-dim);
-      padding: 5px 10px;
-      border-radius: 8px;
-      font-size: 11px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: all 0.15s ease;
     }
     .btn-reset-demo:hover {
-      border-color: var(--mt-orange);
+      background: var(--bg-surface);
       color: var(--mt-orange);
     }
 
-    /* ================= PIN AUTH MODAL ================= */
+    /* ================= LIGHT BENTO PIN MODAL ================= */
     .pin-modal-backdrop {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(5, 8, 16, 0.85);
-      backdrop-filter: blur(14px);
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(8px);
       z-index: 100;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 20px;
       animation: fadeIn 0.2s ease;
     }
 
     .pin-modal-dialog {
-      background: #0D1426;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       border-radius: 26px;
       width: 100%;
-      max-width: 360px;
-      padding: 26px 22px 22px;
+      max-width: 380px;
+      padding: 28px 24px 22px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
       position: relative;
-      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.15);
+      animation: popIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .pin-modal-close {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: 16px;
+      right: 16px;
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
       color: var(--text-muted);
       font-size: 14px;
       cursor: pointer;
@@ -390,36 +486,36 @@
       transition: all 0.15s ease;
     }
     .pin-modal-close:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
+      background: #E2E8F0;
+      color: var(--text-primary);
     }
 
     .pin-modal-role-icon {
-      font-size: 38px;
-      margin-bottom: 6px;
+      font-size: 40px;
+      margin-bottom: 8px;
     }
 
     .pin-modal-title {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 800;
-      color: white;
+      color: var(--text-primary);
       margin-bottom: 4px;
+      letter-spacing: -0.02em;
     }
 
     .pin-modal-subtitle {
-      font-size: 12px;
+      font-size: 12.5px;
       color: var(--text-muted);
       margin-bottom: 14px;
     }
 
-    /* Helper default pin hint */
     .pin-helper-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 89, 18, 0.12);
-      border: 1px solid rgba(255, 89, 18, 0.35);
-      color: #FFB088;
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      color: #9A3412;
       font-size: 12px;
       font-weight: 700;
       padding: 6px 14px;
@@ -427,40 +523,37 @@
       margin-bottom: 18px;
     }
 
-    /* PIN Dots Display */
     .pin-dots-row {
       display: flex;
       justify-content: center;
       gap: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .pin-dot {
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      transition: all 0.15s ease;
+      background: var(--bg-surface-subtle);
+      border: 2px solid var(--border-subtle);
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .pin-dot.filled {
       background: var(--mt-orange);
       border-color: var(--mt-orange);
-      box-shadow: 0 0 12px var(--mt-orange-glow);
+      box-shadow: 0 0 12px rgba(255, 89, 18, 0.4);
       transform: scale(1.15);
     }
 
     .pin-error-message {
       font-size: 12px;
-      color: var(--mt-red);
       font-weight: 700;
       min-height: 18px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       transition: opacity 0.2s ease;
     }
 
-    /* Numpad Grid */
     .pin-numpad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -469,60 +562,54 @@
     }
 
     .num-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      color: white;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-btn);
+      color: var(--text-primary);
       font-size: 20px;
       font-weight: 700;
       padding: 13px 0;
       cursor: pointer;
       transition: all 0.12s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
     }
-
     .num-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.25);
+      background: #E2E8F0;
     }
-
     .num-btn:active {
-      transform: scale(0.92);
-      background: var(--mt-blue);
+      background: #CBD5E1;
+      transform: scale(0.96);
     }
-
     .num-btn.btn-action {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--text-muted);
     }
 
-    /* Quick 1-click 1111 button */
     .btn-quick-pin {
       width: 100%;
-      background: linear-gradient(135deg, var(--mt-orange) 0%, var(--mt-red) 100%);
+      background: linear-gradient(135deg, var(--mt-orange) 0%, #EA580C 100%);
       color: white;
       border: none;
-      border-radius: 12px;
-      padding: 11px;
-      font-size: 13px;
+      border-radius: var(--radius-btn);
+      padding: 12px;
+      font-size: 13.5px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      box-shadow: 0 6px 18px var(--mt-orange-glow);
-      transition: transform 0.15s ease;
+      box-shadow: 0 4px 14px rgba(255, 89, 18, 0.3);
+      transition: all 0.15s ease;
     }
     .btn-quick-pin:hover {
       transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(255, 89, 18, 0.4);
+    }
+    .btn-quick-pin:active {
+      transform: scale(0.98);
     }
 
-    /* Shake animation on wrong PIN */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-8px); }
@@ -537,15 +624,12 @@
       to { opacity: 1; }
     }
     @keyframes popIn {
-      from { opacity: 0; transform: scale(0.92); }
+      from { opacity: 0; transform: scale(0.94); }
       to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
-
-  <div class="ambient-glow-1"></div>
-  <div class="ambient-glow-2"></div>
 
   <div class="portal-container">
 
@@ -554,7 +638,7 @@
       <div class="brand-logo-badge">
         <div class="logo-m">M</div>
         <span class="brand-title">МТБанк Moby</span>
-        <span style="font-size: 11px; color: #10B981; font-weight:700;">● Online</span>
+        <span class="brand-status-dot">Online</span>
       </div>
       <h1 class="portal-heading">Семейный Банкинг</h1>
       <p class="portal-subheading">
@@ -576,68 +660,86 @@
       </button>
     </div>
 
-    <!-- 3 Role Selection Cards -->
-    <div class="roles-list">
+    <!-- 3 Role Selection Bento Cards -->
+    <div class="bento-roles-grid">
 
       <!-- 1. РОДИТЕЛЬ -->
-      <div class="role-card role-parent" onclick="openPinModal('parent')">
-        <div class="role-card-accent"></div>
-        <div class="role-card-content">
-          <div class="role-icon-wrap">👨‍👩‍👧</div>
-          <div class="role-texts">
-            <div class="role-badge-row">
-              <span class="role-title">Родитель</span>
-              <span class="role-pill-badge">Основной счет</span>
-            </div>
-            <p class="role-desc">
-              Лимиты трат, запрет категорий, антифрод-контроль, пополнение карт и вознаграждения за задания.
-            </p>
+      <div class="bento-card role-parent" onclick="openPinModal('parent')">
+        <div class="bento-card-topbar"></div>
+        <div class="bento-card-header">
+          <div class="bento-avatar-wrap">👨‍👩‍👧</div>
+          <span class="bento-role-pill">Moby Family</span>
+        </div>
+        <div class="bento-card-body">
+          <h2 class="bento-card-title">Родитель</h2>
+          <p class="bento-card-desc">
+            Управление лимитами трат, запрет категорий, антифрод-контроль, пополнение карт и вознаграждения за задания.
+          </p>
+          <div class="bento-tags-row">
+            <span class="bento-tag">🛡️ Лимиты</span>
+            <span class="bento-tag">💰 Копилка +50%</span>
+            <span class="bento-tag">📋 Поручения</span>
           </div>
         </div>
-        <div class="role-enter-arrow">→</div>
+        <div class="bento-card-footer">
+          <span class="bento-action-label">Открыть кабинет</span>
+          <div class="bento-arrow">→</div>
+        </div>
       </div>
 
       <!-- 2. РЕБЕНОК (7-13 ЛЕТ) -->
-      <div class="role-card role-kids" onclick="openPinModal('child_1')">
-        <div class="role-card-accent"></div>
-        <div class="role-card-content">
-          <div class="role-icon-wrap">🦁</div>
-          <div class="role-texts">
-            <div class="role-badge-row">
-              <span class="role-title">Ребёнок 7–13 лет</span>
-              <span class="role-pill-badge">Moby Kids</span>
-            </div>
-            <p class="role-desc">
-              Михаил (10 лет). 3D-маскот Фокси, мини-игра «Ловец бонусов», финансовые квизы и копилка с софинансированием.
-            </p>
+      <div class="bento-card role-kids" onclick="openPinModal('child_1')">
+        <div class="bento-card-topbar"></div>
+        <div class="bento-card-header">
+          <div class="bento-avatar-wrap">🦁</div>
+          <span class="bento-role-pill">Moby Kids</span>
+        </div>
+        <div class="bento-card-body">
+          <h2 class="bento-card-title">Ребёнок 7–13 лет</h2>
+          <p class="bento-card-desc">
+            Михаил (10 лет). 3D-маскот Фокси, мини-игра «Ловец бонусов», финансовые квизы и копилка мечты.
+          </p>
+          <div class="bento-tags-row">
+            <span class="bento-tag">🦊 3D Фокси</span>
+            <span class="bento-tag">🎮 Мини-игра</span>
+            <span class="bento-tag">🧠 Квизы</span>
           </div>
         </div>
-        <div class="role-enter-arrow">→</div>
+        <div class="bento-card-footer">
+          <span class="bento-action-label">Открыть кабинет</span>
+          <div class="bento-arrow">→</div>
+        </div>
       </div>
 
       <!-- 3. ПОДРОСТОК (14-17 ЛЕТ) -->
-      <div class="role-card role-teens" onclick="openPinModal('teen_1')">
-        <div class="role-card-accent"></div>
-        <div class="role-card-content">
-          <div class="role-icon-wrap">⚡</div>
-          <div class="role-texts">
-            <div class="role-badge-row">
-              <span class="role-title">Подросток 14–17 лет</span>
-              <span class="role-pill-badge">Moby Teens</span>
-            </div>
-            <p class="role-desc">
-              Алина (16 лет). Молодежный необанк, P2P-переводы, двойные лимиты, анти-дропперство и налоги фрилансера (НПД).
-            </p>
+      <div class="bento-card role-teens" onclick="openPinModal('teen_1')">
+        <div class="bento-card-topbar"></div>
+        <div class="bento-card-header">
+          <div class="bento-avatar-wrap">⚡</div>
+          <span class="bento-role-pill">Moby Teens</span>
+        </div>
+        <div class="bento-card-body">
+          <h2 class="bento-card-title">Подросток 14–17 лет</h2>
+          <p class="bento-card-desc">
+            Алина (16 лет). Молодежный необанк, P2P-переводы, двойные лимиты, анти-дропперство и налоги фрилансера (НПД).
+          </p>
+          <div class="bento-tags-row">
+            <span class="bento-tag">💳 P2P</span>
+            <span class="bento-tag">🛡️ Ст. 222 УК</span>
+            <span class="bento-tag">💼 НПД (10%)</span>
           </div>
         </div>
-        <div class="role-enter-arrow">→</div>
+        <div class="bento-card-footer">
+          <span class="bento-action-label">Открыть кабинет</span>
+          <div class="bento-arrow">→</div>
+        </div>
       </div>
 
     </div>
 
     <!-- Portal Footer -->
     <footer class="portal-footer">
-      <span>МТБанк © 2026 • GitHub Pages Ready</span>
+      <span>МТБанк © 2026 • Bento Edition • GitHub Pages</span>
       <button type="button" class="btn-reset-demo" onclick="handleResetDemo()">
         🔄 Сбросить демо-данные
       </button>
@@ -646,7 +748,7 @@
   </div>
 
 
-  <!-- ================= PIN AUTH MODAL ================= -->
+  <!-- ================= PIN AUTH MODAL (LIGHT BENTO) ================= -->
   <div id="pinModal" class="pin-modal-backdrop" onclick="onBackdropClick(event)">
     <div class="pin-modal-dialog" id="pinModalDialog">
       <button class="pin-modal-close" onclick="closePinModal()">✕</button>
@@ -687,16 +789,15 @@
         <button type="button" class="num-btn btn-action" onclick="backspacePin()">⌫</button>
       </div>
 
-      <!-- Quick 1111 Login -->
-      <button type="button" class="btn-quick-pin" onclick="quickFillAndLogin()">
-        <span>⚡ Войти с паролем 1111</span>
+      <!-- 1-Click Fast Login for Judges -->
+      <button type="button" class="btn-quick-pin" id="quick-login-btn" onclick="quickFillAndLogin()">
+        <span>⚡</span>
+        <span>Войти с паролем 1111</span>
       </button>
 
     </div>
   </div>
 
-
-  <!-- Portal Interactive Script -->
   <script>
     let selectedTargetRole = 'parent';
     let enteredPin = '';
@@ -854,7 +955,7 @@
         void dialog.offsetWidth; // trigger reflow
         dialog.classList.add('shake');
 
-        document.getElementById('pinErrorMessage').style.color = 'var(--mt-red)';
+        document.getElementById('pinErrorMessage').style.color = '#EF4444';
         document.getElementById('pinErrorMessage').textContent = result.message || 'Неверный ПИН-код! (по умолчанию 1111)';
         enteredPin = '';
         setTimeout(updatePinDots, 200);
