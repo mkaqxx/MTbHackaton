@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MTBank Moby Kids — Мобильный детский банкинг</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./kids.css">
+  <script src="./moby_storage.js"></script>
+  <script type="module" src="./model-viewer.min.js"></script>
+</head>
+<body>
+
+  <!-- Смартфон-оболочка (Mockup Frame) -->
+  
+  <div class="mobile-app-container">
+    <!-- Вырез спикера -->
+    <div class="phone-notch">
+      <div class="speaker-pill"></div>
+    </div>
+
+    <!-- 1. Фирменная шапка МТБанк (MT Blue #2334C8 + Лучи бренда) -->
+    <header class="app-header">
+      <svg class="brand-rays-svg" viewBox="0 0 180 80" preserveAspectRatio="none">
+        <polygon points="40,0 180,0 135,45" class="ray-upper"/>
+        <polygon points="135,45 180,0 180,80 75,80" class="ray-lower"/>
+      </svg>
+
+      <div class="header-row">
+        <div class="header-user-info">
+          <div class="child-avatar-wrap">👦</div>
+          <div class="user-titles">
+            <span class="user-name-badge">Михаил (10 лет)</span>
+            <span class="card-status-pill">
+              <span class="card-status-dot" id="header-card-dot"></span>
+              <span id="header-card-status">Карта активна</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="mtb-mini-logo" style="display:flex; align-items:center; gap:6px;">
+          <a href="./index.html" class="header-action-btn" title="Сменить роль или выйти в портал" style="background:rgba(255,255,255,0.22); border:1px solid rgba(255,255,255,0.4); border-radius:10px; color:white; padding:4px 8px; font-size:11px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:4px; text-decoration:none;">
+            <span>🔄</span> <span>Роль</span>
+          </a>
+          <button type="button" id="btn-child-magic-qr" class="header-action-btn" title="Сканировать Magic QR родителя" onclick="openMagicQrScannerModal()" style="background:rgba(255,255,255,0.22); border:1px solid rgba(255,255,255,0.4); border-radius:10px; color:white; padding:4px 8px; font-size:11px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:4px;">
+            <span>📷</span> <span>QR</span>
+          </button>
+          <div class="mtb-logo-symbol">M</div>
+          <span class="mtb-logo-text">Moby Kids</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Скроллируемая область контента -->
+    <main class="app-scroll-content">
+      
+      <!-- ВКЛАДКА 1: ГЛАВНАЯ (АКТИВНА ПО УМОЛЧАНИЮ) -->
+      <section class="tab-pane active" id="pane-home">
+        
+        <!-- А. Hero-карточка счета ребенка -->
+        <div class="card-hero">
+          <svg class="card-hero-rays" viewBox="0 0 170 100" preserveAspectRatio="none">
+            <polygon points="40,0 170,0 120,50" fill="#FF5912" opacity="0.4"/>
+            <polygon points="120,50 170,0 170,100 60,100" fill="#E42C26" opacity="0.45"/>
+          </svg>
+
+          <div class="card-hero-header">
+            <span class="card-hero-label">Твой баланс</span>
+            <div class="card-hero-chip"></div>
+          </div>
+
+          <div class="card-hero-balance-wrap">
+            <div class="card-hero-amount">
+              <span class="balance-val" id="current-balance-text">25.50</span>
+              <span class="card-hero-currency">BYN</span>
+            </div>
+          </div>
+
+          <div class="card-hero-actions">
+            <!-- Кнопка Копилки прямо на карточке счета -->
+            <button class="btn-piggy-badge" id="btn-open-piggy">
+              <span>🐷</span>
+              <span id="card-piggy-preview">Копилка: 68.00 BYN</span>
+            </button>
+
+            <!-- Кнопка экстренной блокировки «Потерял карту» (#E42C26) -->
+            <button class="btn-lost-card" id="btn-lost-card">
+              <span>🛡️</span>
+              <span>Потерял карту</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ТРОЙНОЙ ПЛАТЕЖНЫЙ РЕЛЬС В БЕЛАРУСИ -->
+        <div class="card-section" style="margin-bottom: 12px; padding: 14px;">
+          <div class="section-header-row" style="margin-bottom: 10px;">
+            <span class="section-title">
+              <span>🇧🇾</span> Оплата в Беларуси
+            </span>
+            <span class="section-badge-info" style="background:#EBF3FF; color:#2334C8;">2 способа</span>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button type="button" class="btn-rail-action" onclick="alert('🟢 БЕЛКАРТ Pay активен!\nПоднесите смартфон или смарт-часы к любому POS-терминалу РБ.')" style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:12px; padding:12px 6px; text-align:center; cursor:pointer;">
+              <div style="font-size:22px; margin-bottom:4px;">💳</div>
+              <div style="font-size:12px; font-weight:800; color:#166534;">Белкарт Pay</div>
+              <div style="font-size:10px; color:#15803D;">NFC часы/тел</div>
+            </button>
+            <button type="button" class="btn-rail-action" onclick="alert('🟠 QR «Оплати» сгенерирован!\nПокажите на кассе школьного буфета для мгновенной оплаты обеда.')" style="background:#FFF7ED; border:1px solid #FED7AA; border-radius:12px; padding:12px 6px; text-align:center; cursor:pointer;">
+              <div style="font-size:22px; margin-bottom:4px;">📱</div>
+              <div style="font-size:12px; font-weight:800; color:#9A3412;">QR Оплати</div>
+              <div style="font-size:10px; color:#C2410C;">Для буфета</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- КОПИЛКА МЕЧТЫ С РОДИТЕЛЬСКИМ СОФИНАНСИРОВАНИЕМ -->
+        <div class="card-section" style="margin-bottom: 12px; padding: 14px; background: linear-gradient(135deg, #FFF8F5 0%, #FFFFFF 100%); border: 1px solid #FFEDD5;">
+          <div class="section-header-row" style="margin-bottom: 8px;">
+            <span class="section-title">
+              <span>🎯</span> <span id="home-piggy-name">Копилка: Горный велосипед 🚲</span>
+            </span>
+            <span id="home-piggy-match-badge" style="font-size:10px; background:#FF5912; color:white; padding:2px 8px; border-radius:10px; font-weight:800;">
+              +50% Бонус родителей
+            </span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+            <div style="font-size:22px; font-weight:900; color:#FF5912;">
+              <span id="home-piggy-saved">45.00</span> <span style="font-size:14px; color:#141416;">/ <span id="home-piggy-goal">150.00</span> BYN</span>
+            </div>
+            <div style="font-size:11px; color:#5A6578;" id="home-piggy-bonus-sub">
+              (Бонус родителей: +22.50 BYN)
+            </div>
+          </div>
+          <div class="progress-track" style="height:10px; border-radius:5px; background:#FFEAD9; margin-bottom:8px;">
+            <div class="progress-fill" id="home-piggy-fill" style="width: 30%; background:linear-gradient(90deg, #FF5912, #E42C26); height:100%; border-radius:5px;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:10px; color:#94A3B8;" id="home-piggy-hint-text">💡 Родители добавляют +50% к каждому рублю</span>
+            <button type="button" class="btn-piggy-badge" id="btn-quick-piggy-topup" style="padding:4px 8px; font-size:10px; background:#FF5912; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:700;">
+              + В копилку
+            </button>
+          </div>
+        </div>
+
+        <div class="ask-parents-bar" id="btn-open-ask-parents">
+          <div class="ask-parents-left">
+            <div class="ask-icon-badge">💸</div>
+            <div>
+              <div class="ask-text-title">Попросить у родителей</div>
+              <div class="ask-text-subtitle">На карманные расходы или обед</div>
+            </div>
+          </div>
+          <button class="btn-ask-arrow">➔</button>
+        </div>
+
+        <!-- В. Блок лимитов с прогресс-барами -->
+        <div class="card-section">
+          <div class="section-header-row">
+            <span class="section-title">
+              <span>📊</span> Лимиты на день
+            </span>
+            <span class="section-badge-info">Под контролем</span>
+          </div>
+
+          <div class="limits-list" id="child-limits-container">
+            <!-- 1. Общий суточный -->
+            <div class="limit-item">
+              <div class="limit-top-row">
+                <span class="limit-name">Общий суточный лимит</span>
+                <span class="limit-values">
+                  <strong id="limit-total-spent">0.00</strong> / <span id="limit-total-max">20.00</span> BYN
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill blue" id="limit-total-bar" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="limits-footer-note">
+            <span>🔒</span> Лимиты настраивают родители в своем приложении
+          </div>
+        </div>
+
+        <!-- Г. Задания от родителей (Chore & Reward) -->
+        <div class="card-section">
+          <div class="section-header-row">
+            <span class="section-title">
+              <span>🎯</span> Задания от родителей
+            </span>
+            <span class="section-badge-info">Награды</span>
+          </div>
+
+          <div class="tasks-list" id="tasks-list-container">
+            <div style="font-size: 12px; color: #5A6578; text-align: center; padding: 16px; background: rgba(35, 52, 200, 0.04); border-radius: 12px; border: 1px dashed rgba(35, 52, 200, 0.2);">
+              Пока нет заданий от родителей. Как только мама или папа добавят задание, оно появится здесь! 🎯
+            </div>
+          </div>
+        </div>
+
+        <!-- Д. История операций -->
+        <div class="card-section">
+          <div class="section-header-row">
+            <span class="section-title">
+              <span>🕒</span> История операций
+            </span>
+            <span class="section-badge-info" id="child-tx-badge">Все траты</span>
+          </div>
+
+          <div class="transactions-list" id="child-transactions-container">
+            <div style="font-size: 12px; color: #5A6578; text-align: center; padding: 16px; background: rgba(35, 52, 200, 0.04); border-radius: 12px; border: 1px dashed rgba(35, 52, 200, 0.2);">
+              Пока нет операций по карте. Первые покупки появятся здесь 💳
+            </div>
+          </div>
+        </div>
+
+        <!-- Е. Тестовая панель имитации покупок (Антифрод скоринг для жюри) -->
+        <div class="demo-purchases-card">
+          <div class="demo-header-title">🧪 Тестовая демо-панель (Антифрод)</div>
+          <div class="demo-buttons-col">
+            <!-- Покупка 1: Обычная (2.50 BYN) -->
+            <button class="btn-demo-buy" id="btn-buy-icecream">
+              <span>🍦 Мороженое в магазине</span>
+              <span class="demo-btn-amount">2.50 BYN (Обычная)</span>
+            </button>
+
+            <!-- Покупка 2: Подозрительная (40.00 BYN) -->
+            <button class="btn-demo-buy suspicious" id="btn-buy-suspicious">
+              <span>🎮 Донат / заказ в интернете</span>
+              <span class="demo-btn-amount">40.00 BYN (Крупная)</span>
+            </button>
+
+            <!-- Кнопка 3: Сброс прогресса в SQLite -->
+            <button class="btn-demo-buy" id="btn-demo-reset-all" style="border: 1px dashed #CBD5E1; background: #F8FAFC;">
+              <span>🔄 Сбросить состояние (SQLite и кэш)</span>
+              <span class="demo-btn-amount" style="color: var(--color-blue);">Чистый старт</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ВКЛАДКА 2: ИГРЫ -->
+      <section class="tab-pane" id="pane-games">
+        <div class="pane-top-header">
+          <button class="btn-back-home font-accent" id="btn-back-from-game">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            <span>На главную</span>
+          </button>
+          <span class="pane-header-title font-accent">Ловец бонусов</span>
+          <span class="pane-badge-bonus-limit" id="game-daily-limit-badge" style="font-size:11px; font-weight:800; background:rgba(255,89,18,0.12); color:#FF5912; border:1px solid rgba(255,89,18,0.3); padding:3px 7px; border-radius:12px; white-space:nowrap;">🎁 0/3 в день</span>
+          <span class="pane-badge-live">LIVE 🎮</span>
+        </div>
+
+        <div class="game-viewport-card">
+          <div class="canvas-container">
+            <canvas id="game-canvas" width="400" height="550"></canvas>
+
+            <!-- Модальное окно Game Over -->
+            <div class="game-modal-overlay" id="game-over-modal">
+              <div class="game-modal-card">
+                <div class="modal-icon-header">
+                  <svg viewBox="0 0 24 24"><path d="M19 5H17V3H7V5H5C3.9 5 3 5.9 3 7V9C3 11.2 4.8 13 7 13.1C7.8 14.8 9.3 16.1 11 16.7V19H8V21H16V19H13V16.7C14.7 16.1 16.2 14.8 17 13.1C19.2 13 21 11.2 21 9V7C21 5.9 20.1 5 19 5ZM5 9V7H7V11C5.9 11 5 10.1 5 9ZM19 9C19 10.1 18.1 11 17 11V7H19V9Z"/></svg>
+                </div>
+                <h3 class="font-accent" id="modal-game-over-title">Игра окончена!</h3>
+                <p class="modal-subtitle" id="modal-game-over-subtitle">Все заработанные награды сохранены в базе</p>
+                
+                <div class="modal-stats-box">
+                  <div class="modal-stat-item">
+                    <span class="val" id="modal-final-score">0</span>
+                    <span class="lbl">Очки</span>
+                  </div>
+                  <div class="modal-stat-item">
+                    <span class="val orange" id="modal-coins-earned">+0</span>
+                    <span class="lbl">Монеты</span>
+                  </div>
+                </div>
+
+                <div class="modal-sync-badge">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                  Синхронизировано с банком (SQLite)
+                </div>
+
+                <div class="modal-actions">
+                  <button class="btn-primary-mtb font-accent" id="btn-play-again">Сыграть снова 🚀</button>
+                  <button class="btn-orange-mtb font-accent" id="btn-go-to-quizzes">Перейти к тестам 🧠</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-controls-bar">
+            <button class="btn-game primary font-accent" id="btn-start-game">▶ Старт</button>
+            <button class="btn-game secondary font-accent" id="btn-pause-game">⏸ Пауза</button>
+          </div>
+          <div class="game-instruction-hint">Двигай палец или мышку по экрану, чтобы управлять Moby</div>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА 3: ТЕСТЫ -->
+      <section class="tab-pane" id="pane-quizzes">
+        <div class="pane-top-header">
+          <button class="btn-back-home font-accent" id="btn-back-from-quiz">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            <span>На главную</span>
+          </button>
+          <span class="pane-header-title font-accent">Moby Quiz Hub</span>
+          <span class="pane-badge-live">QUIZ 🧠</span>
+        </div>
+
+        <div id="quiz-container"></div>
+      </section>
+
+    </main>
+
+    
+    <!-- МОДАЛКА: СКАНИРОВАНИЕ MAGIC QR РОДИТЕЛЯ -->
+    <div class="modal-overlay" id="modal-magic-qr-scanner" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.85); z-index:2000; align-items:center; justify-content:center; padding:16px;">
+      <div style="background:#111520; border:2px solid #2563EB; border-radius:24px; padding:20px; width:100%; max-width:340px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.6); position:relative;">
+        <button type="button" style="position:absolute; top:12px; right:12px; background:transparent; border:none; color:#94A3B8; font-size:18px; cursor:pointer;" onclick="closeMagicQrScannerModal()">✕</button>
+
+        <div style="font-size:18px; font-weight:800; color:white; margin-bottom:4px;">📷 Сканер QR-платежей KPOK</div>
+        <div style="font-size:12px; color:#94A3B8; margin-bottom:14px;">Оплата по стандарту KPOK и авторизация без СДБО (ст. 27 ГК РБ)</div>
+
+        <!-- Видоискатель камеры (визуализация сканера) -->
+        <div style="width:200px; height:200px; margin:0 auto 16px; border:2px dashed #3B82F6; border-radius:16px; position:relative; overflow:hidden; background:radial-gradient(circle, rgba(37,99,235,0.15) 0%, rgba(15,23,42,0.95) 100%); display:flex; align-items:center; justify-content:center;">
+          <div style="position:absolute; left:0; right:0; height:3px; background:#38BDF8; box-shadow:0 0 10px #38BDF8; animation:qrScanLaser 2s ease-in-out infinite;"></div>
+          <div style="font-size:42px; opacity:0.85;">📱</div>
+        </div>
+
+        <button type="button" class="btn-primary" style="width:100%; padding:12px; font-weight:800; font-size:13px; background:linear-gradient(135deg, #2563EB, #1D4ED8); border:none; border-radius:12px; color:white; cursor:pointer; box-shadow:0 4px 15px rgba(37,99,235,0.4);" onclick="completeSimulatedQrScan()">
+          ⚡ Распознать QR код родителя
+        </button>
+
+        <div style="margin-top:10px; font-size:11px; color:#64748B;">
+          Юридически безопасно • Без оформления СДБО (ст. 27 ГК РБ)
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Интерактивный 3D-маскот Moby Фокси (Drag-and-Drop) -->
+    <div class="moby-draggable-mascot" id="moby-mascot" title="Я Фокси! Нажми или перетащи меня!">
+      <!-- Кнопка скрытия маскота -->
+      <button type="button" class="mascot-close-btn" id="mascot-close-btn" title="Скрыть маскота" onclick="hideMascot(event)">✕</button>
+
+      <div class="moby-mascot-3d-wrap">
+        <model-viewer
+          id="moby-3d-fox"
+          src="fox.glb"
+          alt="3D Маскот Фокси МТБанк"
+          autoplay
+          power-preference="high-performance"
+          minimum-render-scale="1"
+          shadow-intensity="1.0"
+          shadow-softness="0.3"
+          exposure="1.05"
+          tone-mapping="neutral"
+          disable-zoom
+          disable-pan
+          interaction-prompt="none"
+          camera-orbit="90deg 80deg 105%"
+          camera-target="0m 0.5m 0m"
+          style="width: 100%; height: 100%; background: transparent; --poster-color: transparent;">
+        </model-viewer>
+      </div>
+
+      <!-- Всплывающий спич-бабл -->
+      <div class="mascot-speech-bubble" id="mascot-speech-bubble">
+        Привет! Я лисенок Фокси из Moby! Давай копить и побеждать вместе! 🦊🚀
+      </div>
+    </div>
+
+    <!-- Кнопка восстановления скрытого маскота -->
+    <button type="button" class="mascot-summon-pill" id="mascot-summon-pill" onclick="showMascot()" title="Показать лисенка Фокси">🦊</button>
+
+    <!-- 4. Нижняя панель навигации (Bottom Bar) -->
+    <nav class="bottom-nav-bar">
+      <!-- 1. Главная -->
+      <button class="nav-item-btn active" data-target="pane-home">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        <span>Главная</span>
+      </button>
+
+      <!-- 2. Игры -->
+      <button class="nav-item-btn" data-target="pane-games">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H9v2H8v-2H6v-1h2v-2h1v2h2v1zm4.5 1c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 8 18.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+        </svg>
+        <span>Игры</span>
+      </button>
+
+      <!-- 3. Тесты -->
+      <button class="nav-item-btn" data-target="pane-quizzes">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+        </svg>
+        <span>Тесты</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- 5. МОДАЛЬНОЕ ОКНО: «СВИНЬЯ-КОПИЛКА» -->
+  <div class="modal-overlay" id="modal-piggy">
+    <div class="modal-box">
+      <button class="modal-close-btn" data-close="modal-piggy">✕</button>
+
+      <div class="modal-header-block">
+        <div class="modal-header-icon">🐷</div>
+        <h3 class="modal-header-title font-accent">Копилка Moby</h3>
+        <p class="modal-header-subtitle">Твоя цель: <strong id="child-piggy-name-text">Новый велосипед 🚲</strong></p>
+      </div>
+
+      <!-- Визуальный центр копилки -->
+      <div class="piggy-visual-box">
+        <svg class="piggy-icon-svg" viewBox="0 0 64 64">
+          <!-- Свинка-копилка в цвете MT Orange с синими элементами -->
+          <ellipse cx="32" cy="36" rx="22" ry="17" fill="#FF5912"/>
+          <!-- Ушки -->
+          <polygon points="17,23 23,15 27,24" fill="#E42C26"/>
+          <polygon points="37,24 41,15 47,23" fill="#E42C26"/>
+          <!-- Пятачок -->
+          <ellipse cx="48" cy="37" rx="6" ry="5" fill="#FFA278"/>
+          <circle cx="46" cy="37" r="1.2" fill="#E42C26"/>
+          <circle cx="50" cy="37" r="1.2" fill="#E42C26"/>
+          <!-- Глазик -->
+          <circle cx="38" cy="30" r="2.2" fill="#FFFFFF"/>
+          <circle cx="38" cy="30" r="1.2" fill="#2334C8"/>
+          <!-- Ножки -->
+          <rect x="20" y="50" width="6" height="6" rx="2" fill="#E42C26"/>
+          <rect x="38" y="50" width="6" height="6" rx="2" fill="#E42C26"/>
+          <!-- Прорезь для монет -->
+          <rect x="25" y="21" width="14" height="2.5" rx="1" fill="#FFFFFF"/>
+        </svg>
+
+        <div class="piggy-stats-row">
+          <span>Накоплено: <strong class="piggy-amount-saved" id="piggy-saved-text">0.00 BYN</strong></span>
+          <span class="piggy-percent" id="piggy-percent-text">0%</span>
+        </div>
+
+        <div class="progress-track" style="height: 10px;">
+          <div class="progress-fill orange" id="piggy-progress-bar" style="width: 0%;"></div>
+        </div>
+
+        <div style="font-size: 11px; color: #5A6578; width: 100%; display: flex; justify-content: space-between;">
+          <span>Старт: 0 BYN</span>
+          <span>Цель: <strong id="child-piggy-goal-text">200.00 BYN</strong></span>
+        </div>
+      </div>
+
+      <!-- Мгновенное пополнение копилки -->
+      <div>
+        <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px;">
+          Пополнить копилку с карты прямо сейчас:
+        </label>
+        <div style="display:flex; gap:6px; margin-bottom:8px;">
+          <button class="chip-btn child-piggy-chip" data-amt="2.00">+2 BYN</button>
+          <button class="chip-btn child-piggy-chip" data-amt="5.00">+5 BYN</button>
+          <button class="chip-btn child-piggy-chip" data-amt="10.00">+10 BYN</button>
+        </div>
+        <div id="child-piggy-match-calc-preview" style="background:#FFF7ED; border:1px dashed #FDBA74; border-radius:10px; padding:8px 12px; margin-bottom:10px; font-size:11px; color:#9A3412;">
+          🎁 <strong id="preview-match-label">Родительский бонус (+50%):</strong> ты кладешь <span id="preview-child-amt">5.00</span> BYN, родители добавят <span id="preview-parent-bonus">+2.50</span> BYN. Всего в копилку: <strong id="preview-total-piggy">7.50 BYN</strong>! 🚀
+        </div>
+        <div class="piggy-topup-row">
+          <input type="number" step="0.5" min="0.5" value="5.00" class="mtb-input" id="input-topup-amount">
+          <button class="btn-primary-modal font-accent" id="btn-submit-topup" style="width: auto; white-space: nowrap;">
+            Пополнить ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- Редактирование цели копилки -->
+      <div class="piggy-edit-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" id="child-toggle-piggy-edit">
+          <span style="font-size:12px; font-weight:700; color:var(--mt-blue);">✏️ Изменить цель и сумму</span>
+          <span style="font-size:11px; color:#5A6578;" id="child-piggy-edit-arrow">▼</span>
+        </div>
+        <div id="child-piggy-edit-form" style="display:none; margin-top:10px;">
+          <div style="margin-bottom:8px;">
+            <label style="font-size:11px; color:#5A6578; display:block; margin-bottom:4px;">На что копим:</label>
+            <input type="text" class="mtb-input" id="child-edit-goal-name" placeholder="Например: Новый велосипед 🚲">
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:11px; color:#5A6578; display:block; margin-bottom:4px;">Сколько нужно (BYN):</label>
+            <input type="number" step="5" min="5" class="mtb-input" id="child-edit-goal-amount" placeholder="200.00">
+          </div>
+          <button class="btn-primary-modal font-accent" id="btn-save-child-piggy-edit" style="font-size:12px; padding:8px 0; background:var(--mt-orange);">
+            Сохранить цель 💾
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. МОДАЛЬНОЕ ОКНО: «ПОПРОСИТЬ У РОДИТЕЛЕЙ» -->
+  <div class="modal-overlay" id="modal-ask-parents">
+    <div class="modal-box">
+      <button class="modal-close-btn" data-close="modal-ask-parents">✕</button>
+
+      <div class="modal-header-block">
+        <div class="modal-header-icon">💸</div>
+        <h3 class="modal-header-title font-accent">Запрос денег у родителей</h3>
+        <p class="modal-header-subtitle">Родители получат мгновенное уведомление в Moby</p>
+      </div>
+
+      <!-- Быстрые чипсы сумм -->
+      <div>
+        <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px;">Выбери сумму:</label>
+        <div class="chips-row">
+          <button class="chip-btn" data-amount="2.00">+2 BYN</button>
+          <button class="chip-btn" data-amount="5.00">+5 BYN</button>
+          <button class="chip-btn" data-amount="10.00">+10 BYN</button>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px;">Или введи свою сумму (BYN):</label>
+        <input type="number" step="0.5" min="1" value="5.00" class="mtb-input" id="input-ask-amount">
+      </div>
+
+      <div>
+        <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px;">На что нужны деньги?</label>
+        <input type="text" class="mtb-input" id="input-ask-note" placeholder="Например: на булочку в школьной столовой" value="На булочку в школьной столовой">
+      </div>
+
+      <button class="btn-primary-modal font-accent" id="btn-submit-ask">
+        Отправить запрос родителям 📨
+      </button>
+    </div>
+  </div>
+
+  <!-- 7. МОДАЛЬНОЕ ОКНО АНТИФРОДА: ЗАМОРОЗКА ОПЕРАЦИИ -->
+  <div class="modal-overlay" id="modal-antifraud-alert">
+    <div class="modal-box">
+      <button class="modal-close-btn" data-close="modal-antifraud-alert">✕</button>
+
+      <div class="modal-header-block">
+        <div class="modal-header-icon">🛡️</div>
+        <h3 class="modal-header-title font-accent" style="color: #2334C8;">Операция ждет одобрения</h3>
+        <p class="modal-header-subtitle" style="font-size: 13px; line-height: 1.45; margin-top: 8px;">
+          Покупка на сумму <strong id="fraud-modal-amount">40.00 BYN</strong> отправлена маме или папе. Как только они подтвердят её в своем приложении, всё будет оплачено!
+        </p>
+      </div>
+
+      <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 12px; font-size: 12px; color: #166534; line-height: 1.4;">
+        ✓ Твои деньги в полной безопасности. МТБанк защищает твои сбережения от непредвиденных трат!
+      </div>
+
+      <button class="btn-primary-modal font-accent" data-close="modal-antifraud-alert">
+        Понятно, подожду родителей 👍
+      </button>
+    </div>
+  </div>
+
+  <!-- 8. МОДАЛЬНОЕ ОКНО: «ПОТЕРЯЛ КАРТУ» (ЭКСТРЕННАЯ БЛОКИРОВКА) -->
+  <div class="modal-overlay" id="modal-lost-card">
+    <div class="modal-box">
+      <button class="modal-close-btn" data-close="modal-lost-card">✕</button>
+
+      <div class="modal-header-block">
+        <div class="modal-header-icon red">🚨</div>
+        <h3 class="modal-header-title font-accent" style="color: #E42C26;">Потерял карту?</h3>
+        <p class="modal-header-subtitle">
+          Мы можем моментально заблокировать цифровую карту Moby, чтобы никто не смог воспользоваться твоими деньгами.
+        </p>
+      </div>
+
+      <div style="background: #FFF5F5; border: 1px solid #FECACA; border-radius: 12px; padding: 12px; font-size: 12px; color: #991B1B;">
+        ⚠️ После блокировки покупки будут приостановлены до подтверждения родителями.
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button class="btn-danger-modal font-accent" id="btn-confirm-freeze-card">
+          Да, заблокировать карту 🔒
+        </button>
+        <button class="chip-btn" data-close="modal-lost-card" style="padding: 10px;">
+          Отмена, карта со мной
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8b. МОДАЛЬНОЕ ОКНО: «РАЗБЛОКИРОВАТЬ КАРТУ» -->
+  <div class="modal-overlay" id="modal-unblock-card">
+    <div class="modal-box">
+      <button class="modal-close-btn" data-close="modal-unblock-card">✕</button>
+
+      <div class="modal-header-block">
+        <div class="modal-header-icon" style="background: rgba(35, 52, 200, 0.1); color: #2334C8;">🔓</div>
+        <h3 class="modal-header-title font-accent" style="color: #2334C8;">Разблокировка карты</h3>
+        <p class="modal-header-subtitle">
+          Карта найдена? Нажми кнопку ниже, чтобы вернуть статус «Карта активна». Покупки, игры и квизы снова станут доступны!
+        </p>
+      </div>
+
+      <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 12px; font-size: 12px; color: #166534; line-height: 1.4;">
+        ✓ Запрос на разблокировку подтвержден через родительский профиль Moby.
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+        <button class="btn-primary-modal font-accent" id="btn-confirm-unblock-card">
+          Разблокировать карту ✅
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8c. МОДАЛЬНОЕ ОКНО: ОЖИДАНИЕ ВЫПУСКА КАРТЫ РОДИТЕЛЕМ -->
+  <div class="modal-overlay" id="waiting-for-parent-modal">
+    <div class="modal-box" style="text-align: center; padding: 28px 20px;">
+      <div style="font-size: 48px; margin-bottom: 12px;">👨‍👩‍👧💳</div>
+      <h3 class="font-accent" style="color: var(--mt-blue); font-size: 20px; margin-bottom: 8px;">
+        Ожидание выпуска карты
+      </h3>
+      <p style="font-size: 13px; color: #5A6578; line-height: 1.45; margin-bottom: 16px;">
+        Родитель еще не выпустил карту в профиле Moby Family.<br>
+        Добавьте детский счет в родительском интерфейсе.
+      </p>
+      <div style="background: #E7F4FF; border: 1px solid #97CFFF; border-radius: 12px; padding: 12px; font-size: 12px; color: #2334C8; margin-bottom: 16px;">
+        ⏳ Этот экран обновится <strong>автоматически</strong> сразу после добавления ребенка родителем!
+      </div>
+      <a href="./parent.html" class="btn-primary-modal font-accent" style="text-decoration: none; display: block;">
+        Открыть кабинет родителя ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- 9. Контейнер всплывающих тостов -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module" src="./kids_app.js"></script>
+</body>
+</html>

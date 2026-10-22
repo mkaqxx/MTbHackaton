@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Moby Family — Семейный банкинг нового поколения | МТБанк</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="./moby_storage.js"></script>
+  <style>
+    :root {
+      --bg-deep: #070B16;
+      --bg-card: #0F1629;
+      --bg-card-hover: #16203A;
+      --mt-blue: #2334C8;
+      --mt-blue-glow: rgba(35, 52, 200, 0.45);
+      --mt-orange: #FF5912;
+      --mt-orange-glow: rgba(255, 89, 18, 0.35);
+      --mt-red: #E42C26;
+      --text-main: #FFFFFF;
+      --text-muted: #8E9BB5;
+      --text-dim: #64748B;
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(35, 52, 200, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background Ambient Lights */
+    .ambient-glow-1 {
+      position: absolute;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(35, 52, 200, 0.35) 0%, rgba(7, 11, 22, 0) 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .ambient-glow-2 {
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 89, 18, 0.2) 0%, rgba(7, 11, 22, 0) 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .portal-container {
+      width: 100%;
+      max-width: 520px;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Brand Header */
+    .brand-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .brand-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(35, 52, 200, 0.15);
+      border: 1px solid rgba(35, 52, 200, 0.4);
+      padding: 8px 18px;
+      border-radius: 40px;
+      backdrop-filter: blur(12px);
+    }
+
+    .logo-m {
+      width: 26px;
+      height: 26px;
+      background: linear-gradient(135deg, var(--mt-orange) 0%, var(--mt-red) 100%);
+      color: white;
+      font-weight: 900;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(255, 89, 18, 0.4);
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .portal-heading {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.25;
+      background: linear-gradient(180deg, #FFFFFF 30%, #CBD5E1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 4px;
+    }
+
+    .portal-subheading {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 420px;
+    }
+
+    /* Active Session Banner */
+    .active-session-banner {
+      background: linear-gradient(90deg, rgba(35, 52, 200, 0.25) 0%, rgba(255, 89, 18, 0.15) 100%);
+      border: 1px solid rgba(35, 52, 200, 0.45);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+    }
+    .active-session-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .active-session-avatar {
+      font-size: 22px;
+    }
+    .active-session-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .active-session-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+    }
+    .btn-session-continue {
+      background: var(--mt-orange);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.15s ease;
+    }
+    .btn-session-continue:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Role Cards */
+    .roles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .role-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      padding: 18px 20px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .role-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .role-card:active {
+      transform: scale(0.985);
+    }
+
+    .role-card-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 4px;
+    }
+    .role-parent .role-card-accent { background: linear-gradient(180deg, var(--mt-blue), #3B82F6); }
+    .role-kids .role-card-accent { background: linear-gradient(180deg, var(--mt-orange), #F59E0B); }
+    .role-teens .role-card-accent { background: linear-gradient(180deg, #9333EA, #3B82F6); }
+
+    .role-card-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .role-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .role-parent .role-icon-wrap {
+      background: radial-gradient(circle, rgba(35, 52, 200, 0.3) 0%, rgba(15, 22, 41, 0.9) 100%);
+      box-shadow: 0 4px 16px var(--mt-blue-glow);
+    }
+    .role-kids .role-icon-wrap {
+      background: radial-gradient(circle, rgba(255, 89, 18, 0.3) 0%, rgba(15, 22, 41, 0.9) 100%);
+      box-shadow: 0 4px 16px var(--mt-orange-glow);
+    }
+    .role-teens .role-icon-wrap {
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, rgba(15, 22, 41, 0.9) 100%);
+      box-shadow: 0 4px 16px rgba(147, 51, 234, 0.35);
+    }
+
+    .role-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .role-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .role-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .role-pill-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .role-parent .role-pill-badge { background: rgba(35, 52, 200, 0.25); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .role-kids .role-pill-badge { background: rgba(255, 89, 18, 0.2); color: #FDBA74; border: 1px solid rgba(255, 89, 18, 0.4); }
+    .role-teens .role-pill-badge { background: rgba(147, 51, 234, 0.2); color: #E9D5FF; border: 1px solid rgba(147, 51, 234, 0.4); }
+
+    .role-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .role-enter-arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .role-card:hover .role-enter-arrow {
+      background: var(--mt-orange);
+      color: white;
+      border-color: var(--mt-orange);
+      transform: translateX(3px);
+    }
+
+    /* Footer Meta */
+    .portal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .btn-reset-demo {
+      background: transparent;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      color: var(--text-dim);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-reset-demo:hover {
+      border-color: var(--mt-orange);
+      color: var(--mt-orange);
+    }
+
+    /* ================= PIN AUTH MODAL ================= */
+    .pin-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(5, 8, 16, 0.85);
+      backdrop-filter: blur(14px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .pin-modal-dialog {
+      background: #0D1426;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 26px;
+      width: 100%;
+      max-width: 360px;
+      padding: 26px 22px 22px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      position: relative;
+      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pin-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .pin-modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .pin-modal-role-icon {
+      font-size: 38px;
+      margin-bottom: 6px;
+    }
+
+    .pin-modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .pin-modal-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* Helper default pin hint */
+    .pin-helper-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 89, 18, 0.12);
+      border: 1px solid rgba(255, 89, 18, 0.35);
+      color: #FFB088;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    /* PIN Dots Display */
+    .pin-dots-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .pin-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      transition: all 0.15s ease;
+    }
+
+    .pin-dot.filled {
+      background: var(--mt-orange);
+      border-color: var(--mt-orange);
+      box-shadow: 0 0 12px var(--mt-orange-glow);
+      transform: scale(1.15);
+    }
+
+    .pin-error-message {
+      font-size: 12px;
+      color: var(--mt-red);
+      font-weight: 700;
+      min-height: 18px;
+      margin-bottom: 10px;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Numpad Grid */
+    .pin-numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .num-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      padding: 13px 0;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    .num-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .num-btn:active {
+      transform: scale(0.92);
+      background: var(--mt-blue);
+    }
+
+    .num-btn.btn-action {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* Quick 1-click 1111 button */
+    .btn-quick-pin {
+      width: 100%;
+      background: linear-gradient(135deg, var(--mt-orange) 0%, var(--mt-red) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 6px 18px var(--mt-orange-glow);
+      transition: transform 0.15s ease;
+    }
+    .btn-quick-pin:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Shake animation on wrong PIN */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .shake {
+      animation: shake 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="portal-container">
+
+    <!-- Top Brand Header -->
+    <header class="brand-header">
+      <div class="brand-logo-badge">
+        <div class="logo-m">M</div>
+        <span class="brand-title">МТБанк Moby</span>
+        <span style="font-size: 11px; color: #10B981; font-weight:700;">● Online</span>
+      </div>
+      <h1 class="portal-heading">Семейный Банкинг</h1>
+      <p class="portal-subheading">
+        Единый портал авторизации для всей семьи. Выберите роль для входа в персональный кабинет:
+      </p>
+    </header>
+
+    <!-- Active Session Banner (if already logged in) -->
+    <div id="activeSessionBanner" class="active-session-banner">
+      <div class="active-session-info">
+        <div class="active-session-avatar" id="activeSessionAvatar">👨‍👩‍👧</div>
+        <div>
+          <div class="active-session-text">Активная сессия:</div>
+          <div class="active-session-name" id="activeSessionName">Родитель</div>
+        </div>
+      </div>
+      <button type="button" class="btn-session-continue" onclick="continueActiveSession()">
+        <span>Войти</span> <span>→</span>
+      </button>
+    </div>
+
+    <!-- 3 Role Selection Cards -->
+    <div class="roles-list">
+
+      <!-- 1. РОДИТЕЛЬ -->
+      <div class="role-card role-parent" onclick="openPinModal('parent')">
+        <div class="role-card-accent"></div>
+        <div class="role-card-content">
+          <div class="role-icon-wrap">👨‍👩‍👧</div>
+          <div class="role-texts">
+            <div class="role-badge-row">
+              <span class="role-title">Родитель</span>
+              <span class="role-pill-badge">Основной счет</span>
+            </div>
+            <p class="role-desc">
+              Лимиты трат, запрет категорий, антифрод-контроль, пополнение карт и вознаграждения за задания.
+            </p>
+          </div>
+        </div>
+        <div class="role-enter-arrow">→</div>
+      </div>
+
+      <!-- 2. РЕБЕНОК (7-13 ЛЕТ) -->
+      <div class="role-card role-kids" onclick="openPinModal('child_1')">
+        <div class="role-card-accent"></div>
+        <div class="role-card-content">
+          <div class="role-icon-wrap">🦁</div>
+          <div class="role-texts">
+            <div class="role-badge-row">
+              <span class="role-title">Ребёнок 7–13 лет</span>
+              <span class="role-pill-badge">Moby Kids</span>
+            </div>
+            <p class="role-desc">
+              Михаил (10 лет). 3D-маскот Фокси, мини-игра «Ловец бонусов», финансовые квизы и копилка с софинансированием.
+            </p>
+          </div>
+        </div>
+        <div class="role-enter-arrow">→</div>
+      </div>
+
+      <!-- 3. ПОДРОСТОК (14-17 ЛЕТ) -->
+      <div class="role-card role-teens" onclick="openPinModal('teen_1')">
+        <div class="role-card-accent"></div>
+        <div class="role-card-content">
+          <div class="role-icon-wrap">⚡</div>
+          <div class="role-texts">
+            <div class="role-badge-row">
+              <span class="role-title">Подросток 14–17 лет</span>
+              <span class="role-pill-badge">Moby Teens</span>
+            </div>
+            <p class="role-desc">
+              Алина (16 лет). Молодежный необанк, P2P-переводы, двойные лимиты, анти-дропперство и налоги фрилансера (НПД).
+            </p>
+          </div>
+        </div>
+        <div class="role-enter-arrow">→</div>
+      </div>
+
+    </div>
+
+    <!-- Portal Footer -->
+    <footer class="portal-footer">
+      <span>МТБанк © 2026 • GitHub Pages Ready</span>
+      <button type="button" class="btn-reset-demo" onclick="handleResetDemo()">
+        🔄 Сбросить демо-данные
+      </button>
+    </footer>
+
+  </div>
+
+
+  <!-- ================= PIN AUTH MODAL ================= -->
+  <div id="pinModal" class="pin-modal-backdrop" onclick="onBackdropClick(event)">
+    <div class="pin-modal-dialog" id="pinModalDialog">
+      <button class="pin-modal-close" onclick="closePinModal()">✕</button>
+
+      <div class="pin-modal-role-icon" id="pinModalAvatar">👨‍👩‍👧</div>
+      <div class="pin-modal-title" id="pinModalTitle">Кабинет Родителя</div>
+      <div class="pin-modal-subtitle">Введите 4 цифры ПИН-кода для авторизации</div>
+
+      <!-- Helper Hint: Default PIN 1111 -->
+      <div class="pin-helper-badge">
+        <span>💡</span>
+        <span>Пароль по умолчанию: <strong>1111</strong></span>
+      </div>
+
+      <!-- 4 PIN Dots -->
+      <div class="pin-dots-row">
+        <div class="pin-dot" id="dot-0"></div>
+        <div class="pin-dot" id="dot-1"></div>
+        <div class="pin-dot" id="dot-2"></div>
+        <div class="pin-dot" id="dot-3"></div>
+      </div>
+
+      <div class="pin-error-message" id="pinErrorMessage"></div>
+
+      <!-- On-Screen Keypad -->
+      <div class="pin-numpad">
+        <button type="button" class="num-btn" onclick="enterPinDigit('1')">1</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('2')">2</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('3')">3</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('4')">4</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('5')">5</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('6')">6</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('7')">7</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('8')">8</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('9')">9</button>
+        <button type="button" class="num-btn btn-action" onclick="clearPin()">C</button>
+        <button type="button" class="num-btn" onclick="enterPinDigit('0')">0</button>
+        <button type="button" class="num-btn btn-action" onclick="backspacePin()">⌫</button>
+      </div>
+
+      <!-- Quick 1111 Login -->
+      <button type="button" class="btn-quick-pin" onclick="quickFillAndLogin()">
+        <span>⚡ Войти с паролем 1111</span>
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- Portal Interactive Script -->
+  <script>
+    let selectedTargetRole = 'parent';
+    let enteredPin = '';
+
+    const ROLE_CONFIG = {
+      parent: {
+        title: 'Кабинет Родителя',
+        avatar: '👨‍👩‍👧',
+        targetUrl: './parent.html'
+      },
+      child_1: {
+        title: 'Moby Kids (Михаил, 10 лет)',
+        avatar: '🦁',
+        targetUrl: './kids.html'
+      },
+      child7: {
+        title: 'Moby Kids (Михаил, 10 лет)',
+        avatar: '🦁',
+        targetUrl: './kids.html'
+      },
+      kids: {
+        title: 'Moby Kids (Михаил, 10 лет)',
+        avatar: '🦁',
+        targetUrl: './kids.html'
+      },
+      teen_1: {
+        title: 'Moby Teens (Алина, 16 лет)',
+        avatar: '⚡',
+        targetUrl: './teens.html'
+      },
+      child14: {
+        title: 'Moby Teens (Алина, 16 лет)',
+        avatar: '⚡',
+        targetUrl: './teens.html'
+      },
+      teens: {
+        title: 'Moby Teens (Алина, 16 лет)',
+        avatar: '⚡',
+        targetUrl: './teens.html'
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkActiveSession();
+
+      // Keyboard support
+      window.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('pinModal');
+        if (modal.style.display !== 'flex') return;
+
+        if (e.key >= '0' && e.key <= '9') {
+          enterPinDigit(e.key);
+        } else if (e.key === 'Backspace') {
+          backspacePin();
+        } else if (e.key === 'Escape') {
+          closePinModal();
+        } else if (e.key === 'Enter') {
+          if (enteredPin.length === 4) verifyPin();
+        }
+      });
+    });
+
+    function checkActiveSession() {
+      const currentRole = MobyStorage.getCurrentUser();
+      if (currentRole && ROLE_CONFIG[currentRole]) {
+        const cfg = ROLE_CONFIG[currentRole];
+        const banner = document.getElementById('activeSessionBanner');
+        const avatarEl = document.getElementById('activeSessionAvatar');
+        const nameEl = document.getElementById('activeSessionName');
+        if (banner && avatarEl && nameEl) {
+          avatarEl.textContent = cfg.avatar;
+          nameEl.textContent = cfg.title;
+          banner.style.display = 'flex';
+        }
+      }
+    }
+
+    function continueActiveSession() {
+      const currentRole = MobyStorage.getCurrentUser();
+      if (currentRole && ROLE_CONFIG[currentRole]) {
+        window.location.href = ROLE_CONFIG[currentRole].targetUrl;
+      }
+    }
+
+    function openPinModal(role) {
+      selectedTargetRole = role;
+      enteredPin = '';
+      updatePinDots();
+
+      const cfg = ROLE_CONFIG[role] || ROLE_CONFIG.parent;
+      document.getElementById('pinModalAvatar').textContent = cfg.avatar;
+      document.getElementById('pinModalTitle').textContent = cfg.title;
+      document.getElementById('pinErrorMessage').textContent = '';
+
+      const modal = document.getElementById('pinModal');
+      modal.style.display = 'flex';
+    }
+
+    function closePinModal() {
+      const modal = document.getElementById('pinModal');
+      modal.style.display = 'none';
+      enteredPin = '';
+    }
+
+    function onBackdropClick(e) {
+      if (e.target.id === 'pinModal') {
+        closePinModal();
+      }
+    }
+
+    function enterPinDigit(digit) {
+      if (enteredPin.length < 4) {
+        enteredPin += digit;
+        updatePinDots();
+        if (enteredPin.length === 4) {
+          setTimeout(verifyPin, 100);
+        }
+      }
+    }
+
+    function backspacePin() {
+      if (enteredPin.length > 0) {
+        enteredPin = enteredPin.slice(0, -1);
+        updatePinDots();
+        document.getElementById('pinErrorMessage').textContent = '';
+      }
+    }
+
+    function clearPin() {
+      enteredPin = '';
+      updatePinDots();
+      document.getElementById('pinErrorMessage').textContent = '';
+    }
+
+    function updatePinDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (dot) {
+          dot.classList.toggle('filled', i < enteredPin.length);
+        }
+      }
+    }
+
+    function verifyPin() {
+      const result = MobyStorage.login(selectedTargetRole, enteredPin);
+      if (result.success) {
+        document.getElementById('pinErrorMessage').style.color = '#10B981';
+        document.getElementById('pinErrorMessage').textContent = '✓ Успешный вход! Открытие кабинета...';
+        setTimeout(() => {
+          window.location.href = ROLE_CONFIG[selectedTargetRole].targetUrl;
+        }, 300);
+      } else {
+        const dialog = document.getElementById('pinModalDialog');
+        dialog.classList.remove('shake');
+        void dialog.offsetWidth; // trigger reflow
+        dialog.classList.add('shake');
+
+        document.getElementById('pinErrorMessage').style.color = 'var(--mt-red)';
+        document.getElementById('pinErrorMessage').textContent = result.message || 'Неверный ПИН-код! (по умолчанию 1111)';
+        enteredPin = '';
+        setTimeout(updatePinDots, 200);
+      }
+    }
+
+    function quickFillAndLogin() {
+      enteredPin = '1111';
+      updatePinDots();
+      verifyPin();
+    }
+
+    function handleResetDemo() {
+      if (confirm('Сбросить все демо-данные к исходному состоянию?')) {
+        MobyStorage.resetDemo();
+        alert('Демо-данные успешно сброшены к начальным значениям!');
+        window.location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
