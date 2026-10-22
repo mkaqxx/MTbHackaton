@@ -536,45 +536,59 @@ body::before {
 .limits-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .limit-item {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
+  background: #FFFFFF;
+  border: 1px solid rgba(151, 207, 255, 0.7);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(35, 52, 200, 0.04);
+  transition: all 0.2s ease;
+}
+
+.limit-item:hover {
+  border-color: rgba(35, 52, 200, 0.35);
+  box-shadow: 0 4px 12px rgba(35, 52, 200, 0.08);
 }
 
 .limit-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .limit-name {
-  font-weight: 600;
-  color: var(--mt-black);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .limit-values {
   font-weight: 700;
-  color: var(--mt-gray-text);
+  font-size: 12.5px;
+  color: var(--text-secondary);
 }
 
 .limit-values strong {
-  color: var(--mt-black);
+  color: var(--text-primary);
 }
 
 .progress-track {
   width: 100%;
-  height: 7px;
-  background: #EEF3F8;
-  border-radius: 4px;
+  height: 8px;
+  background: rgba(35, 52, 200, 0.08);
+  border-radius: 6px;
   overflow: hidden;
+  margin-top: 2px;
 }
 
 .progress-fill {
@@ -2816,4 +2830,7 @@ body::before {
 .demo-purchases-card .btn-demo-buy {
   background: #FFFFFF !important;
   border: 1px solid rgba(151, 207, 255, 0.7) !important;
+  border-radius: 14px !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 2px 6px rgba(35, 52, 200, 0.04) !important;
 }

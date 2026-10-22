@@ -1281,7 +1281,7 @@ function renderChildLimits(dailyLimit, categoryLimits) {
 
       if (isBlocked) {
         html += `
-          <div class="limit-item limit-item-blocked" style="background: rgba(228, 44, 38, 0.06); padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(228, 44, 38, 0.2);">
+          <div class="limit-item limit-item-blocked" style="background: rgba(228, 44, 38, 0.06) !important; padding: 12px 14px !important; border-radius: 14px !important; border: 1px solid rgba(228, 44, 38, 0.3) !important;">
             <div class="limit-top-row">
               <span class="limit-name" style="color: var(--mt-red); font-weight: 700;">${icon} ${name}</span>
               <span class="limit-values" style="color: var(--mt-red); font-weight: 800; font-size: 11px;">
