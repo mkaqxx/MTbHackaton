@@ -1033,7 +1033,8 @@
 
   // --- CLIENT FETCH & FORM SUBMISSION INTERCEPTOR ---
   // Transparently fulfills all API and backend calls for static hosting!
-  const originalFetch = window.fetch;
+  const originalFetch = window.__origFetch || window.fetch;
+  window.__origFetch = originalFetch;
 
   window.fetch = async function (input, init) {
     const url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
