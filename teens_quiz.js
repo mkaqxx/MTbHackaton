@@ -316,7 +316,7 @@ export class MobyQuizEngine {
               <div class="duo-fox-model-box">
                 <model-viewer
                   class="duo-fox-model"
-                  src="fox.glb"
+                  src="fox_teen.glb"
                   alt="3D Маскот Фокси"
                   interaction-prompt="none"
                   disable-zoom

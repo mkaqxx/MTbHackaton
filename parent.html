@@ -17,33 +17,40 @@
   <!-- БЕНТО-КОНТЕЙНЕР ПРИЛОЖЕНИЯ РОДИТЕЛЯ -->
   <div class="bento-app-container">
 
-    <!-- ВЕРХНИЙ БЕНТО-БАР MOBY FAMILY -->
-    <header class="moby-top-header">
-      <div class="moby-user-badge">
-        <div class="moby-avatar">👨‍👩‍👧</div>
-        <div>
-          <div class="moby-user-name">Родительский контроль</div>
-          <div class="moby-user-status">
-            <span class="status-dot"></span>
-            <span>МТБанк активен • Семья</span>
+    <!-- ВЕРХНИЙ БЕНТО-БАР MOBY FAMILY (ЕДИНЫЙ СТИЛЬ С ДЕТСКИМ И ПОДРОСТКОВЫМ) -->
+    <header class="moby-top-header app-header-unified">
+      <svg class="brand-rays-svg" viewBox="0 0 180 80" preserveAspectRatio="none">
+        <polygon points="40,0 180,0 135,45" class="ray-upper"/>
+        <polygon points="135,45 180,0 180,80 75,80" class="ray-lower"/>
+      </svg>
+
+      <div class="header-row">
+        <div class="moby-user-badge">
+          <div class="moby-avatar">👨‍👩‍👧</div>
+          <div class="user-titles">
+            <span class="moby-user-name">Родительский контроль</span>
+            <span class="moby-user-status">
+              <span class="status-dot"></span>
+              <span>МТБанк активен</span>
+            </span>
           </div>
         </div>
-      </div>
 
-      <div class="header-actions-group">
-        <button type="button" class="btn-moby btn-moby-orange" onclick="openModal('addChildModal')">
-          <span>+</span> Добавить ребенка
-        </button>
-        <div class="moby-brand-tag" onclick="openModal('mascotModal')" title="Нажмите, чтобы увидеть 3D Фокси!">
-          <div class="moby-logo-m">M</div>
-          <span class="moby-brand-text">3D Фокси</span>
+        <div class="header-actions-group">
+          <a href="./index.html" class="header-action-btn btn-role-pill" title="Сменить роль или выйти в портал">
+            <span>🔄</span> <span class="action-btn-text-always">Роль</span>
+          </a>
+          <button type="button" class="header-action-btn btn-orange-pill" onclick="openModal('addChildModal')" title="Добавить ребенка в семью">
+            <span>+</span> <span class="action-btn-text">Ребёнок</span>
+          </button>
+          <button type="button" class="header-action-btn btn-mascot-pill" onclick="openModal('mascotModal')" title="Показать 3D Фокси">
+            <span>🦊</span> <span class="action-btn-text">Фокси</span>
+          </button>
+          <button type="button" class="header-action-btn btn-reset-pill" onclick="if(confirm('Сбросить демо-данные к исходному состоянию?')) { MobyStorage.resetDemo(); window.location.reload(); }" title="Сбросить демо-данные к исходному состоянию">
+            <span>🔄</span>
+          </button>
+          <div class="mtb-logo-symbol" title="МТБанк Moby">M</div>
         </div>
-        <a href="./index.html" class="btn-switch-role" title="Сменить роль или выйти в портал">
-          <span>🔄</span> <span>Сменить роль</span>
-        </a>
-        <button type="button" class="btn-moby btn-moby-outline" onclick="if(confirm('Сбросить демо-данные к исходному состоянию?')) { MobyStorage.resetDemo(); window.location.reload(); }" title="Сбросить локальные данные в исходное состояние">
-          <span>🔄</span> <span>Сброс демо</span>
-        </button>
       </div>
     </header>
 

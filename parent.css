@@ -122,53 +122,87 @@ body::before {
 }
 
 /* ==========================================================================
-   BENTO HEADER: BRAND & CONTROLS
+   BENTO HEADER: BRAND & CONTROLS (UNIFIED WITH KIDS & TEENS)
    ========================================================================== */
 .moby-top-header {
+  position: relative;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-card);
-  padding: 16px 22px;
+  padding: 12px 18px;
+  box-shadow: var(--shadow-bento);
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+/* Brand Rays (MTBank rays in top right) */
+.moby-top-header .brand-rays-svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  height: 60px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+.moby-top-header .ray-upper { fill: #FF5912; }
+.moby-top-header .ray-lower { fill: #E42C26; }
+
+.moby-top-header .header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: var(--shadow-bento);
-  flex-wrap: wrap;
-  gap: 14px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  gap: 8px;
 }
 
 .moby-user-badge {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .moby-avatar {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   background: var(--mt-blue-light);
   border: 1px solid var(--mt-blue-border);
-  border-radius: 14px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.moby-top-header .user-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .moby-user-name {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--text-primary);
-  line-height: 1.25;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .moby-user-status {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   margin-top: 2px;
+  white-space: nowrap;
 }
 
 .status-dot {
@@ -177,74 +211,85 @@ body::before {
   border-radius: 50%;
   background: var(--mt-green);
   box-shadow: 0 0 0 2px var(--mt-green-light);
+  flex-shrink: 0;
 }
 
-.header-quick-actions,
+/* Unified Action Pill Buttons */
 .header-actions-group {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
-.moby-brand-tag {
+.header-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  background: var(--bg-surface-subtle);
-  border: 1px solid var(--border-subtle);
-  padding: 8px 14px;
-  border-radius: 12px;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.18s ease;
+  text-decoration: none;
+  line-height: 1;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+  border: 1px solid transparent;
 }
 
-.moby-brand-tag:hover {
-  background: var(--border-subtle);
-  border-color: var(--border-hover);
-  transform: translateY(-1px);
+.btn-role-pill {
+  background: var(--mt-blue-light);
+  border-color: var(--mt-blue-border);
+  color: var(--mt-blue);
+}
+.btn-role-pill:hover {
+  background: var(--mt-blue);
+  color: #FFFFFF;
 }
 
-.moby-logo-m {
-  width: 20px;
-  height: 20px;
-  background: linear-gradient(135deg, var(--mt-orange) 0%, #EA580C 100%);
-  color: white;
+.btn-orange-pill {
+  background: var(--mt-orange);
+  border-color: var(--mt-red);
+  color: #FFFFFF;
+}
+.btn-orange-pill:hover {
+  background: var(--mt-orange-hover);
+}
+
+.btn-mascot-pill {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+.btn-mascot-pill:hover {
+  border-color: var(--mt-blue-border);
+  background: var(--mt-blue-light);
+}
+
+.btn-reset-pill {
+  background: transparent;
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+  padding: 6px 8px;
+}
+.btn-reset-pill:hover {
+  background: var(--bg-surface-subtle);
+}
+
+.mtb-logo-symbol {
+  width: 22px;
+  height: 22px;
+  background: var(--mt-blue);
+  color: #FFFFFF;
   font-weight: 900;
-  font-size: 11px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
-}
-
-.moby-brand-text {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  color: var(--text-primary);
-  text-transform: uppercase;
-}
-
-.btn-switch-role {
-  background: var(--mt-blue-light);
-  border: 1px solid var(--mt-blue-border);
-  color: var(--mt-blue);
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 8px 14px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.18s ease;
-}
-
-.btn-switch-role:hover {
-  background: var(--mt-blue);
-  color: white;
-  transform: translateY(-1px);
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -410,30 +455,39 @@ body::before {
 /* Card Action Pills Grid */
 .card-pills-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 16px;
 }
 
 @media (max-width: 640px) {
   .card-pills-row {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 }
 
 .card-pill-btn {
-  padding: 9px 12px;
+  padding: 8px 10px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.16s ease;
+  white-space: nowrap;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.card-pill-btn span {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -788,32 +842,36 @@ body::before {
 }
 
 /* ==========================================================================
-   BOTTOM NAVIGATION BAR (CLEAN DOCK)
+   BOTTOM NAVIGATION BAR (CLEAN BENTO FLOATING DOCK)
    ========================================================================== */
 .iphone-tab-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 40px;
-  padding: 10px 24px;
-  position: fixed;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 480px;
-  width: calc(100% - 40px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  z-index: 90;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 36px !important;
+  padding: 0 12px !important;
+  position: fixed !important;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-width: 380px !important;
+  width: calc(100% - 32px) !important;
+  height: 62px !important;
+  box-shadow: 0 8px 24px rgba(35, 52, 200, 0.14) !important;
+  z-index: 1000 !important;
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
 }
 
 .tab-bar-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 3px;
   color: var(--text-muted);
   text-decoration: none;
@@ -821,6 +879,7 @@ body::before {
   font-weight: 700;
   transition: color 0.18s ease;
   cursor: pointer;
+  padding: 4px 8px;
 }
 
 .tab-bar-item:hover,
@@ -830,6 +889,7 @@ body::before {
 
 .tab-bar-item span.icon {
   font-size: 18px;
+  line-height: 1;
 }
 
 /* ==========================================================================
@@ -866,4 +926,119 @@ body::before {
 .moby-block .limit-row-box {
   background: #FFFFFF !important;
   border: 1px solid rgba(151, 207, 255, 0.7) !important;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS (SMARTPHONES & NARROW SCREENS)
+   ========================================================================== */
+@media (max-width: 640px) {
+  html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  body {
+    padding: 12px 12px calc(92px + env(safe-area-inset-bottom, 0px)) 12px !important;
+  }
+
+  .bento-app-container {
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .moby-top-header {
+    padding: 8px 10px;
+    border-radius: 16px;
+  }
+
+  .moby-top-header .brand-rays-svg {
+    width: 90px;
+    height: 42px;
+  }
+
+  .moby-user-badge {
+    gap: 6px;
+  }
+
+  .moby-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    border-radius: 9px;
+  }
+
+  .moby-user-name {
+    font-size: 11.5px;
+  }
+
+  .moby-user-status {
+    font-size: 10px;
+  }
+
+  .header-actions-group {
+    gap: 4px;
+  }
+
+  .header-action-btn {
+    padding: 5px 7px;
+    font-size: 11px;
+    gap: 3px;
+  }
+
+  .action-btn-text {
+    display: none;
+  }
+
+  .action-btn-text-always {
+    display: inline !important;
+  }
+
+  .moby-content-scroll {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  .child-card-banner {
+    padding: 16px 14px;
+    border-radius: 18px;
+  }
+
+  .card-balance-val {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .card-pills-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .card-pill-btn {
+    padding: 8px 6px;
+    font-size: 11px;
+    min-width: 0;
+  }
+
+  .card-footer-limit {
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .moby-block {
+    padding: 16px 14px;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    word-break: break-word;
+  }
 }
